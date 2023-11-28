@@ -3,6 +3,7 @@ using Toybox.Application;
 using Toybox.Timer;
 using Toybox.Lang;
 using Toybox.Time;
+using Toybox.Time.Gregorian;
 using Toybox.System as Sys;
 using Toybox.Communications as Comm;
 using Toybox.PersistedContent;
@@ -32,12 +33,13 @@ class ZmanimReminderView extends WatchUi.View {
 
     // Update the view
     function onUpdate(dc) as Void {
-        // Update the time label text with the current time
-        //var currentTime = Time.now().value();
-        // var timeString = Lang.formatTime(currentTime, Lang.TIME_FORMAT_12_HOUR);
+        // Get current date
+        var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+        var dateString = Lang.format("$1$-$2$-$3$", [today.year, today.month, today.day]);
+
         timeLabel.setText("Making req...");
         Sys.println("Making req...");
-        makeRequest();
+        makeZmanimRequest(dateString);
         timeLabel.setText("Made req!");
         Sys.println("Made req!");
 
@@ -50,60 +52,24 @@ class ZmanimReminderView extends WatchUi.View {
     // memory.
     function onHide() as Void {}
 
-    // set up the response callback function
-    // function onReceive(responseCode, data) {
-    //     if (responseCode == 200) {
-    //         System.println("Request Successful"); // print success
-    //     } else {
-    //         System.println("Response: " + responseCode); // print response code
-    //     }
-    // }
-
     // Callback to handle receiving a response
-    function handleResponse(responseCode as Lang.Number, data as Lang.Dictionary or Lang.String or PersistedContent.Iterator or Null) as Void {
-        Sys.println("Response code: " + responseCode);
-
-        // If we got data back then we were successful. Otherwise
-        // pass the error onto the delegate
-        if (data != null) {
-            Sys.println("Success in handleResponse");
-            Sys.println("Got data with size = " + data.length);
+    function handleZmanimResponse(responseCode as Lang.Number, data as Lang.Dictionary or Lang.String or PersistedContent.Iterator or Null) as Void {
+        if (responseCode == 200) {
+            if (data != null) {
+                Sys.println("Got data, Sof Zman Kiras Shema is at: " + data["times"]["sofZmanShma"]);
+            } else {
+                Sys.println("Request returned no data -> " + data);
+            }
         } else {
-            Sys.println("Error in handleResponse");
-            Sys.println("data = " + data);
+            System.println("Encountered non-OK response code: " + responseCode);
         }
     }
 
-    function makeRequest() {
-        // Make HTTPS POST request to request the access token
-        // Comm.makeWebRequest(
-        //     // URL
-        //     "https://www.google.com",
-        //     // Parameters
-        //     {
-        //         "asd" => "xdd"
-        //     },
-        //     // Options to the request
-        //     {
-        //         :method => Comm.HTTP_REQUEST_METHOD_GET
-        //     },
-        //     // Callback to handle response
-        //     method(:handleResponse)
-        // );
+    function makeZmanimRequest(currentDate) {
+        var zmanimUrl = "https://www.hebcal.com/zmanim?cfg=json&sec=1&city=IL-Jerusalem&date=" + currentDate;
 
-        Comm.makeWebRequest(
-            // URL for the authorization URL
-            "https://gmail.com",
-            // Parameters
-            {
-                "xd" => "xdd"
-            },
-            // Response type
-            {
-                :method => Comm.HTTP_REQUEST_METHOD_GET
-            },
-            // Value to look for
-            method(:handleResponse)
-        );
+        System.println("Fetching Zmanim -> " + zmanimUrl);
+
+        Comm.makeWebRequest(zmanimUrl, {}, { :method => Comm.HTTP_REQUEST_METHOD_GET }, method(:handleZmanimResponse));
     }
 }
