@@ -43,6 +43,7 @@ class ZmanimReminderView extends WatchUi.View {
     }
 
     // Update the view
+    // TODO: Figure out why this is re-rendering on launch more than once
     function onUpdate(dc) as Void {
         var app = App.getApp();
 
