@@ -47,7 +47,7 @@ class ZmanimReminderView extends WatchUi.View {
     function onUpdate(dc) as Void {
         var app = App.getApp();
 
-        timeLabel.setText("Hello!");
+        timeLabel.setText("Fetching zmanim...");
 
         // Retrieve watch location
         app.setCurrentLocation();
@@ -60,13 +60,12 @@ class ZmanimReminderView extends WatchUi.View {
 
         // Check if zman is already stored, then display
         var storedZman = app.getProperty("SofZmanShma");
-        var momentZman = parseISODate(storedZman);
 
         if (storedZman) {
+            var momentZman = parseISODate(storedZman);
             var parsedZman = Gregorian.info(momentZman, Time.FORMAT_SHORT);
             var sofZmanKriasShma = parsedZman.hour + ":" + parsedZman.min + ":" + parsedZman.sec;
             timeLabel.setText("Zman: " + sofZmanKriasShma);
-            Sys.println("HI: " + sofZmanKriasShma);
         } else {
             // Make zmanim request
             Sys.println("Zmanim not found in local storage.");
