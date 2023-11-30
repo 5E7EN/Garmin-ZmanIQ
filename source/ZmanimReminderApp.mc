@@ -98,8 +98,8 @@ class ZmanimReminderApp extends Application.AppBase {
         var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
         var dateString = Lang.format("$1$-$2$-$3$", [
             today.year,
-            today.month,
-            today.day
+            today.month.format("%02d"),
+            today.day.format("%02d")
         ]);
 
         // Get stored GPS coordinates

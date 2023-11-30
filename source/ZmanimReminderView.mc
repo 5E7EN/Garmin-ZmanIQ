@@ -66,15 +66,42 @@ class ZmanimReminderView extends WatchUi.View {
         var storedZman = app.getProperty("SofZmanShma");
 
         if (storedZman) {
+            // Ensure that the zmanim cached in local storage are from today
+            var secondsInDay = 24 * 60 * 60;
+            var zmanimLastUpdated = app.getProperty("ZmanimLastUpdated");
+            var timeNow = Time.now().value();
+
+            // Check if time now and time from last zmanim update
+            if (
+                ~~(timeNow / secondsInDay) !=
+                ~~(zmanimLastUpdated / secondsInDay)
+            ) {
+                // If not same day, reload zmanim
+                Sys.println(
+                    "[onUpdate] Zmanim are from another day, refreshing..."
+                );
+                app.deleteProperty("SofZmanShma");
+                app.deleteProperty("ZmanimRequestStatus");
+
+                // Refresh UI to update zmanim
+                WatchUi.requestUpdate();
+                return;
+            }
+
             // TODO: Check if stored zmanim have expired. If so, clear
             Sys.println("[onUpdate] Zmanim retrieved from local storage.");
 
             var momentZman = parseISODate(storedZman);
             var parsedZman = Gregorian.info(momentZman, Time.FORMAT_SHORT);
+            var sofZmanKriasShma =
+                parsedZman.hour.format("%02d") +
+                ":" +
+                parsedZman.min.format("%02d") +
+                ":" +
+                parsedZman.sec.format("%02d");
             var zmanimForDate =
                 parsedZman.month + "/" + parsedZman.day + "/" + parsedZman.year;
-            var sofZmanKriasShma =
-                parsedZman.hour + ":" + parsedZman.min + ":" + parsedZman.sec;
+
             timeLabel.setText(
                 "Zman Krias Shema: \n" +
                     sofZmanKriasShma +
@@ -89,12 +116,12 @@ class ZmanimReminderView extends WatchUi.View {
                     Sys.println(
                         "[onUpdate] Zmanim not stored or have expired, updating..."
                     );
-                    updateUiText("Fetching zmanim...", dc);
+                    updateUiText("Updating zmanim...", dc);
                     break;
                 case "pending":
                     // If the API request is pending, return early to ensure another request isn't triggered below
                     // The request handler will invoke `WatchUi.requestUpdate()` once a response is received (after a relevant ZmanimRequestStatus is set)
-                    updateUiText("Fetching zmanim...", dc);
+                    updateUiText("Updating zmanim...", dc);
                     return;
                 case "error":
                     // Encountered error while fetching zmanim from API
