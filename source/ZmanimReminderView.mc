@@ -47,7 +47,21 @@ class ZmanimReminderView extends WatchUi.View {
     function onUpdate(dc) as Void {
         var app = App.getApp();
 
-        // // If we got to this point, we assume that there haven't been any API related errors
+        // Determine status of Zmanim request, and show status on UI
+        var currentZmanimStatus = app.getProperty("ZmanimRequestStatus");
+
+        // Set default state if status is null
+        // Since switch statement can't handle null value for some reason
+        if (currentZmanimStatus == null) {
+            currentZmanimStatus = "initial";
+        }
+
+        // Print the current status of zmanim API request
+        Sys.println(
+            "[onUpdate] Current status of zmanim request: " +
+                currentZmanimStatus.toUpper()
+        );
+
         // Check if zmanim are already stored; then display if so
         var storedZman = app.getProperty("SofZmanShma");
 
@@ -68,20 +82,7 @@ class ZmanimReminderView extends WatchUi.View {
                     zmanimForDate
             );
         } else {
-            // Determine status of Zmanim request, and show status on UI
-            var currentZmanimStatus = app.getProperty("ZmanimRequestStatus");
-
-            // Set default state if status is null
-            // Since switch statement can't handle null value for some reason
-            if (currentZmanimStatus == null) {
-                currentZmanimStatus = "initial";
-            }
-
             // Pending zmanim request & error handling
-            Sys.println(
-                "[onUpdate] Current status of zmanim request: " +
-                    currentZmanimStatus.toUpper()
-            );
             switch (currentZmanimStatus) {
                 case "initial":
                     // API request not yet executed, run logic below
