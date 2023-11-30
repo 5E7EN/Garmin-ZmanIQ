@@ -66,27 +66,28 @@ class ZmanimReminderView extends WatchUi.View {
         var storedZman = app.getProperty("SofZmanShma");
 
         if (storedZman) {
-            // Ensure that the zmanim cached in local storage are from today
-            var secondsInDay = 24 * 60 * 60;
-            var zmanimLastUpdated = app.getProperty("ZmanimLastUpdated");
-            var timeNow = Time.now().value();
+            // TODO: Fix this logic. It works in the simulator but not on device.
+            // // Ensure that the zmanim cached in local storage are from today
+            // var secondsInDay = 24 * 60 * 60;
+            // var zmanimLastUpdated = app.getProperty("ZmanimLastUpdated");
+            // var timeNow = Time.now().value();
 
-            // Check if time now and time from last zmanim update
-            if (
-                ~~(timeNow / secondsInDay) !=
-                ~~(zmanimLastUpdated / secondsInDay)
-            ) {
-                // If not same day, reload zmanim
-                Sys.println(
-                    "[onUpdate] Zmanim are from another day, refreshing..."
-                );
-                app.deleteProperty("SofZmanShma");
-                app.deleteProperty("ZmanimRequestStatus");
+            // // Check if time now and time from last zmanim update
+            // if (
+            //     ~~(timeNow / secondsInDay) !=
+            //     ~~(zmanimLastUpdated / secondsInDay)
+            // ) {
+            //     // If not same day, reload zmanim
+            //     Sys.println(
+            //         "[onUpdate] Zmanim are from another day, refreshing..."
+            //     );
+            //     app.deleteProperty("SofZmanShma");
+            //     app.deleteProperty("ZmanimRequestStatus");
 
-                // Refresh UI to update zmanim
-                WatchUi.requestUpdate();
-                return;
-            }
+            //     // Refresh UI to update zmanim
+            //     WatchUi.requestUpdate();
+            //     return;
+            // }
 
             // TODO: Check if stored zmanim have expired. If so, clear
             Sys.println("[onUpdate] Zmanim retrieved from local storage.");
