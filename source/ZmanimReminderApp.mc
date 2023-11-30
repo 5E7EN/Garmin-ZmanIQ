@@ -18,13 +18,11 @@ class ZmanimReminderApp extends Application.AppBase {
         AppBase.initialize();
     }
 
+    /*
     // onStart() is called on application start up
     function onStart(state as Dictionary?) as Void {
-        setCurrentLocation();
-        setTodaysZmanim();
     }
 
-    /*
     // onStop() is called when your application is exiting
     function onStop(state as Dictionary?) as Void {
     }
@@ -44,12 +42,13 @@ class ZmanimReminderApp extends Application.AppBase {
     function setCurrentLocation() {
         // Attempt to update current location.
         // If current location available from current weather or activity, save it in case it goes "stale" and can not longer be retrieved.
-        Sys.println("Fetching current watch location...");
+        Sys.println("[setCurrentLocation] Fetching current watch location...");
 
         // Get watch location
-        var activityLocation = Activity.getActivityInfo().currentLocation;
-        var weatherLocation = Weather.getCurrentConditions().observationLocationPosition;
-        var position = weatherLocation ? weatherLocation : activityLocation;
+        var activityLocation = Activity.getActivityInfo();
+        var weatherLocation = Weather.getCurrentConditions();
+        // Determine position based on which retrieval method has a valid value
+        var position = weatherLocation ? weatherLocation.observationLocationPosition : activityLocation ? activityLocation.currentLocation : null;
 
         // Parse coordinates
         if (position) {
@@ -59,7 +58,6 @@ class ZmanimReminderApp extends Application.AppBase {
         } else {
             // If current location is not available, read stored value from Object Store, being careful not to overwrite a valid
             // in-memory value with an invalid stored one.
-
             var lat = getProperty("LastLocationLat");
             if (lat != null) {
                 gLocationLat = lat;
@@ -71,50 +69,89 @@ class ZmanimReminderApp extends Application.AppBase {
             }
         }
 
-        setProperty("LastLocationLat", gLocationLat);
-        setProperty("LastLocationLng", gLocationLng);
+        // Ensure we have retrieved location data
+        if (gLocationLat == null || gLocationLng == null) {
+            Sys.println("[setCurrentLocation] Failed to retrieve GPS coordinates.");
+            return;
+        } else {
+            setProperty("LastLocationLat", gLocationLat);
+            setProperty("LastLocationLng", gLocationLng);
 
-        Sys.println("Stored watch location.");
+            Sys.println("[setCurrentLocation] Stored watch location.");
+        }
+
+        Sys.println("[setCurrentLocation] Latitude: " + gLocationLat);
+        Sys.println("[setCurrentLocation] Longitude: " + gLocationLng);
+        // Sys.println("---");
     }
 
     function setTodaysZmanim() {
+        Sys.println("[setTodaysZmanim] Fetching new zmanim...");
+
         // Get current date
         var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
         var dateString = Lang.format("$1$-$2$-$3$", [today.year, today.month, today.day]);
 
-        // Get stored location
+        // Get stored GPS coordinates
         var latitude = getProperty("LastLocationLat");
         var longitude = getProperty("LastLocationLng");
 
         // If no location data exists, halt
         if (latitude == null || longitude == null) {
-            Sys.println("Failed to detect GPS location.");
+            Sys.println("[setTodaysZmanim] Failed to retrieve GPS coordinates since global values are empty.");
+            return;
         }
 
         // Zmanim URL
         var zmanimUrl = "https://www.hebcal.com/zmanim?cfg=json&sec=1&date=" + dateString + "&latitude=" + latitude + "&longitude=" + longitude;
+        Sys.println("[setTodaysZmanim] Zmanim URL -> " + zmanimUrl);
+
+        // Update status of API request for main UI
+        setProperty("ZmanimRequestStatus", "pending");
 
         // Fetch zmanim
-        Sys.println("Fetching Zmanim -> " + zmanimUrl);
         Comm.makeWebRequest(zmanimUrl, {}, { :method => Comm.HTTP_REQUEST_METHOD_GET }, method(:handleZmanimResponse));
     }
 
-    // Callback to handle receiving a response
+    // Callback to handle receiving a response from the Zmanim endpoint
     function handleZmanimResponse(responseCode as Lang.Number, data as Lang.Dictionary or Lang.String or PersistedContent.Iterator or Null) as Void {
         if (responseCode == 200) {
             if (data != null) {
-                // Set zmanim in global storage
-                setProperty("SofZmanShma", data["times"]["sofZmanShma"]);
-                Sys.println("Stored zmanim");
+                // Ensure zmanim were returned in a proper format; otherwise, set error status
+                if (data["times"] != null && data["times"]["sofZmanShma"] != null) {
+                    // Set zmanim in global storage
+                    setProperty("SofZmanShma", data["times"]["sofZmanShma"]);
 
-                Sys.println("Got data, Sof Zman Kiras Shema is at: " + data["times"]["sofZmanShma"]);
+                    // Set last updated time
+                    var zmanimLastUpdated = Time.now().value();
+                    setProperty("ZmanimLastUpdated", zmanimLastUpdated);
 
-                // Ui.requestUpdate();
+                    // Update status of API request for main UI
+                    setProperty("ZmanimRequestStatus", "completed");
+
+                    Sys.println("[handleZmanimResponse] Stored new remote zmanim. The time is now " + zmanimLastUpdated + ".");
+                } else {
+                    Sys.println("[handleZmanimResponse] API returned data, but desired zmanim format not found.");
+                    Sys.println("[handleZmanimResponse] Data: " + data);
+
+                    // Update status
+                    setProperty("ZmanimRequestStatus", "error");
+                }
             } else {
-                Sys.println("Request returned no data -> " + data);
+                Sys.println("[handleZmanimResponse] Request returned no data -> " + data);
+
+                // Update status
+                setProperty("ZmanimRequestStatus", "error");
             }
         } else {
-            Sys.println("Encountered non-OK response code: " + responseCode);
+            Sys.println("[handleZmanimResponse] Encountered non-OK response code: " + responseCode);
+            Sys.println("[handleZmanimResponse] Data: " + data);
+
+            // Update status
+            setProperty("ZmanimRequestStatus", "error");
         }
+
+        // Refresh UI to update status message / show zmanim (triggers onUpdate)
+        WatchUi.requestUpdate();
     }
 }
