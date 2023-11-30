@@ -95,7 +95,7 @@ class ZmanimReminderView extends WatchUi.View {
             var momentZman = parseISODate(storedZman);
             var parsedZman = Gregorian.info(momentZman, Time.FORMAT_SHORT);
             var sofZmanKriasShma =
-                parsedZman.hour.format("%02d") +
+                parsedZman.hour +
                 ":" +
                 parsedZman.min.format("%02d") +
                 ":" +
