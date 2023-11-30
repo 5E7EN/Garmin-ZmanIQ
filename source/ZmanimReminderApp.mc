@@ -48,7 +48,11 @@ class ZmanimReminderApp extends Application.AppBase {
         var activityLocation = Activity.getActivityInfo();
         var weatherLocation = Weather.getCurrentConditions();
         // Determine position based on which retrieval method has a valid value
-        var position = weatherLocation ? weatherLocation.observationLocationPosition : activityLocation ? activityLocation.currentLocation : null;
+        var position = weatherLocation
+            ? weatherLocation.observationLocationPosition
+            : activityLocation
+            ? activityLocation.currentLocation
+            : null;
 
         // Parse coordinates
         if (position) {
@@ -71,7 +75,9 @@ class ZmanimReminderApp extends Application.AppBase {
 
         // Ensure we have retrieved location data
         if (gLocationLat == null || gLocationLng == null) {
-            Sys.println("[setCurrentLocation] Failed to retrieve GPS coordinates.");
+            Sys.println(
+                "[setCurrentLocation] Failed to retrieve GPS coordinates."
+            );
             return;
         } else {
             setProperty("LastLocationLat", gLocationLat);
@@ -90,7 +96,11 @@ class ZmanimReminderApp extends Application.AppBase {
 
         // Get current date
         var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
-        var dateString = Lang.format("$1$-$2$-$3$", [today.year, today.month, today.day]);
+        var dateString = Lang.format("$1$-$2$-$3$", [
+            today.year,
+            today.month,
+            today.day
+        ]);
 
         // Get stored GPS coordinates
         var latitude = getProperty("LastLocationLat");
@@ -98,27 +108,47 @@ class ZmanimReminderApp extends Application.AppBase {
 
         // If no location data exists, halt
         if (latitude == null || longitude == null) {
-            Sys.println("[setTodaysZmanim] Failed to retrieve GPS coordinates since global values are empty.");
+            Sys.println(
+                "[setTodaysZmanim] Failed to retrieve GPS coordinates since global values are empty."
+            );
             return;
         }
 
         // Zmanim URL
-        var zmanimUrl = "https://www.hebcal.com/zmanim?cfg=json&sec=1&date=" + dateString + "&latitude=" + latitude + "&longitude=" + longitude;
+        var zmanimUrl =
+            "https://www.hebcal.com/zmanim?cfg=json&sec=1&date=" +
+            dateString +
+            "&latitude=" +
+            latitude +
+            "&longitude=" +
+            longitude;
         Sys.println("[setTodaysZmanim] Zmanim URL -> " + zmanimUrl);
 
         // Update status of API request for main UI
         setProperty("ZmanimRequestStatus", "pending");
 
         // Fetch zmanim
-        Comm.makeWebRequest(zmanimUrl, {}, { :method => Comm.HTTP_REQUEST_METHOD_GET }, method(:handleZmanimResponse));
+        Comm.makeWebRequest(
+            zmanimUrl,
+            {},
+            { :method => Comm.HTTP_REQUEST_METHOD_GET },
+            method(:handleZmanimResponse)
+        );
     }
 
     // Callback to handle receiving a response from the Zmanim endpoint
-    function handleZmanimResponse(responseCode as Lang.Number, data as Lang.Dictionary or Lang.String or PersistedContent.Iterator or Null) as Void {
+    function handleZmanimResponse(
+        responseCode as Lang.Number,
+        data as
+            Lang.Dictionary or Lang.String or PersistedContent.Iterator or Null
+    ) as Void {
         if (responseCode == 200) {
             if (data != null) {
                 // Ensure zmanim were returned in a proper format; otherwise, set error status
-                if (data["times"] != null && data["times"]["sofZmanShma"] != null) {
+                if (
+                    data["times"] != null &&
+                    data["times"]["sofZmanShma"] != null
+                ) {
                     // Set zmanim in global storage
                     setProperty("SofZmanShma", data["times"]["sofZmanShma"]);
 
@@ -129,22 +159,33 @@ class ZmanimReminderApp extends Application.AppBase {
                     // Update status of API request for main UI
                     setProperty("ZmanimRequestStatus", "completed");
 
-                    Sys.println("[handleZmanimResponse] Stored new remote zmanim. The time is now " + zmanimLastUpdated + ".");
+                    Sys.println(
+                        "[handleZmanimResponse] Stored new remote zmanim. The time is now " +
+                            zmanimLastUpdated +
+                            "."
+                    );
                 } else {
-                    Sys.println("[handleZmanimResponse] API returned data, but desired zmanim format not found.");
+                    Sys.println(
+                        "[handleZmanimResponse] API returned data, but desired zmanim format not found."
+                    );
                     Sys.println("[handleZmanimResponse] Data: " + data);
 
                     // Update status
                     setProperty("ZmanimRequestStatus", "error");
                 }
             } else {
-                Sys.println("[handleZmanimResponse] Request returned no data -> " + data);
+                Sys.println(
+                    "[handleZmanimResponse] Request returned no data -> " + data
+                );
 
                 // Update status
                 setProperty("ZmanimRequestStatus", "error");
             }
         } else {
-            Sys.println("[handleZmanimResponse] Encountered non-OK response code: " + responseCode);
+            Sys.println(
+                "[handleZmanimResponse] Encountered non-OK response code: " +
+                    responseCode
+            );
             Sys.println("[handleZmanimResponse] Data: " + data);
 
             // Update status

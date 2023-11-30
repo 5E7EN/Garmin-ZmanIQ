@@ -57,9 +57,16 @@ class ZmanimReminderView extends WatchUi.View {
 
             var momentZman = parseISODate(storedZman);
             var parsedZman = Gregorian.info(momentZman, Time.FORMAT_SHORT);
-            var zmanimForDate = parsedZman.month + "/" + parsedZman.day + "/" + parsedZman.year;
-            var sofZmanKriasShma = parsedZman.hour + ":" + parsedZman.min + ":" + parsedZman.sec;
-            timeLabel.setText("Zman Krias Shema: \n" + sofZmanKriasShma + "\nUpdated " + zmanimForDate);
+            var zmanimForDate =
+                parsedZman.month + "/" + parsedZman.day + "/" + parsedZman.year;
+            var sofZmanKriasShma =
+                parsedZman.hour + ":" + parsedZman.min + ":" + parsedZman.sec;
+            timeLabel.setText(
+                "Zman Krias Shema: \n" +
+                    sofZmanKriasShma +
+                    "\nUpdated " +
+                    zmanimForDate
+            );
         } else {
             // Determine status of Zmanim request, and show status on UI
             var currentZmanimStatus = app.getProperty("ZmanimRequestStatus");
@@ -71,11 +78,16 @@ class ZmanimReminderView extends WatchUi.View {
             }
 
             // Pending zmanim request & error handling
-            Sys.println("[onUpdate] Current status of zmanim request: " + currentZmanimStatus.toUpper());
+            Sys.println(
+                "[onUpdate] Current status of zmanim request: " +
+                    currentZmanimStatus.toUpper()
+            );
             switch (currentZmanimStatus) {
                 case "initial":
                     // API request not yet executed, run logic below
-                    Sys.println("[onUpdate] Zmanim not stored or have expired, updating...");
+                    Sys.println(
+                        "[onUpdate] Zmanim not stored or have expired, updating..."
+                    );
                     updateUiText("Fetching zmanim...", dc);
                     break;
                 case "pending":
@@ -97,11 +109,15 @@ class ZmanimReminderView extends WatchUi.View {
 
             // Ensure we have valid location data
             if (latitude == null || longitude == null) {
-                Sys.println("[onUpdate] Location could not be retrieved. User must connect to phone or start an activity.");
+                Sys.println(
+                    "[onUpdate] Location could not be retrieved. User must connect to phone or start an activity."
+                );
                 updateUiText("GPS Not Found", dc);
             } else {
                 // Set current zmanim
-                Sys.println("[onUpdate] Zmanim not found in local storage. Fetching new...");
+                Sys.println(
+                    "[onUpdate] Zmanim not found in local storage. Fetching new..."
+                );
                 // This function will automatically refresh the UI (calling onUpdate againt) after updating the ZmanimRequestStatus
                 // When onUpdate is invoked, the current status will be handled
                 app.setTodaysZmanim();
@@ -171,8 +187,12 @@ class ZmanimReminderView extends WatchUi.View {
             if (suffix.length() - tz < 6) {
                 return null;
             }
-            tzOffset = suffix.substring(tz + 1, tz + 3).toNumber() * Gregorian.SECONDS_PER_HOUR;
-            tzOffset += suffix.substring(tz + 4, tz + 6).toNumber() * Gregorian.SECONDS_PER_MINUTE;
+            tzOffset =
+                suffix.substring(tz + 1, tz + 3).toNumber() *
+                Gregorian.SECONDS_PER_HOUR;
+            tzOffset +=
+                suffix.substring(tz + 4, tz + 6).toNumber() *
+                Gregorian.SECONDS_PER_MINUTE;
 
             var sign = suffix.substring(tz, tz + 1);
             if (sign.equals("+")) {
