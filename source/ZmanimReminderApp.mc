@@ -7,10 +7,12 @@ using Toybox.WatchUi as Ui;
 using Toybox.System as Sys;
 using Toybox.Communications as Comm;
 using Toybox.PersistedContent;
+using Toybox.Background as Bg;
 
 var gLocationLat = null;
 var gLocationLng = null;
 
+(:background)
 class ZmanimReminderApp extends Application.AppBase {
     var currentView;
 
@@ -37,6 +39,11 @@ class ZmanimReminderApp extends Application.AppBase {
 
     function getView() {
         return currentView;
+    }
+
+    (:background_method)
+    function getServiceDelegate() {
+        return [new ZmanimReminderBackgroundDelegate()];
     }
 
     function setCurrentLocation() {
@@ -88,7 +95,6 @@ class ZmanimReminderApp extends Application.AppBase {
 
         Sys.println("[setCurrentLocation] Latitude: " + gLocationLat);
         Sys.println("[setCurrentLocation] Longitude: " + gLocationLng);
-        // Sys.println("---");
     }
 
     function setTodaysZmanim() {
@@ -150,7 +156,8 @@ class ZmanimReminderApp extends Application.AppBase {
                     data["times"]["sofZmanShma"] != null
                 ) {
                     // Set zmanim in global storage
-                    setProperty("SofZmanShma", data["times"]["sofZmanShma"]);
+                    var sofZmanKriasShma = data["times"]["sofZmanShma"];
+                    setProperty("SofZmanShma", sofZmanKriasShma);
 
                     // Set last updated time
                     var zmanimLastUpdated = Time.now().value();
@@ -164,6 +171,47 @@ class ZmanimReminderApp extends Application.AppBase {
                             zmanimLastUpdated +
                             "."
                     );
+
+                    // Set background alert reminder of the upcoming zman
+                    // TODO: Add checks to ensure that only one reminder/temporal event is set at a given time
+                    // TODO: Allow this number below to be configurable
+                    var minutesBeforeZmanToRemind = 5; // 5 minutes
+                    setProperty(
+                        "BgMinutesBeforeZmanToRemind",
+                        minutesBeforeZmanToRemind
+                    );
+
+                    // Parse zman and calculate X minutes before the zman
+                    var sofZmanKriasShmaMoment = parseISODate(sofZmanKriasShma);
+                    var zmanMinusReminderTimeMoment =
+                        sofZmanKriasShmaMoment.subtract(
+                            new Time.Duration(minutesBeforeZmanToRemind * 60)
+                        );
+                    var zmanMinusReminderTimeInfo = Gregorian.info(
+                        zmanMinusReminderTimeMoment,
+                        Time.FORMAT_SHORT
+                    );
+
+                    Sys.println(
+                        "[handleZmanimResponse] Registering reminder background event for -> " +
+                            Lang.format("$1$:$2$:$3$ $4$/$5$/$6$", [
+                                zmanMinusReminderTimeInfo.hour,
+                                zmanMinusReminderTimeInfo.min.format("%02d"),
+                                zmanMinusReminderTimeInfo.sec.format("%02d"),
+                                zmanMinusReminderTimeInfo.month,
+                                zmanMinusReminderTimeInfo.day,
+                                zmanMinusReminderTimeInfo.year
+                            ])
+                    );
+
+                    // Set reminder trigger
+                    Bg.registerForTemporalEvent(zmanMinusReminderTimeMoment);
+                    // For debugging:
+                    // Bg.registerForTemporalEvent(
+                    //     (new Time.Moment(Time.now().value())).add(
+                    //         new Time.Duration(10)
+                    //     )
+                    // );
                 } else {
                     Sys.println(
                         "[handleZmanimResponse] API returned data, but desired zmanim format not found."
@@ -194,5 +242,68 @@ class ZmanimReminderApp extends Application.AppBase {
 
         // Refresh UI to update status message / show zmanim (triggers onUpdate)
         WatchUi.requestUpdate();
+    }
+
+    // Converts rfc3339 formatted timestamp to Time::Moment (returns null on error)
+    function parseISODate(date) as Time.Moment? {
+        // assert(date instanceOf String)
+
+        // 0123456789012345678901234
+        // 2011-10-17T13:00:00-07:00
+        // 2011-10-17T16:30:55.000Z
+        // 2011-10-17T16:30:55Z
+        if (date.length() < 20) {
+            return null;
+        }
+
+        var moment = Gregorian.moment({
+            :year => date.substring(0, 4).toNumber(),
+            :month => date.substring(5, 7).toNumber(),
+            :day => date.substring(8, 10).toNumber(),
+            :hour => date.substring(11, 13).toNumber(),
+            :minute => date.substring(14, 16).toNumber(),
+            :second => date.substring(17, 19).toNumber()
+        });
+        var suffix = date.substring(19, date.length());
+
+        // skip over to time zone
+        var tz = 0;
+        if (suffix.substring(tz, tz + 1).equals(".")) {
+            while (tz < suffix.length()) {
+                var first = suffix.substring(tz, tz + 1);
+                if ("-+Z".find(first) != null) {
+                    break;
+                }
+                tz++;
+            }
+        }
+
+        if (tz >= suffix.length()) {
+            // no timezone given
+            return null;
+        }
+
+        var tzOffset = 0;
+        if (!suffix.substring(tz, tz + 1).equals("Z")) {
+            // +HH:MM
+            if (suffix.length() - tz < 6) {
+                return null;
+            }
+            tzOffset =
+                suffix.substring(tz + 1, tz + 3).toNumber() *
+                Gregorian.SECONDS_PER_HOUR;
+            tzOffset +=
+                suffix.substring(tz + 4, tz + 6).toNumber() *
+                Gregorian.SECONDS_PER_MINUTE;
+
+            var sign = suffix.substring(tz, tz + 1);
+            if (sign.equals("+")) {
+                tzOffset = -tzOffset;
+            } else if (sign.equals("-") && tzOffset == 0) {
+                // -00:00 denotes unknown timezone
+                return null;
+            }
+        }
+        return moment.add(new Time.Duration(tzOffset));
     }
 }
