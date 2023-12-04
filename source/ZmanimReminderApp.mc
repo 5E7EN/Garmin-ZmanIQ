@@ -159,27 +159,17 @@ class ZmanimReminderApp extends Application.AppBase {
                     var sofZmanKriasShma = data["times"]["sofZmanShma"];
                     setProperty("SofZmanShma", sofZmanKriasShma);
 
-                    // Set last updated time
-                    var zmanimLastUpdated = Time.now().value();
-                    setProperty("ZmanimLastUpdated", zmanimLastUpdated);
-
                     // Update status of API request for main UI
                     setProperty("ZmanimRequestStatus", "completed");
 
                     Sys.println(
-                        "[handleZmanimResponse] Stored new remote zmanim. The time is now " +
-                            zmanimLastUpdated +
-                            "."
+                        "[handleZmanimResponse] Stored new remote zmanim to local cache."
                     );
 
                     // Set background alert reminder of the upcoming zman
                     // TODO: Add checks to ensure that only one reminder/temporal event is set at a given time
                     // TODO: Allow this number below to be configurable
                     var minutesBeforeZmanToRemind = 5; // 5 minutes
-                    setProperty(
-                        "BgMinutesBeforeZmanToRemind",
-                        minutesBeforeZmanToRemind
-                    );
 
                     // Parse zman and calculate X minutes before the zman
                     var sofZmanKriasShmaMoment = parseISODate(sofZmanKriasShma);
