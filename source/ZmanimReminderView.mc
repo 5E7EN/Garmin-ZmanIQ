@@ -61,49 +61,77 @@ class ZmanimReminderView extends WatchUi.View {
         var storedZman = app.getProperty("SofZmanShma");
 
         if (storedZman) {
-            // TODO: Fix this logic. It works in the simulator but not on device.
-            // // Ensure that the zmanim cached in local storage are from today
-            // var secondsInDay = 24 * 60 * 60;
-            // var zmanimLastUpdated = app.getProperty("ZmanimLastUpdated");
-            // var timeNow = Time.now().value();
-
-            // // Check if time now and time from last zmanim update
-            // if (
-            //     ~~(timeNow / secondsInDay) !=
-            //     ~~(zmanimLastUpdated / secondsInDay)
-            // ) {
-            //     // If not same day, reload zmanim
-            //     Sys.println(
-            //         "[onUpdate] Zmanim are from another day, refreshing..."
-            //     );
-            //     app.deleteProperty("SofZmanShma");
-            //     app.deleteProperty("ZmanimRequestStatus");
-
-            //     // Refresh UI to update zmanim
-            //     WatchUi.requestUpdate();
-            //     return;
-            // }
-
-            // TODO: Check if stored zmanim have expired. If so, clear
-            Sys.println("[onUpdate] Zmanim retrieved from local storage.");
-
+            // Parse stored zman as Moment object
             var momentZman = app.parseISODate(storedZman);
-            var parsedZman = Gregorian.info(momentZman, Time.FORMAT_SHORT);
-            var sofZmanKriasShma =
-                parsedZman.hour +
-                ":" +
-                parsedZman.min.format("%02d") +
-                ":" +
-                parsedZman.sec.format("%02d");
-            var zmanimForDate =
-                parsedZman.month + "/" + parsedZman.day + "/" + parsedZman.year;
+            var gregorianZman = Gregorian.info(momentZman, Time.FORMAT_SHORT);
 
-            timeLabel.setText(
-                "Zman Krias Shema: \n" +
-                    sofZmanKriasShma +
-                    "\nUpdated " +
-                    zmanimForDate
+            // Ensure that the zmanim cached in local storage are today's
+            var greorianToday = Gregorian.info(
+                new Time.Moment(Time.now().value()),
+                Time.FORMAT_SHORT
             );
+
+            // Debug
+            Sys.println(
+                "[onUpdate | DEBUG] Date today: " +
+                    Lang.format("$1$/$2$/$3$", [
+                        greorianToday.month,
+                        greorianToday.day,
+                        greorianToday.year
+                    ])
+            );
+            Sys.println(
+                "[onUpdate | DEBUG] Date of cached zmanim: " +
+                    Lang.format("$1$/$2$/$3$", [
+                        gregorianZman.month,
+                        gregorianZman.day,
+                        gregorianZman.year
+                    ])
+            );
+
+            // If the stored zmanim dates don't match exactly, we must update them
+            // Otherwise, display from local storage instead of making a redundant API request
+            if (
+                gregorianZman.month != greorianToday.month ||
+                gregorianZman.day != greorianToday.day ||
+                gregorianZman.year != greorianToday.year
+            ) {
+                // Not same day, reload zmanim
+                Sys.println(
+                    "[onUpdate] Cached zmanim are from another day, refreshing..."
+                );
+                app.deleteProperty("SofZmanShma");
+                app.deleteProperty("ZmanimRequestStatus");
+
+                // Refresh UI to update zmanim
+                WatchUi.requestUpdate();
+                return;
+            } else {
+                // Same day, use cached zmanim
+                Sys.println(
+                    "[onUpdate] Cached zmanim are from today, retrieved from local storage."
+                );
+
+                var sofZmanKriasShma =
+                    gregorianZman.hour +
+                    ":" +
+                    gregorianZman.min.format("%02d") +
+                    ":" +
+                    gregorianZman.sec.format("%02d");
+                var zmanimForDate =
+                    gregorianZman.month +
+                    "/" +
+                    gregorianZman.day +
+                    "/" +
+                    gregorianZman.year;
+
+                timeLabel.setText(
+                    "Zman Krias Shema: \n" +
+                        sofZmanKriasShma +
+                        "\nUpdated " +
+                        zmanimForDate
+                );
+            }
         } else {
             // Pending zmanim request & error handling
             switch (currentZmanimStatus) {
