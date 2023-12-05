@@ -34,7 +34,7 @@ class ZmanimReminderApp extends Application.AppBase {
     function getInitialView() as Array<Views or InputDelegates>? {
         currentView = new ZmanimReminderView();
 
-        return [currentView];
+        return [currentView, new ZmanimReminderInputDelegate()];
     }
 
     function getView() {
