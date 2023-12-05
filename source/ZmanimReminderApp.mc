@@ -195,6 +195,7 @@ class ZmanimReminderApp extends Application.AppBase {
                     );
 
                     // Set reminder trigger
+                    //? Only one temporal event can be registered at a given time, so no need to worry about anything already pending
                     Bg.registerForTemporalEvent(zmanMinusReminderTimeMoment);
                     // For debugging:
                     // Bg.registerForTemporalEvent(
