@@ -11,6 +11,7 @@ Connect IQ app for Garmin wearables for convenient Zmanim reminders.
 - VSCode Extensions:
   - [Monkey C](https://marketplace.visualstudio.com/items?itemName=Garmin.monkey-c)
   - [Prettier Monkey C](https://marketplace.visualstudio.com/items?itemName=markw65.prettier-extension-monkeyc)
+- Generate a Garmin Developer Key: [Garmin Docs - Generating a Developer Key](https://developer.garmin.com/connect-iq/programmers-guide/getting-started/)
 
 ## Running app in simulator
 
