@@ -59,10 +59,12 @@ class ZmanimReminderApp extends Application.AppBase {
         var activityLocation = Activity.getActivityInfo(); // Least reliable, based on last recorded activity
 
         var position = null;
+        var locationRetrievalSource = null;
 
         // Try to get location by order of reliability
         if (gpsLocation has :position && gpsLocation.position != null) {
             position = gpsLocation.position.toDegrees();
+            locationRetrievalSource = "GPS";
 
             Sys.println(
                 "[updateCurrentLocation] Found GPS location: " + position
@@ -72,6 +74,7 @@ class ZmanimReminderApp extends Application.AppBase {
             weatherLocation.observationLocationPosition != null
         ) {
             position = weatherLocation.observationLocationPosition.toDegrees();
+            locationRetrievalSource = "Weather";
 
             Sys.println(
                 "[updateCurrentLocation] Found weather location: " + position
@@ -81,6 +84,7 @@ class ZmanimReminderApp extends Application.AppBase {
             activityLocation.currentLocation != null
         ) {
             position = activityLocation.currentLocation.toDegrees();
+            locationRetrievalSource = "Activity";
 
             Sys.println(
                 "[updateCurrentLocation] Found activity location: " + position
@@ -96,6 +100,7 @@ class ZmanimReminderApp extends Application.AppBase {
                 // Store the values persistently
                 setProperty("LastLocationLat", gLocationLat);
                 setProperty("LastLocationLng", gLocationLng);
+                setProperty("LocationRetrievalSource", locationRetrievalSource);
 
                 Sys.println(
                     "[updateCurrentLocation] Updated and stored location: " +

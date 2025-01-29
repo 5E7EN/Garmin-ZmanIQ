@@ -145,12 +145,17 @@ class ZmanimReminderView extends WatchUi.View {
                     "/" +
                     gregorianLocalZman.year;
 
+                // Get location source from local storage
+                var locationSource = app.getProperty("LocationRetrievalSource");
+
                 // Update the UI with the zmanim
                 timeLabel.setText(
                     "Zman Krias Shema: \n" +
                         sofZmanKriasShma +
                         "\nUpdated " +
-                        zmanimForDate
+                        zmanimForDate +
+                        "\nvia " +
+                        locationSource
                 );
             }
         } else {
@@ -183,7 +188,7 @@ class ZmanimReminderView extends WatchUi.View {
             // Ensure we have valid location data
             if (latitude == null || longitude == null) {
                 Sys.println(
-                    "[onUpdate] Location could not be retrieved. User must connect to phone or start an activity."
+                    "[onUpdate] Location could not be retrieved. User must go outside, start an activity, or connect to phone for weather data."
                 );
                 updateUiText("GPS Not Found", dc);
             } else {
