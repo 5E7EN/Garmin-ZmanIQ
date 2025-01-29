@@ -19,7 +19,9 @@ class ZmanimReminderBackgroundDelegate extends Sys.ServiceDelegate {
 
         // Calculate time until zman
         var timeNowEpoch = Time.now().value();
-        var rawSofZmanKS = Storage.getValue("SofZmanShma");
+        var remoteZmanData =
+            Storage.getValue("RemoteZmanData") as Lang.Dictionary;
+        var rawSofZmanKS = remoteZmanData["times"]["sofZmanShma"];
         var sofZmanKriasShmaMoment = app.parseISODate(rawSofZmanKS);
         var sofZmanKriasShmaEpoch = sofZmanKriasShmaMoment.value();
         var timeDifferenceInMinutes = ~~(

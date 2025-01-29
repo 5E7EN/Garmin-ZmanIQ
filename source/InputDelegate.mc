@@ -2,6 +2,7 @@ import Toybox.Lang;
 using Toybox.Application as App;
 using Toybox.System as Sys;
 using Toybox.WatchUi;
+using Toybox.Application.Storage as Storage;
 
 class ZmanimReminderInputDelegate extends WatchUi.InputDelegate {
     function initialize() {
@@ -18,8 +19,8 @@ class ZmanimReminderInputDelegate extends WatchUi.InputDelegate {
                 "[onKey | DOWN] User triggered reload of zmanim, refreshing..."
             );
 
-            app.deleteProperty("SofZmanShma");
-            app.deleteProperty("ZmanimRequestStatus");
+            Storage.deleteValue("RemoteZmanData");
+            Storage.deleteValue("ZmanimRequestStatus");
 
             // Refresh UI to update zmanim
             WatchUi.requestUpdate();

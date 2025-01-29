@@ -58,15 +58,16 @@ class ZmanimReminderView extends WatchUi.View {
         );
 
         // Check if zmanim are already stored; then display if so
-        var storedZman = Storage.getValue("SofZmanShma");
+        var remoteZmanData =
+            Storage.getValue("RemoteZmanData") as Lang.Dictionary?;
 
-        Sys.println("[onUpdate] Stored zman: " + storedZman);
+        if (remoteZmanData != null) {
+            var storedZmanShema = remoteZmanData["times"]["sofZmanShma"];
 
-        if (storedZman) {
             // Parse stored zman as Moment object
-            var momentZmanUTC = app.parseISODateUTC(storedZman);
-            var gregorianZman = Gregorian.info(
-                momentZmanUTC,
+            var momentZmanShemaUTC = app.parseISODateUTC(storedZmanShema);
+            var gregorianZmanShema = Gregorian.info(
+                momentZmanShemaUTC,
                 Time.FORMAT_SHORT
             );
 
@@ -88,28 +89,28 @@ class ZmanimReminderView extends WatchUi.View {
             Sys.println(
                 "[onUpdate | DEBUG] Date of cached zman in our time: " +
                     Lang.format("$1$/$2$/$3$ $4$:$5$:$6$", [
-                        gregorianZman.month,
-                        gregorianZman.day,
-                        gregorianZman.year,
-                        gregorianZman.hour,
-                        gregorianZman.min,
-                        gregorianZman.sec
+                        gregorianZmanShema.month,
+                        gregorianZmanShema.day,
+                        gregorianZmanShema.year,
+                        gregorianZmanShema.hour,
+                        gregorianZmanShema.min,
+                        gregorianZmanShema.sec
                     ])
             );
 
             // If the stored zmanim dates don't match exactly, we must update them
             // Otherwise, display from local storage instead of making a redundant API request
             if (
-                gregorianZman.month != greorianToday.month ||
-                gregorianZman.day != greorianToday.day ||
-                gregorianZman.year != greorianToday.year
+                gregorianZmanShema.month != greorianToday.month ||
+                gregorianZmanShema.day != greorianToday.day ||
+                gregorianZmanShema.year != greorianToday.year
             ) {
                 // Not same day, reload zmanim
                 Sys.println(
                     "[onUpdate] Cached zmanim are from another day, refreshing..."
                 );
-                app.deleteProperty("SofZmanShma");
-                app.deleteProperty("ZmanimRequestStatus");
+                Storage.deleteValue("RemoteZmanData");
+                Storage.deleteValue("ZmanimRequestStatus");
 
                 // Refresh UI to update zmanim
                 WatchUi.requestUpdate();
@@ -121,29 +122,29 @@ class ZmanimReminderView extends WatchUi.View {
                 );
 
                 // Get time as local to user's assumed location (not adjusting based on timezone in timestamp)
-                var momentZmanLocal = app.parseISODate(storedZman);
+                var momentZmanShemaLocal = app.parseISODate(storedZmanShema);
                 // It's not actually UTC, but the local time of the user's assumed location (original API-returned timestamp time)
                 // This function basically just doesn't apply any conversions to the time, so we use it
-                var gregorianLocalZman = Gregorian.utcInfo(
-                    momentZmanLocal,
+                var gregorianLocalZmanShema = Gregorian.utcInfo(
+                    momentZmanShemaLocal,
                     Time.FORMAT_SHORT
                 );
 
                 // Build the zman time to display
                 var sofZmanKriasShma =
-                    gregorianLocalZman.hour +
+                    gregorianLocalZmanShema.hour +
                     ":" +
-                    gregorianLocalZman.min.format("%02d") +
+                    gregorianLocalZmanShema.min.format("%02d") +
                     ":" +
-                    gregorianLocalZman.sec.format("%02d");
+                    gregorianLocalZmanShema.sec.format("%02d");
 
                 // Build the current date to display
                 var zmanimForDate =
-                    gregorianLocalZman.month +
+                    gregorianLocalZmanShema.month +
                     "/" +
-                    gregorianLocalZman.day +
+                    gregorianLocalZmanShema.day +
                     "/" +
-                    gregorianLocalZman.year;
+                    gregorianLocalZmanShema.year;
 
                 // Get location source from local storage
                 var locationSource = Storage.getValue(

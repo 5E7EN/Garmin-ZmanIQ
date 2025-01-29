@@ -197,8 +197,7 @@ class ZmanimReminderApp extends Application.AppBase {
                     data["times"]["sofZmanShma"] != null
                 ) {
                     // Set zmanim in global storage
-                    var sofZmanKriasShma = data["times"]["sofZmanShma"];
-                    Storage.setValue("SofZmanShma", sofZmanKriasShma);
+                    Storage.setValue("RemoteZmanData", data);
 
                     // Update status of API request for main UI
                     Storage.setValue("ZmanimRequestStatus", "completed");
@@ -207,7 +206,9 @@ class ZmanimReminderApp extends Application.AppBase {
                         "[handleZmanimResponse] Stored new remote zmanim to local cache."
                     );
 
-                    // Set background alert reminder of the upcoming zman
+                    // Set background alert reminder of the upcoming zman krias shema
+                    // TODO: Allow the ability to toggle this feature
+                    var sofZmanKriasShma = data["times"]["sofZmanShma"];
                     // TODO: Add checks to ensure that only one reminder/temporal event is set at a given time - NO NEED, anything existing will be overwritten
                     // TODO: Allow this number below to be configurable
                     var minutesBeforeZmanToRemind = 5; // 5 minutes
