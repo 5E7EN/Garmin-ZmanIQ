@@ -1,6 +1,7 @@
 import Toybox.Application;
 import Toybox.Lang;
 import Toybox.WatchUi;
+using Toybox.Application.Storage as Storage;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
 using Toybox.WatchUi as Ui;
@@ -99,9 +100,12 @@ class ZmanimReminderApp extends Application.AppBase {
                 gLocationLng = position[1].toFloat();
 
                 // Store the values persistently
-                setProperty("LastLocationLat", gLocationLat);
-                setProperty("LastLocationLng", gLocationLng);
-                setProperty("LocationRetrievalSource", locationRetrievalSource);
+                Storage.setValue("LastLocationLat", gLocationLat);
+                Storage.setValue("LastLocationLng", gLocationLng);
+                Storage.setValue(
+                    "LocationRetrievalSource",
+                    locationRetrievalSource
+                );
 
                 Sys.println(
                     "[updateCurrentLocation] Updated and stored location: " +
@@ -114,8 +118,8 @@ class ZmanimReminderApp extends Application.AppBase {
             );
 
             // Try to get stored location
-            var lat = getProperty("LastLocationLat");
-            var lng = getProperty("LastLocationLng");
+            var lat = Storage.getValue("LastLocationLat");
+            var lng = Storage.getValue("LastLocationLng");
 
             if (lat != null && lng != null) {
                 gLocationLat = lat.toFloat();
@@ -146,8 +150,8 @@ class ZmanimReminderApp extends Application.AppBase {
         ]);
 
         // Get stored GPS coordinates
-        var latitude = getProperty("LastLocationLat");
-        var longitude = getProperty("LastLocationLng");
+        var latitude = Storage.getValue("LastLocationLat");
+        var longitude = Storage.getValue("LastLocationLng");
 
         // If no location data exists, halt
         if (latitude == null || longitude == null) {
@@ -168,7 +172,7 @@ class ZmanimReminderApp extends Application.AppBase {
         Sys.println("[setTodaysZmanim] Zmanim URL -> " + zmanimUrl);
 
         // Update status of API request for main UI
-        setProperty("ZmanimRequestStatus", "pending");
+        Storage.setValue("ZmanimRequestStatus", "pending");
 
         // Fetch zmanim
         Comm.makeWebRequest(
@@ -194,10 +198,10 @@ class ZmanimReminderApp extends Application.AppBase {
                 ) {
                     // Set zmanim in global storage
                     var sofZmanKriasShma = data["times"]["sofZmanShma"];
-                    setProperty("SofZmanShma", sofZmanKriasShma);
+                    Storage.setValue("SofZmanShma", sofZmanKriasShma);
 
                     // Update status of API request for main UI
-                    setProperty("ZmanimRequestStatus", "completed");
+                    Storage.setValue("ZmanimRequestStatus", "completed");
 
                     Sys.println(
                         "[handleZmanimResponse] Stored new remote zmanim to local cache."
@@ -263,7 +267,7 @@ class ZmanimReminderApp extends Application.AppBase {
                     Sys.println("[handleZmanimResponse] Data: " + data);
 
                     // Update status
-                    setProperty("ZmanimRequestStatus", "error");
+                    Storage.setValue("ZmanimRequestStatus", "error");
                 }
             } else {
                 Sys.println(
@@ -271,7 +275,7 @@ class ZmanimReminderApp extends Application.AppBase {
                 );
 
                 // Update status
-                setProperty("ZmanimRequestStatus", "error");
+                Storage.setValue("ZmanimRequestStatus", "error");
             }
         } else {
             Sys.println(
@@ -284,7 +288,7 @@ class ZmanimReminderApp extends Application.AppBase {
             );
 
             // Update status
-            setProperty("ZmanimRequestStatus", "error");
+            Storage.setValue("ZmanimRequestStatus", "error");
         }
 
         // Refresh UI to update status message / show zmanim (triggers onUpdate)

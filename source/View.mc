@@ -8,7 +8,7 @@ using Toybox.Time;
 using Toybox.Time.Gregorian;
 using Toybox.System as Sys;
 using Toybox.Communications as Comm;
-using Toybox.PersistedContent;
+using Toybox.Application.Storage as Storage;
 
 class ZmanimReminderView extends WatchUi.View {
     var timeLabel;
@@ -43,7 +43,7 @@ class ZmanimReminderView extends WatchUi.View {
         var app = App.getApp();
 
         // Determine status of Zmanim request, and show status on UI
-        var currentZmanimStatus = app.getProperty("ZmanimRequestStatus");
+        var currentZmanimStatus = Storage.getValue("ZmanimRequestStatus");
 
         // Set default state if status is null
         // Since switch statement can't handle null value for some reason
@@ -58,7 +58,7 @@ class ZmanimReminderView extends WatchUi.View {
         );
 
         // Check if zmanim are already stored; then display if so
-        var storedZman = app.getProperty("SofZmanShma");
+        var storedZman = Storage.getValue("SofZmanShma");
 
         Sys.println("[onUpdate] Stored zman: " + storedZman);
 
@@ -146,7 +146,9 @@ class ZmanimReminderView extends WatchUi.View {
                     gregorianLocalZman.year;
 
                 // Get location source from local storage
-                var locationSource = app.getProperty("LocationRetrievalSource");
+                var locationSource = Storage.getValue(
+                    "LocationRetrievalSource"
+                );
 
                 // Update the UI with the zmanim
                 timeLabel.setText(
@@ -182,8 +184,8 @@ class ZmanimReminderView extends WatchUi.View {
 
             // Set and retrieve current watch location
             app.updateCurrentLocation();
-            var latitude = app.getProperty("LastLocationLat");
-            var longitude = app.getProperty("LastLocationLng");
+            var latitude = Storage.getValue("LastLocationLat");
+            var longitude = Storage.getValue("LastLocationLng");
 
             // Ensure we have valid location data
             if (latitude == null || longitude == null) {

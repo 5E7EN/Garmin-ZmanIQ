@@ -4,6 +4,7 @@ using Toybox.Application as App;
 using Toybox.System as Sys;
 using Toybox.Background as Bg;
 using Toybox.Time.Gregorian;
+using Toybox.Application.Storage as Storage;
 
 (:background)
 class ZmanimReminderBackgroundDelegate extends Sys.ServiceDelegate {
@@ -18,7 +19,7 @@ class ZmanimReminderBackgroundDelegate extends Sys.ServiceDelegate {
 
         // Calculate time until zman
         var timeNowEpoch = Time.now().value();
-        var rawSofZmanKS = app.getProperty("SofZmanShma");
+        var rawSofZmanKS = Storage.getValue("SofZmanShma");
         var sofZmanKriasShmaMoment = app.parseISODate(rawSofZmanKS);
         var sofZmanKriasShmaEpoch = sofZmanKriasShmaMoment.value();
         var timeDifferenceInMinutes = ~~(
