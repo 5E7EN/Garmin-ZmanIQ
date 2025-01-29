@@ -48,55 +48,84 @@ class ZmanimReminderApp extends Application.AppBase {
 
     function updateCurrentLocation() {
         // Attempt to update current location.
-        // If current location available from current weather or activity, save it in case it goes "stale" and can not longer be retrieved.
         Sys.println(
             "[updateCurrentLocation] Fetching current watch location..."
         );
 
-        // Get watch location
-        var activityLocation = Activity.getActivityInfo();
-        var weatherLocation = Weather.getCurrentConditions();
-        // Determine position based on which retrieval method has a valid value
-        var position = weatherLocation
-            ? weatherLocation.observationLocationPosition
-            : activityLocation
-            ? activityLocation.currentLocation
-            : null;
+        // Get location from activity and weather
+        // TODO: Add check to ensure device supports on-demand GPS positioning (hasConfigurationSupport)
+        var gpsLocation = Position.getInfo(); // Most reliable, up-to-date
+        var weatherLocation = Weather.getCurrentConditions(); // Medium reliable, if using watchface that has weather features
+        var activityLocation = Activity.getActivityInfo(); // Least reliable, based on last recorded activity
 
-        // Parse coordinates
-        if (position) {
-            position = position.toDegrees();
-            gLocationLat = position[0].toFloat();
-            gLocationLng = position[1].toFloat();
-        } else {
-            // If current location is not available, read stored value from Object Store, being careful not to overwrite a valid
-            // in-memory value with an invalid stored one.
-            var lat = getProperty("LastLocationLat");
-            if (lat != null) {
-                gLocationLat = lat;
-            }
+        var position = null;
 
-            var long = getProperty("LastLocationLng");
-            if (long != null) {
-                gLocationLng = long;
-            }
-        }
+        // Try to get location by order of reliability
+        if (gpsLocation has :position && gpsLocation.position != null) {
+            position = gpsLocation.position.toDegrees();
 
-        // Ensure we have retrieved location data
-        if (gLocationLat == null || gLocationLng == null) {
             Sys.println(
-                "[updateCurrentLocation] Failed to retrieve GPS coordinates."
+                "[updateCurrentLocation] Found GPS location: " + position
             );
-            return;
-        } else {
-            setProperty("LastLocationLat", gLocationLat);
-            setProperty("LastLocationLng", gLocationLng);
+        } else if (
+            weatherLocation != null &&
+            weatherLocation.observationLocationPosition != null
+        ) {
+            position = weatherLocation.observationLocationPosition.toDegrees();
 
-            Sys.println("[updateCurrentLocation] Stored watch location.");
+            Sys.println(
+                "[updateCurrentLocation] Found weather location: " + position
+            );
+        } else if (
+            activityLocation != null &&
+            activityLocation.currentLocation != null
+        ) {
+            position = activityLocation.currentLocation.toDegrees();
+
+            Sys.println(
+                "[updateCurrentLocation] Found activity location: " + position
+            );
         }
 
-        Sys.println("[updateCurrentLocation] Latitude: " + gLocationLat);
-        Sys.println("[updateCurrentLocation] Longitude: " + gLocationLng);
+        // Parse coordinates only if position is valid
+        if (position) {
+            if (position.size() == 2) {
+                gLocationLat = position[0].toFloat();
+                gLocationLng = position[1].toFloat();
+
+                // Store the values persistently
+                setProperty("LastLocationLat", gLocationLat);
+                setProperty("LastLocationLng", gLocationLng);
+
+                Sys.println(
+                    "[updateCurrentLocation] Updated and stored location: " +
+                        position
+                );
+            }
+        } else {
+            Sys.println(
+                "[updateCurrentLocation] No valid live GPS data. Using stored location..."
+            );
+
+            // Try to get stored location
+            var lat = getProperty("LastLocationLat");
+            var lng = getProperty("LastLocationLng");
+
+            if (lat != null && lng != null) {
+                gLocationLat = lat.toFloat();
+                gLocationLng = lng.toFloat();
+                Sys.println(
+                    "[updateCurrentLocation] Loaded stored location: Lat " +
+                        gLocationLat +
+                        ", Lng " +
+                        gLocationLng
+                );
+            } else {
+                Sys.println(
+                    "[updateCurrentLocation] Failed to retrieve GPS coordinates."
+                );
+            }
+        }
     }
 
     function setTodaysZmanim() {
