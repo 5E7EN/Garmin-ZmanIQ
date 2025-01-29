@@ -54,22 +54,23 @@ class ZmanimReminderApp extends Application.AppBase {
 
         // Get location from activity and weather
         // TODO: Add check to ensure device supports on-demand GPS positioning (hasConfigurationSupport)
-        var gpsLocation = Position.getInfo(); // Most reliable, up-to-date
-        var weatherLocation = Weather.getCurrentConditions(); // Medium reliable, if using watchface that has weather features
+        // var gpsLocation = Position.getInfo(); // Most reliable, up-to-date
+        var weatherLocation = Weather.getCurrentConditions(); // Medium reliable
         var activityLocation = Activity.getActivityInfo(); // Least reliable, based on last recorded activity
 
         var position = null;
         var locationRetrievalSource = null;
 
         // Try to get location by order of reliability
-        if (gpsLocation has :position && gpsLocation.position != null) {
-            position = gpsLocation.position.toDegrees();
-            locationRetrievalSource = "GPS";
+        // if (gpsLocation has :position && gpsLocation.position != null) {
+        //     position = gpsLocation.position.toDegrees();
+        //     locationRetrievalSource = "GPS";
 
-            Sys.println(
-                "[updateCurrentLocation] Found GPS location: " + position
-            );
-        } else if (
+        //     Sys.println(
+        //         "[updateCurrentLocation] Found GPS location: " + position
+        //     );
+        // } else
+        if (
             weatherLocation != null &&
             weatherLocation.observationLocationPosition != null
         ) {
