@@ -46,10 +46,12 @@ class ZmanimReminderApp extends Application.AppBase {
         return [new ZmanimReminderBackgroundDelegate()];
     }
 
-    function setCurrentLocation() {
+    function updateCurrentLocation() {
         // Attempt to update current location.
         // If current location available from current weather or activity, save it in case it goes "stale" and can not longer be retrieved.
-        Sys.println("[setCurrentLocation] Fetching current watch location...");
+        Sys.println(
+            "[updateCurrentLocation] Fetching current watch location..."
+        );
 
         // Get watch location
         var activityLocation = Activity.getActivityInfo();
@@ -83,18 +85,18 @@ class ZmanimReminderApp extends Application.AppBase {
         // Ensure we have retrieved location data
         if (gLocationLat == null || gLocationLng == null) {
             Sys.println(
-                "[setCurrentLocation] Failed to retrieve GPS coordinates."
+                "[updateCurrentLocation] Failed to retrieve GPS coordinates."
             );
             return;
         } else {
             setProperty("LastLocationLat", gLocationLat);
             setProperty("LastLocationLng", gLocationLng);
 
-            Sys.println("[setCurrentLocation] Stored watch location.");
+            Sys.println("[updateCurrentLocation] Stored watch location.");
         }
 
-        Sys.println("[setCurrentLocation] Latitude: " + gLocationLat);
-        Sys.println("[setCurrentLocation] Longitude: " + gLocationLng);
+        Sys.println("[updateCurrentLocation] Latitude: " + gLocationLat);
+        Sys.println("[updateCurrentLocation] Longitude: " + gLocationLng);
     }
 
     function setTodaysZmanim() {
@@ -167,7 +169,7 @@ class ZmanimReminderApp extends Application.AppBase {
                     );
 
                     // Set background alert reminder of the upcoming zman
-                    // TODO: Add checks to ensure that only one reminder/temporal event is set at a given time
+                    // TODO: Add checks to ensure that only one reminder/temporal event is set at a given time - NO NEED, anything existing will be overwritten
                     // TODO: Allow this number below to be configurable
                     var minutesBeforeZmanToRemind = 5; // 5 minutes
 
@@ -177,26 +179,42 @@ class ZmanimReminderApp extends Application.AppBase {
                         sofZmanKriasShmaMoment.subtract(
                             new Time.Duration(minutesBeforeZmanToRemind * 60)
                         );
-                    var zmanMinusReminderTimeInfo = Gregorian.info(
+                    var zmanMinusReminderTimeInfo = Gregorian.utcInfo(
                         zmanMinusReminderTimeMoment,
                         Time.FORMAT_SHORT
                     );
 
-                    Sys.println(
-                        "[handleZmanimResponse] Registering reminder background event for -> " +
-                            Lang.format("$1$:$2$:$3$ $4$/$5$/$6$", [
-                                zmanMinusReminderTimeInfo.hour,
-                                zmanMinusReminderTimeInfo.min.format("%02d"),
-                                zmanMinusReminderTimeInfo.sec.format("%02d"),
-                                zmanMinusReminderTimeInfo.month,
-                                zmanMinusReminderTimeInfo.day,
-                                zmanMinusReminderTimeInfo.year
-                            ])
-                    );
-
                     // Set reminder trigger
                     //? Only one temporal event can be registered at a given time, so no need to worry about anything already pending
-                    Bg.registerForTemporalEvent(zmanMinusReminderTimeMoment);
+                    // Only register trigger if the zman didn't yet pass
+                    if (
+                        zmanMinusReminderTimeMoment.value() > Time.now().value()
+                    ) {
+                        Sys.println(
+                            "[handleZmanimResponse] Registering reminder background event for -> " +
+                                Lang.format("$1$:$2$:$3$ $4$/$5$/$6$", [
+                                    zmanMinusReminderTimeInfo.hour,
+                                    zmanMinusReminderTimeInfo.min.format(
+                                        "%02d"
+                                    ),
+                                    zmanMinusReminderTimeInfo.sec.format(
+                                        "%02d"
+                                    ),
+                                    zmanMinusReminderTimeInfo.month,
+                                    zmanMinusReminderTimeInfo.day,
+                                    zmanMinusReminderTimeInfo.year
+                                ])
+                        );
+
+                        // Register for temporal event
+                        Bg.registerForTemporalEvent(
+                            zmanMinusReminderTimeMoment
+                        );
+                    } else {
+                        Sys.println(
+                            "[handleZmanimResponse] Zman has already passed. Aborted reminder notification!"
+                        );
+                    }
                     // For debugging:
                     // Bg.registerForTemporalEvent(
                     //     (new Time.Moment(Time.now().value())).add(
@@ -226,6 +244,9 @@ class ZmanimReminderApp extends Application.AppBase {
                     responseCode
             );
             Sys.println("[handleZmanimResponse] Data: " + data);
+            Sys.println(
+                "[handleZmanimResponse] If in simulation, you may need to uncheck 'Use Device HTTPS requirements' under Settings"
+            );
 
             // Update status
             setProperty("ZmanimRequestStatus", "error");
@@ -235,8 +256,8 @@ class ZmanimReminderApp extends Application.AppBase {
         WatchUi.requestUpdate();
     }
 
-    // Converts rfc3339 formatted timestamp to Time::Moment (returns null on error)
-    function parseISODate(date) as Time.Moment? {
+    // Converts rfc3339 formatted timestamp to Time::Moment - as UTC (returns null on error)
+    function parseISODateUTC(date) as Time.Moment? {
         // assert(date instanceOf String)
 
         // 0123456789012345678901234
@@ -296,5 +317,29 @@ class ZmanimReminderApp extends Application.AppBase {
             }
         }
         return moment.add(new Time.Duration(tzOffset));
+    }
+
+    // Converts rfc3339 formatted timestamp to Time::Moment - retaining timezone (returns null on error)
+    function parseISODate(date) as Time.Moment? {
+        // assert(date instanceOf String)
+
+        // 0123456789012345678901234
+        // 2011-10-17T13:00:00-07:00
+        // 2011-10-17T16:30:55.000Z
+        // 2011-10-17T16:30:55Z
+        if (date.length() < 20) {
+            return null;
+        }
+
+        var moment = Gregorian.moment({
+            :year => date.substring(0, 4).toNumber(),
+            :month => date.substring(5, 7).toNumber(),
+            :day => date.substring(8, 10).toNumber(),
+            :hour => date.substring(11, 13).toNumber(),
+            :minute => date.substring(14, 16).toNumber(),
+            :second => date.substring(17, 19).toNumber()
+        });
+
+        return moment;
     }
 }

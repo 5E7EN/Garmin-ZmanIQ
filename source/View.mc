@@ -38,7 +38,7 @@ class ZmanimReminderView extends WatchUi.View {
     }
 
     // Update the view
-    // TODO: Figure out why this is re-rendering on launch more than once
+    // TODO: Figure out why this is re-rendering on launch more than once even when `storedZman` has a value
     function onUpdate(dc) as Void {
         var app = App.getApp();
 
@@ -60,12 +60,17 @@ class ZmanimReminderView extends WatchUi.View {
         // Check if zmanim are already stored; then display if so
         var storedZman = app.getProperty("SofZmanShma");
 
+        Sys.println("[onUpdate] Stored zman: " + storedZman);
+
         if (storedZman) {
             // Parse stored zman as Moment object
-            var momentZman = app.parseISODate(storedZman);
-            var gregorianZman = Gregorian.info(momentZman, Time.FORMAT_SHORT);
+            var momentZmanUTC = app.parseISODateUTC(storedZman);
+            var gregorianZman = Gregorian.info(
+                momentZmanUTC,
+                Time.FORMAT_SHORT
+            );
 
-            // Ensure that the zmanim cached in local storage are today's
+            // Ensure that the zmanim cached in local storage are today's zmanim
             var greorianToday = Gregorian.info(
                 new Time.Moment(Time.now().value()),
                 Time.FORMAT_SHORT
@@ -81,11 +86,14 @@ class ZmanimReminderView extends WatchUi.View {
                     ])
             );
             Sys.println(
-                "[onUpdate | DEBUG] Date of cached zmanim: " +
-                    Lang.format("$1$/$2$/$3$", [
+                "[onUpdate | DEBUG] Date of cached zman in our time: " +
+                    Lang.format("$1$/$2$/$3$ $4$:$5$:$6$", [
                         gregorianZman.month,
                         gregorianZman.day,
-                        gregorianZman.year
+                        gregorianZman.year,
+                        gregorianZman.hour,
+                        gregorianZman.min,
+                        gregorianZman.sec
                     ])
             );
 
@@ -112,19 +120,32 @@ class ZmanimReminderView extends WatchUi.View {
                     "[onUpdate] Cached zmanim are from today, retrieved from local storage."
                 );
 
-                var sofZmanKriasShma =
-                    gregorianZman.hour +
-                    ":" +
-                    gregorianZman.min.format("%02d") +
-                    ":" +
-                    gregorianZman.sec.format("%02d");
-                var zmanimForDate =
-                    gregorianZman.month +
-                    "/" +
-                    gregorianZman.day +
-                    "/" +
-                    gregorianZman.year;
+                // Get time as local to user's assumed location (not adjusting based on timezone in timestamp)
+                var momentZmanLocal = app.parseISODate(storedZman);
+                // It's not actually UTC, but the local time of the user's assumed location (original API-returned timestamp time)
+                // This function basically just doesn't apply any conversions to the time, so we use it
+                var gregorianLocalZman = Gregorian.utcInfo(
+                    momentZmanLocal,
+                    Time.FORMAT_SHORT
+                );
 
+                // Build the zman time to display
+                var sofZmanKriasShma =
+                    gregorianLocalZman.hour +
+                    ":" +
+                    gregorianLocalZman.min.format("%02d") +
+                    ":" +
+                    gregorianLocalZman.sec.format("%02d");
+
+                // Build the current date to display
+                var zmanimForDate =
+                    gregorianLocalZman.month +
+                    "/" +
+                    gregorianLocalZman.day +
+                    "/" +
+                    gregorianLocalZman.year;
+
+                // Update the UI with the zmanim
                 timeLabel.setText(
                     "Zman Krias Shema: \n" +
                         sofZmanKriasShma +
@@ -138,7 +159,7 @@ class ZmanimReminderView extends WatchUi.View {
                 case "initial":
                     // API request not yet executed, run logic below
                     Sys.println(
-                        "[onUpdate] Zmanim not stored or have expired, updating..."
+                        "[onUpdate] Zmanim not stored or were stale, updating..."
                     );
                     updateUiText("Updating zmanim...", dc);
                     break;
@@ -155,7 +176,7 @@ class ZmanimReminderView extends WatchUi.View {
             }
 
             // Set and retrieve current watch location
-            app.setCurrentLocation();
+            app.updateCurrentLocation();
             var latitude = app.getProperty("LastLocationLat");
             var longitude = app.getProperty("LastLocationLng");
 

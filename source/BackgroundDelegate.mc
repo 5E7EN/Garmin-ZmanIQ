@@ -27,7 +27,7 @@ class ZmanimReminderBackgroundDelegate extends Sys.ServiceDelegate {
         );
 
         // Alert user of impending zman, assuming it hasn't yet passed
-        // An example of already passing is, for instance, if the user opens the app (queueing the temporal reminder) when the zman is very near, waits for the zman to pass, then closes the app.
+        // An example of already passing is, for instance, if the user opens the app (queueing the temporal reminder), waits for the zman to pass, then closes the app.
         if (timeDifferenceInMinutes > 0) {
             var gregorianZman = Gregorian.info(
                 sofZmanKriasShmaMoment,
