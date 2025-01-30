@@ -9,7 +9,8 @@ Text at top with app name
 "Home" or something like "At a glance..." at top.
 
 Menu list:
-"Upcoming zman: **item w/ subitem**"
+"Upcoming zman: \n**item w/ subitem**"
+"Last updated: \n**time**" (or "Last updated: **time** ago")
 "More..." -> opens to menu below
 
 ##### More... Menu
