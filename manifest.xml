@@ -5,7 +5,7 @@
         Use "Monkey C: Edit Application" from the Visual Studio Code command palette
         to update the application attributes.
     -->
-    <iq:application id="fe04b66c-6caa-4819-952d-c73877e4a8f6" type="watch-app" name="@Strings.AppName" entry="ZmanimReminderApp" launcherIcon="@Drawables.LauncherIcon" minApiLevel="2.1.0">
+    <iq:application id="fe04b66c-6caa-4819-952d-c73877e4a8f6" type="watch-app" name="@Strings.AppName" entry="ZmanIQ" launcherIcon="@Drawables.LauncherIcon" minApiLevel="2.1.0">
         <!--
             Use the following from the Visual Studio Code comand palette to edit
             the build targets:
