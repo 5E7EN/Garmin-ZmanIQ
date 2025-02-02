@@ -2,6 +2,8 @@
     <string id="AppName">ZmanIQ</string>
 
     <string id="HomeTitle">Home</string>
-    <string id="Prompt">Press the menu\nbutton to start</string>
-    <string id="MainMenuTitle">Main Menu</string>
+    <string id="Prompt">Press the menu\nbutton</string>
+
+    <!-- TODO: See how to use strings from here within pushed views for multilingual support -->
+    <string id="MainMenuTitle">PLACEHOLDER</string>
 </strings>

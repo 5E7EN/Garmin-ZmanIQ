@@ -1,7 +1,6 @@
 import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
-using Toybox.System as Sys;
 
 //! This is the main view of the application.
 class InitialView extends WatchUi.View {
@@ -14,7 +13,6 @@ class InitialView extends WatchUi.View {
     //! @param dc Device Context
     public function onLayout(dc as Dc) {
         setLayout($.Rez.Layouts.MainLayout(dc));
-        Sys.println("test");
     }
 
     //! Called when this View is brought to the foreground. Restore

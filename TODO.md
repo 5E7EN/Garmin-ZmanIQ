@@ -7,3 +7,5 @@
   - If choosing GPS, tell user to start an outdoor activity to get a GPS lock
   - If choosing weather, ensure user is connected to their phone/or was recently connected
   - If choosing Activity, ensure user is aware that the location will be based on the last activity they recorded
+- Replace all `//!` comments with `//*` instead (too much red)
+- See how to use strings within pushed views for multilingual support
