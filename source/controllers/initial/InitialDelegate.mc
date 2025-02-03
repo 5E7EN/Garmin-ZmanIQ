@@ -26,11 +26,19 @@ class InitialDelegate extends WatchUi.BehaviorDelegate {
     public function onSelect() as Boolean {
         //* Refresh zmanim
 
+        // If the zmanim request is already in progress, do nothing
+        var zmanimRequestStatus = Storage.getValue("ZmanimRequestStatus");
+        if (zmanimRequestStatus.equals("pending")) {
+            return true;
+        }
+
         Sys.println("Fetching new zmanim...");
 
         // Clear cached zmanim data
         Storage.deleteValue("RemoteZmanData");
-        Storage.deleteValue("ZmanimRequestStatus");
+
+        // Set the zmanim request status to "pending"
+        Storage.setValue("ZmanimRequestStatus", "pending");
 
         //! Call the zmanim refresh model here
 

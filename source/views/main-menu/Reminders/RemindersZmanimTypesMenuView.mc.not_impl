@@ -1,0 +1,16 @@
+import Toybox.Graphics;
+import Toybox.Lang;
+import Toybox.WatchUi;
+
+//* Create the all zmanim menu
+function pushRemindersZmanimTypesMenuView() as Void {
+    // Generate a new Menu
+    var menu = new WatchUi.Menu2({ :title => "Reminders:\nActive Types" });
+
+    // TODO: Add some kind of line separator here (between title and menu items)
+
+    // Add menu items
+    //* List all zmanim with a checkbox to enable/disable reminder for that zman
+
+    WatchUi.pushView(menu, new $.RemindersZmanimTypesMenuDelegate(), WatchUi.SLIDE_UP);
+}

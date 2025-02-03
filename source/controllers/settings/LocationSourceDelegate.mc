@@ -1,9 +1,11 @@
 import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
+using Toybox.System as Sys;
+using Toybox.Application.Storage as Storage;
 
 //* This is the menu input delegate/handler for the main menu of the application
-class MainMenuDelegate extends WatchUi.Menu2InputDelegate {
+class LocationSourceDelegate extends WatchUi.Menu2InputDelegate {
     //* Constructor
     public function initialize() {
         Menu2InputDelegate.initialize();
@@ -16,14 +18,18 @@ class MainMenuDelegate extends WatchUi.Menu2InputDelegate {
         var id = item.getId();
 
         // React based on the selected item ID
-        if (id == :location_source) {
-            $.pushLocationSourceView();
-        } else if (id == :about) {
-            $.pushAboutView();
+        if (id == :auto) {
+            Storage.setValue("LocationSource", "Auto");
+        } else if (id == :gps) {
+            Storage.setValue("LocationSource", "GPS");
+        } else if (id == :weather) {
+            Storage.setValue("LocationSource", "Weather");
+        } else if (id == :last_activity) {
+            Storage.setValue("LocationSource", "Activity");
         }
-        // } else if (id == :reminders) {
-        //     $.pushRemindersMenuView();
-        // }
+
+        // Go back and refresh the main menu
+        WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
     }
 
     //* Handle the back key being pressed

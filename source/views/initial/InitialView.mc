@@ -58,9 +58,7 @@ class InitialView extends WatchUi.View {
             }
 
             // Debug: Print the current status of zmanim API request
-            Sys.println(
-                "[onUpdate] Current status of zmanim request: " + zmanimRequestStatus.toUpper()
-            );
+            Sys.println("[onUpdate] Current status of zmanim request: " + zmanimRequestStatus.toUpper());
 
             // Determine the message based on the request status
             switch (zmanimRequestStatus) {

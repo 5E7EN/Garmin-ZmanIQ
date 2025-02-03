@@ -10,3 +10,6 @@
   - If choosing Activity, ensure user is aware that the location will be based on the last activity they recorded
 - [ ] See how to use strings within pushed views for multilingual support
 - [ ] Add more supported devices
+- [ ] Use XML resources for menus instead of code - [See More](https://dev.to/jenhsuan/day-10-of-100daysofcode-learn-monkey-c-create-a-menu-for-ciq-application-2dc9) (as seen in project below)
+- [ ] Adapt best practices and menus from [this project](https://github.com/cedric-dufour/connectiq-app-rawlogger)
+- [ ] See also: https://github.com/myneur/late

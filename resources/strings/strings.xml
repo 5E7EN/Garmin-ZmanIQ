@@ -1,9 +1,14 @@
 <strings>
     <string id="AppName">ZmanIQ</string>
+    <string id="AppVersion">0.1.0</string>
+
+    <!-- About -->
+    <string id="AboutVersionText">Version</string>
+    <string id="AboutAuthorText">Author</string>
 
     <string id="SubTitle"></string>
     <string id="Prompt"></string>
 
     <!-- TODO: See how to use strings from here within pushed views for multilingual support -->
-    <string id="MainMenuTitle">PLACEHOLDER</string>
+    <!-- TODO UPDATE: Above has been done for About menu so far... -->
 </strings>
