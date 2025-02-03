@@ -11,6 +11,13 @@ function pushMainMenuView() as Void {
     // TODO: Add some kind of line separator here (between title and menu items)
 
     // Add menu items
+
+    // Location Source
+    // Reminders
+    // About
+    // etc. (if any more)
+
+    // Temp
     menu.addItem(new WatchUi.MenuItem("PLACEHOLDER", null, :placeholder, null));
     menu.addItem(new WatchUi.MenuItem("All Zmanim", "List all zmanim", :all_zmanim, null));
     menu.addItem(new WatchUi.MenuItem("PLACEHOLDER", null, :placeholder, null));

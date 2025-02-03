@@ -47,3 +47,11 @@ Menu list:
     - "2 minutes"
     - "5 minutes"
     - "10 minutes"
+
+#### About
+
+[Shows app info]
+
+- "Developer: \n**name**"
+  \n
+- "Version: \n**version**"
