@@ -9,3 +9,4 @@
   - If choosing weather, ensure user is connected to their phone/or was recently connected
   - If choosing Activity, ensure user is aware that the location will be based on the last activity they recorded
 - [ ] See how to use strings within pushed views for multilingual support
+- [ ] Add more supported devices
