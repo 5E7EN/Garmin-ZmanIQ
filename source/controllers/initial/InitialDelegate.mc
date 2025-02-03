@@ -26,7 +26,7 @@ class InitialDelegate extends WatchUi.BehaviorDelegate {
     public function onSelect() as Boolean {
         //* Refresh zmanim
 
-        Sys.println("Refreshing zmanim...");
+        Sys.println("Fetching new zmanim...");
 
         // Clear cached zmanim data
         Storage.deleteValue("RemoteZmanData");
