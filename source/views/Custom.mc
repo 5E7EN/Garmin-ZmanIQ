@@ -5,21 +5,21 @@ import Toybox.WatchUi;
 //* Delegate is not included here by default.
 //* See an example implementation in `all-zmanim/Delegate.mc`
 
-//! This is the custom item drawable.
-//! It draws the label it is initialized with at the center of the region
+//* This is the custom item drawable.
+//* It draws the label it is initialized with at the center of the region
 class CustomItem extends WatchUi.CustomMenuItem {
     private var _label as String;
 
-    //! Constructor
-    //! @param id The identifier for this item
-    //! @param text Text to display
+    //* Constructor
+    //* @param id The identifier for this item
+    //* @param text Text to display
     public function initialize(id as Symbol, text as String) {
         CustomMenuItem.initialize(id, {});
         _label = text;
     }
 
-    //! Draw the item string at the center of the item.
-    //! @param dc Device context
+    //* Draw the item string at the center of the item.
+    //* @param dc Device context
     public function draw(dc as Dc) as Void {
         var font = Graphics.FONT_SMALL;
         if (isFocused()) {
@@ -44,19 +44,19 @@ class CustomItem extends WatchUi.CustomMenuItem {
         dc.drawLine(0, dc.getHeight() - 1, dc.getWidth(), dc.getHeight() - 1);
     }
 
-    //! Get the item label
-    //! @return The label
+    //* Get the item label
+    //* @return The label
     public function getLabel() as String {
         return _label;
     }
 }
 
-//! View to show when an item is selected
+//* View to show when an item is selected
 class CustomItemView extends WatchUi.View {
     private var _text as Text;
 
-    //! Constructor
-    //! @param text The item text
+    //* Constructor
+    //* @param text The item text
     public function initialize(text as String) {
         View.initialize();
         _text = new WatchUi.Text({
@@ -69,8 +69,8 @@ class CustomItemView extends WatchUi.View {
         });
     }
 
-    //! Update the view
-    //! @param dc Device context
+    //* Update the view
+    //* @param dc Device context
     public function onUpdate(dc as Dc) as Void {
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_WHITE);
         dc.clear();

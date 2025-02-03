@@ -2,7 +2,7 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-//! Create the all zmanim menu
+//* Create the all zmanim menu
 function pushMainMenuView() as Void {
     //* If this kind of pushing doesn't work for the main menu, move the logic below to `InitialDelegate.mc` .onMenu() method instead
     // Generate a new Menu

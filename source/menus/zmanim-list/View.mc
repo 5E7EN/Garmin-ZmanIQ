@@ -2,7 +2,7 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-//! Create the all zmanim menu
+//* Create the all zmanim menu
 function pushZmanimListView() as Void {
     // TODO: Maybe use menu item with subtitle for showing zmanim (and wrapping menu for category division)
     // TODO: This allows for the user to see a preview of the time without having to click into it
@@ -27,13 +27,13 @@ function pushZmanimListView() as Void {
 
 // TODO: Change the name of this and move it somewhere else since it's really generic (other than the title, which should use @strings)
 class ZmanimListMenuTitle extends WatchUi.Drawable {
-    //! Constructor
+    //* Constructor
     public function initialize() {
         Drawable.initialize({});
     }
 
-    //! Draw the application icon and main menu title
-    //! @param dc Device Context
+    //* Draw the application icon and main menu title
+    //* @param dc Device Context
     public function draw(dc as Dc) as Void {
         var text = "Zmanim List";
 
@@ -60,13 +60,13 @@ class ZmanimListMenuTitle extends WatchUi.Drawable {
 
 // TODO: Change the name of this and move it somewhere else since it's really generic
 class ZmanimListMenuFooter extends WatchUi.Drawable {
-    //! Constructor
+    //* Constructor
     public function initialize() {
         Drawable.initialize({});
     }
 
-    //! Draw bottom half of the last dividing line below the final item
-    //! @param dc Device context
+    //* Draw bottom half of the last dividing line below the final item
+    //* @param dc Device context
     public function draw(dc as Dc) as Void {
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
         dc.drawLine(0, 0, dc.getWidth(), 0);
