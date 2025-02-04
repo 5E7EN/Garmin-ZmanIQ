@@ -1,0 +1,4 @@
+<properties>
+    <!-- Settings -->
+    <property id="locationSource" type="string">Auto</property>
+</properties>

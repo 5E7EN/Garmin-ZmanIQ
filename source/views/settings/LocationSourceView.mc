@@ -2,7 +2,7 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
 using Toybox.System as Sys;
-using Toybox.Application.Storage as Storage;
+using Toybox.Application.Properties as Properties;
 
 function pushLocationSourceView() as Void {
     // Generate a new Menu
@@ -17,7 +17,7 @@ function pushLocationSourceView() as Void {
 
     // Determine selected item and focus it
     // TODO: Improve this code. Search for the selected item by value instead of mapping each index
-    var locationSource = Storage.getValue("LocationSource") as String;
+    var locationSource = Properties.getValue("locationSource") as String;
 
     if (locationSource.equals("Auto")) {
     } else if (locationSource.equals("GPS")) {

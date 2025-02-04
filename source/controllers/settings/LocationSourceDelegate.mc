@@ -2,7 +2,7 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
 using Toybox.System as Sys;
-using Toybox.Application.Storage as Storage;
+using Toybox.Application.Properties as Properties;
 
 //* This is the menu input delegate/handler for the main menu of the application
 class LocationSourceDelegate extends WatchUi.Menu2InputDelegate {
@@ -19,13 +19,13 @@ class LocationSourceDelegate extends WatchUi.Menu2InputDelegate {
 
         // React based on the selected item ID
         if (id == :auto) {
-            Storage.setValue("LocationSource", "Auto");
+            Properties.setValue("locationSource", "Auto");
         } else if (id == :gps) {
-            Storage.setValue("LocationSource", "GPS");
+            Properties.setValue("locationSource", "GPS");
         } else if (id == :weather) {
-            Storage.setValue("LocationSource", "Weather");
+            Properties.setValue("locationSource", "Weather");
         } else if (id == :last_activity) {
-            Storage.setValue("LocationSource", "Activity");
+            Properties.setValue("locationSource", "Activity");
         }
 
         // TODO: Show toast explaining implications of the change (see TODO)
