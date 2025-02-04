@@ -28,6 +28,8 @@ class LocationSourceDelegate extends WatchUi.Menu2InputDelegate {
             Storage.setValue("LocationSource", "Activity");
         }
 
+        // TODO: Show toast explaining implications of the change (see TODO)
+
         // Go back and refresh the main menu
         WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
     }
