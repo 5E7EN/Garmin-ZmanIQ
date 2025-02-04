@@ -2,13 +2,29 @@
     <string id="AppName">ZmanIQ</string>
     <string id="AppVersion">0.1.0</string>
 
+    <!-- Initial View: Zmanim Not Cached -->
+    <string id="InitialWelcome">Welcome!</string>
+    <string id="InitialFetchPrompt">Press the Start button\nto fetch zmanim.</string>
+    <string id="Fetching">Fetching</string>
+    <string id="PleaseWait">Please wait...</string>
+    <string id="Error">Error!</string>
+    <string id="FailedToFetch">Failed to fetch zmanim.\nTry again later.</string>
+    <!-- Initial View: Zmanim Cached -->
+    <string id="AtAGlance">At a glance...</string>
+
+    <!-- Main Menu -->
+    <string id="MainMenuTitle">Main Menu</string>
+    <string id="MainMenuLocationSourceText">Location Source</string>
+    <string id="MainMenuLocationSourceSubText">Set location source</string>
+
+    <!-- Location Source -->
+    <string id="LocationSourceTitle">Location Source</string>
+    <string id="LocationSourceGPSSubText">Most precise, outdoors</string>
+    <string id="LocationSourceWeatherSubText">Last synced location</string>
+    <string id="LocationSourceLastActivitySubText">Last active location</string>
+
     <!-- About -->
+    <string id="AboutTitle">About</string>
     <string id="AboutVersionText">Version</string>
     <string id="AboutAuthorText">Author</string>
-
-    <string id="SubTitle"></string>
-    <string id="Prompt"></string>
-
-    <!-- TODO: See how to use strings from here within pushed views for multilingual support -->
-    <!-- TODO UPDATE: Above has been done for About menu so far... -->
 </strings>

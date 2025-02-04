@@ -1,20 +1,19 @@
 import Toybox.Graphics;
 import Toybox.Lang;
-import Toybox.WatchUi;
+using Toybox.WatchUi as Ui;
 
 //* Create the all zmanim menu
 function pushMainMenuView() as Void {
     // Generate a new Menu
-    var menu = new WatchUi.Menu2({ :title => "Main Menu" });
+    var menu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.MainMenuTitle) });
 
     // TODO: Add some kind of line separator here (between title and menu items)
 
     // Add menu items
-    menu.addItem(new WatchUi.MenuItem("Location Source", "Set location source", :location_source, null));
+    menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.MainMenuLocationSourceText), Ui.loadResource(Rez.Strings.MainMenuLocationSourceSubText), :locationSource, null));
     // TODO: Implement Reminders logic
-    // menu.addItem(new WatchUi.MenuItem("Reminders", "Manage active reminders", :reminders, null));
-    // TODO: Implement About view
-    menu.addItem(new WatchUi.MenuItem("About", null, :about, null));
+    // menu.addItem(new Ui.MenuItem("Reminders", "Manage active reminders", :reminders, null));
+    menu.addItem(new Ui.MenuItem("About", null, :about, null));
 
-    WatchUi.pushView(menu, new $.MainMenuDelegate(), WatchUi.SLIDE_UP);
+    Ui.pushView(menu, new $.MainMenuDelegate(), Ui.SLIDE_UP);
 }

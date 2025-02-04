@@ -1,11 +1,11 @@
 import Toybox.Graphics;
 import Toybox.Lang;
-import Toybox.WatchUi;
+using Toybox.WatchUi as Ui;
 using Toybox.System as Sys;
 using Toybox.Application.Storage as Storage;
 
 //* This is the main view of the application.
-class InitialView extends WatchUi.View {
+class InitialView extends Ui.View {
     var subtitleLabel;
     var promptLabel;
 
@@ -40,7 +40,7 @@ class InitialView extends WatchUi.View {
         if (remoteZmanData != null) {
             Sys.println(remoteZmanData);
             //* Zmanim are stored in memory
-            subtitleLabel.setText("At a glance...");
+            subtitleLabel.setText(Ui.loadResource(Rez.Strings.AtAGlance));
 
             //! rest of the fetched zmanim view
             //* maybe add "hold DOWN button for more" for showing all zmanim menu (instead of menu button, since we use that for main menu in all views)
@@ -63,17 +63,17 @@ class InitialView extends WatchUi.View {
             // Determine the message based on the request status
             switch (zmanimRequestStatus) {
                 case "initial":
-                    subtitleLabel.setText("Welcome!");
-                    promptLabel.setText("Press the Start button\nto fetch zmanim.");
+                    subtitleLabel.setText(Ui.loadResource(Rez.Strings.InitialWelcome));
+                    promptLabel.setText(Ui.loadResource(Rez.Strings.InitialFetchPrompt));
                     break;
                 case "pending":
-                    subtitleLabel.setText("Fetching");
-                    promptLabel.setText("Please wait...");
+                    subtitleLabel.setText(Ui.loadResource(Rez.Strings.Fetching));
+                    promptLabel.setText(Ui.loadResource(Rez.Strings.PleaseWait));
                     break;
                 case "error":
-                    subtitleLabel.setText("Error!");
+                    subtitleLabel.setText(Ui.loadResource(Rez.Strings.Error));
                     // TODO: Display a friendly error message
-                    promptLabel.setText("Failed to fetch zmanim.\nTry again later.");
+                    promptLabel.setText(Ui.loadResource(Rez.Strings.FailedToFetch));
                     break;
             }
         }

@@ -16,7 +16,7 @@ class MainMenuDelegate extends WatchUi.Menu2InputDelegate {
         var id = item.getId();
 
         // React based on the selected item ID
-        if (id == :location_source) {
+        if (id == :locationSource) {
             $.pushLocationSourceView();
         } else if (id == :about) {
             $.pushAboutView();

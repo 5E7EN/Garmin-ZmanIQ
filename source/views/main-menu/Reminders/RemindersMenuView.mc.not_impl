@@ -11,7 +11,7 @@ function pushRemindersMenuView() as Void {
 
     // Add menu items
     menu.addItem(
-        new WatchUi.MenuItem("Zmanim Types", "Set reminders based on type", :zmanim_types, null)
+        new WatchUi.MenuItem("Zmanim Types", "Set reminders based on type", :zmanimTypes, null)
     );
     menu.addItem(new WatchUi.MenuItem("Configure", "Trigger settings, etc.", :configure, null));
 

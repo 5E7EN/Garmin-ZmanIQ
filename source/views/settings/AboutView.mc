@@ -1,24 +1,17 @@
 import Toybox.Graphics;
 import Toybox.Lang;
-using Toybox.WatchUi;
+using Toybox.WatchUi as Ui;
 using Toybox.System as Sys;
 using Toybox.Application.Storage as Storage;
 
 function pushAboutView() as Void {
     // Generate a new Menu
-    var menu = new WatchUi.Menu2({ :title => "About" });
+    var menu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.AboutTitle) });
 
     // Add menu items
-    menu.addItem(new WatchUi.MenuItem(Lang.format("$1$: 5E7EN", [WatchUi.loadResource(Rez.Strings.AboutAuthorText)]), null, :about_author, null));
-    menu.addItem(
-        new WatchUi.MenuItem(
-            Lang.format("$1$: $2$", [WatchUi.loadResource(Rez.Strings.AboutVersionText), WatchUi.loadResource(Rez.Strings.AppVersion)]),
-            null,
-            :about_version,
-            null
-        )
-    );
+    menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.AboutAuthorText), "5E7EN", :aboutAuthor, null));
+    menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.AboutVersionText), Ui.loadResource(Rez.Strings.AppVersion), :aboutVersion, null));
 
     // TODO: Can we just pass some generic delegate that does nothing?
-    WatchUi.pushView(menu, new $.AboutDelegate(), WatchUi.SLIDE_IMMEDIATE);
+    Ui.pushView(menu, new $.AboutDelegate(), Ui.SLIDE_IMMEDIATE);
 }

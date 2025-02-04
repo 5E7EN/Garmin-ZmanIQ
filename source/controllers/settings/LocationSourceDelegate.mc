@@ -24,7 +24,7 @@ class LocationSourceDelegate extends WatchUi.Menu2InputDelegate {
             Properties.setValue("locationSource", "GPS");
         } else if (id == :weather) {
             Properties.setValue("locationSource", "Weather");
-        } else if (id == :last_activity) {
+        } else if (id == :lastActivity) {
             Properties.setValue("locationSource", "Activity");
         }
 

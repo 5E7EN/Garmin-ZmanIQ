@@ -1,18 +1,18 @@
 import Toybox.Graphics;
 import Toybox.Lang;
-import Toybox.WatchUi;
+using Toybox.WatchUi as Ui;
 using Toybox.System as Sys;
 using Toybox.Application.Properties as Properties;
 
 function pushLocationSourceView() as Void {
     // Generate a new Menu
-    var menu = new WatchUi.Menu2({ :title => "Location Source" });
+    var menu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.LocationSourceTitle) });
 
     // Add menu items
-    menu.addItem(new WatchUi.MenuItem("Auto", null, :auto, null));
-    menu.addItem(new WatchUi.MenuItem("GPS", "Most precise, outdoors", :gps, null));
-    menu.addItem(new WatchUi.MenuItem("Weather", "Last synced location", :weather, null));
-    menu.addItem(new WatchUi.MenuItem("Last Activity", "Last active location", :last_activity, null));
+    menu.addItem(new Ui.MenuItem("Auto", null, :auto, null));
+    menu.addItem(new Ui.MenuItem("GPS", Ui.loadResource(Rez.Strings.LocationSourceGPSSubText), :gps, null));
+    menu.addItem(new Ui.MenuItem("Weather", Ui.loadResource(Rez.Strings.LocationSourceWeatherSubText), :weather, null));
+    menu.addItem(new Ui.MenuItem("Last Activity", Ui.loadResource(Rez.Strings.LocationSourceLastActivitySubText), :lastActivity, null));
     // TODO: Add "Manual" option to enter latitude and longitude coordinates
 
     // Determine selected item and focus it
@@ -28,5 +28,5 @@ function pushLocationSourceView() as Void {
         menu.setFocus(3);
     }
 
-    WatchUi.pushView(menu, new $.LocationSourceDelegate(), WatchUi.SLIDE_UP);
+    Ui.pushView(menu, new $.LocationSourceDelegate(), Ui.SLIDE_UP);
 }
