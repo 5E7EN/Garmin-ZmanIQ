@@ -34,7 +34,7 @@ class InitialDelegate extends WatchUi.BehaviorDelegate {
         // If the zmanim request is already in progress, do nothing
         var zmanimRequestStatus = Storage.getValue("ZmanimRequestStatus");
         if (zmanimRequestStatus.equals("pending")) {
-            Sys.println("Zmanim request already in progress...");
+            $.log("Zmanim request already in progress...");
             return true;
         }
 
@@ -67,14 +67,14 @@ class InitialDelegate extends WatchUi.BehaviorDelegate {
         if (responseCode != 200) {
             // Update request status
             Storage.setValue("ZmanimRequestStatus", "error");
-            Sys.println("[handleZmanimResponse] Zmanim request failed with status code: " + responseCode);
-            Sys.println("[handleZmanimResponse] If in simulation, you may need to uncheck 'Use Device HTTPS requirements' under Settings");
+            $.log("[handleZmanimResponse] Zmanim request failed with status code: " + responseCode);
+            $.log("[handleZmanimResponse] If in simulation, you may need to uncheck 'Use Device HTTPS requirements' under Settings");
         }
 
         if (data == null) {
             // Update request status
             Storage.setValue("ZmanimRequestStatus", "error");
-            Sys.println("[handleZmanimResponse] Request returned no data");
+            $.log("[handleZmanimResponse] Request returned no data");
         }
 
         // Ensure zmanim were returned in expected format, then store in cache
@@ -86,12 +86,12 @@ class InitialDelegate extends WatchUi.BehaviorDelegate {
             // Update request status
             Storage.setValue("ZmanimRequestStatus", "completed");
 
-            Sys.println("[handleZmanimResponse] Success! Stored fresh zmanim in cache.");
+            $.log("[handleZmanimResponse] Success! Stored fresh zmanim in cache.");
         } else {
             // Update request status
             Storage.setValue("ZmanimRequestStatus", "error");
-            Sys.println("[handleZmanimResponse] API returned data, but desired zmanim format not found.");
-            Sys.println("[handleZmanimResponse] Data: " + data);
+            $.log("[handleZmanimResponse] API returned data, but desired zmanim format not found.");
+            $.log("[handleZmanimResponse] Data: " + data);
         }
 
         // Refresh the UI

@@ -38,8 +38,9 @@ class InitialView extends Ui.View {
         var remoteZmanData = Storage.getValue("RemoteZmanData") as Lang.Dictionary?;
 
         if (remoteZmanData != null) {
-            Sys.println(remoteZmanData);
             //* Zmanim are stored in memory
+            $.log(remoteZmanData);
+
             subtitleLabel.setText(Ui.loadResource(Rez.Strings.AtAGlance));
             promptLabel.setText("");
 
@@ -59,7 +60,7 @@ class InitialView extends Ui.View {
             }
 
             // Debug: Print the current status of zmanim API request
-            Sys.println("[onUpdate] Current status of zmanim request: " + zmanimRequestStatus.toUpper());
+            $.log("[onUpdate] Current status of zmanim request: " + zmanimRequestStatus.toUpper());
 
             // Determine the message based on the request status
             switch (zmanimRequestStatus) {

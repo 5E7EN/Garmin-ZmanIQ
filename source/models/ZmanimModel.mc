@@ -9,11 +9,11 @@ class ZmanimModel {
     function fetchZmanimCb(latitude as Float, longitude as Float, callback as (Method(responseCode as Number, data as Dictionary or String or Null) as Void)) as Void {
         // Ensure latitude and longitude are not null
         if (latitude == null || longitude == null) {
-            Sys.println("[fetchAndStoreZmanim] GPS coordinates not provided.");
+            $.log("[fetchAndStoreZmanim] GPS coordinates not provided.");
             return;
         }
 
-        Sys.println("[fetchAndStoreZmanim] Fetching new zmanim...");
+        $.log("[fetchAndStoreZmanim] Fetching new zmanim...");
 
         // Get current date
         var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
@@ -21,7 +21,7 @@ class ZmanimModel {
 
         // Build zmanim API URL
         var zmanimUrl = "https://www.hebcal.com/zmanim?cfg=json&sec=1&date=" + dateString + "&latitude=" + latitude.toString() + "&longitude=" + longitude.toString();
-        Sys.println("[fetchAndStoreZmanim] Zmanim URL -> " + zmanimUrl);
+        $.log("[fetchAndStoreZmanim] Zmanim URL -> " + zmanimUrl);
 
         // Fetch zmanim
         Comm.makeWebRequest(
