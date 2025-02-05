@@ -39,6 +39,9 @@ class InitialView extends Ui.View {
 
         if (remoteZmanData != null) {
             //* Zmanim are stored in memory
+
+            // TODO: Ensure that the zmanim data is not stale (from today)
+
             $.log(remoteZmanData);
 
             subtitleLabel.setText(Ui.loadResource(Rez.Strings.AtAGlance));

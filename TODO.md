@@ -15,3 +15,4 @@
   - This enables easily defining defaults
 - [ ] Adapt best practices and menus from [this project](https://github.com/cedric-dufour/connectiq-app-rawlogger)
 - [ ] See also: https://github.com/myneur/late
+- [ ] Improve location handling. See [this great project](https://github.com/dagstuan/skredvarselGarmin).
