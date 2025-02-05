@@ -1,5 +1,4 @@
 import Toybox.Lang;
-
 using Toybox.WatchUi as Ui;
 using Toybox.System as Sys;
 using Toybox.Time;

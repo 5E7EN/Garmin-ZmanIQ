@@ -32,15 +32,15 @@ class InitialDelegate extends WatchUi.BehaviorDelegate {
     //* @return true if handled, false otherwise
     public function onSelect() as Boolean {
         // If the zmanim request is already in progress, do nothing
-        var zmanimRequestStatus = Storage.getValue("ZmanimRequestStatus");
-        if (zmanimRequestStatus.equals("pending")) {
-            $.log("Zmanim request already in progress...");
-            return true;
-        }
+        // var zmanimRequestStatus = Storage.getValue("ZmanimRequestStatus");
+        // if (zmanimRequestStatus.equals("pending")) {
+        //     $.log("Zmanim request already in progress...");
+        //     return true;
+        // }
 
         // TODO: Ensure phone is connected (Sys.getDeviceSettings().phoneConnected == true)
 
-        // Clear cached zmanim data
+        // Clear cached zmanim data, if any
         Storage.deleteValue("RemoteZmanData");
 
         // Get the current location coordinates
@@ -62,7 +62,7 @@ class InitialDelegate extends WatchUi.BehaviorDelegate {
     }
 
     //* Handles the response from the zmanim API
-    function handleZmanimResponse(responseCode as Number, data as Dictionary or String or Null) as Void {
+    function handleZmanimResponse(responseCode as Number, data as ZmanimApiResponse?) as Void {
         // Check if the response is successful
         if (responseCode != 200) {
             // Update request status
@@ -71,27 +71,27 @@ class InitialDelegate extends WatchUi.BehaviorDelegate {
             $.log("[handleZmanimResponse] If in simulation, you may need to uncheck 'Use Device HTTPS requirements' under Settings");
         }
 
+        // Ensure we got data back from the API
         if (data == null) {
             // Update request status
             Storage.setValue("ZmanimRequestStatus", "error");
             $.log("[handleZmanimResponse] Request returned no data");
-        }
-
-        // Ensure zmanim were returned in expected format, then store in cache
-        // TODO: Use typedef for data structure
-        if (data["times"] != null && data["times"]["sofZmanShma"] != null) {
-            // Store zmanim in Storage cache
-            Storage.setValue("RemoteZmanData", data);
-
-            // Update request status
-            Storage.setValue("ZmanimRequestStatus", "completed");
-
-            $.log("[handleZmanimResponse] Success! Stored fresh zmanim in cache.");
         } else {
-            // Update request status
-            Storage.setValue("ZmanimRequestStatus", "error");
-            $.log("[handleZmanimResponse] API returned data, but desired zmanim format not found.");
-            $.log("[handleZmanimResponse] Data: " + data);
+            // Ensure zmanim were returned in expected format, then store in cache
+            if (data["times"] != null && data["times"]["sofZmanShma"] != null) {
+                // Store zmanim in Storage cache
+                Storage.setValue("RemoteZmanData", data);
+
+                // Update request status
+                Storage.setValue("ZmanimRequestStatus", "completed");
+
+                $.log("[handleZmanimResponse] Success! Stored fresh zmanim in cache.");
+            } else {
+                // Update request status
+                Storage.setValue("ZmanimRequestStatus", "error");
+                $.log("[handleZmanimResponse] API returned data, but desired zmanim format not found.");
+                $.log("[handleZmanimResponse] Data: " + data);
+            }
         }
 
         // Refresh the UI

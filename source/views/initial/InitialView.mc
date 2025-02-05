@@ -40,7 +40,17 @@ class InitialView extends Ui.View {
         if (remoteZmanData != null) {
             //* Zmanim are stored in memory
 
-            // TODO: Ensure that the zmanim data is not stale (from today)
+            // Ensure that zmanim data is not stale
+            var isZmanimStale = $.checkIfZmanimStale(remoteZmanData);
+            if (isZmanimStale) {
+                $.log("[onUpdate] Zmanim are stale. Refreshing...");
+
+                // Fetch new zmanim
+                // TODO: Move zmanim refresh function in delegate to a separate function callable from here and there
+                // TODO cont.: We should not be calling a delegate/controller function from a view (let alone it doesn't work right now)
+                // $.onSelect();
+                // return;
+            }
 
             $.log(remoteZmanData);
 
@@ -68,6 +78,7 @@ class InitialView extends Ui.View {
             // Determine the message based on the request status
             switch (zmanimRequestStatus) {
                 case "initial":
+                    // //* This should only be reached the first time the app is opened, since after that zmanim will auto-refresh if stale. <- COMING SOON
                     subtitleLabel.setText(Ui.loadResource(Rez.Strings.InitialWelcome));
                     promptLabel.setText(Ui.loadResource(Rez.Strings.InitialFetchPrompt));
                     break;
