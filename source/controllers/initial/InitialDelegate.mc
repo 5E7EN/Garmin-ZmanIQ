@@ -7,8 +7,15 @@ using Toybox.Application.Storage as Storage;
 //* This delegate is for the main page of our application that pushes the menu
 //* when the onMenu() behavior is received.
 class InitialDelegate extends WatchUi.BehaviorDelegate {
+    var locationModel as LocationModel;
+    var zmanimModel as ZmanimModel;
+
     //* Constructor
     public function initialize() {
+        // Instantiate the location and zmanim models
+        zmanimModel = new ZmanimModel();
+        locationModel = new LocationModel();
+
         BehaviorDelegate.initialize();
     }
 
@@ -24,27 +31,71 @@ class InitialDelegate extends WatchUi.BehaviorDelegate {
     //* Handle the select/start/enter button click event
     //* @return true if handled, false otherwise
     public function onSelect() as Boolean {
-        //* Refresh zmanim
-
         // If the zmanim request is already in progress, do nothing
         var zmanimRequestStatus = Storage.getValue("ZmanimRequestStatus");
         if (zmanimRequestStatus.equals("pending")) {
+            Sys.println("Zmanim request already in progress...");
             return true;
         }
 
-        Sys.println("Fetching new zmanim...");
+        // TODO: Ensure phone is connected (Sys.getDeviceSettings().phoneConnected == true)
 
         // Clear cached zmanim data
         Storage.deleteValue("RemoteZmanData");
 
-        // Set the zmanim request status to "pending"
+        // Get the current location coordinates
+        var coordinates = locationModel.getCoordinates() as Array?;
+
+        // TODO: Ensure coordinates are not null
+
+        // Set request status to pending
         Storage.setValue("ZmanimRequestStatus", "pending");
 
-        //! Call the zmanim refresh model here
+        // Fetch zmanim passing callback (seen below)
+        zmanimModel.fetchZmanimCb(coordinates[0], coordinates[1], method(:handleZmanimResponse));
 
-        // Refresh the UI with the new zmanim data
+        // Refresh the UI for the pending state
+        //* The main view will handle the new ZmanimRequestStatus state and render accordingly
         WatchUi.requestUpdate();
 
         return true;
+    }
+
+    //* Handles the response from the zmanim API
+    function handleZmanimResponse(responseCode as Number, data as Dictionary or String or Null) as Void {
+        // Check if the response is successful
+        if (responseCode != 200) {
+            // Update request status
+            Storage.setValue("ZmanimRequestStatus", "error");
+            Sys.println("[handleZmanimResponse] Zmanim request failed with status code: " + responseCode);
+            Sys.println("[handleZmanimResponse] If in simulation, you may need to uncheck 'Use Device HTTPS requirements' under Settings");
+        }
+
+        if (data == null) {
+            // Update request status
+            Storage.setValue("ZmanimRequestStatus", "error");
+            Sys.println("[handleZmanimResponse] Request returned no data");
+        }
+
+        // Ensure zmanim were returned in expected format, then store in cache
+        // TODO: Use typedef for data structure
+        if (data["times"] != null && data["times"]["sofZmanShma"] != null) {
+            // Store zmanim in Storage cache
+            Storage.setValue("RemoteZmanData", data);
+
+            // Update request status
+            Storage.setValue("ZmanimRequestStatus", "completed");
+
+            Sys.println("[handleZmanimResponse] Success! Stored fresh zmanim in cache.");
+        } else {
+            // Update request status
+            Storage.setValue("ZmanimRequestStatus", "error");
+            Sys.println("[handleZmanimResponse] API returned data, but desired zmanim format not found.");
+            Sys.println("[handleZmanimResponse] Data: " + data);
+        }
+
+        // Refresh the UI
+        //* The main view will handle the new ZmanimRequestStatus state and render accordingly
+        WatchUi.requestUpdate();
     }
 }

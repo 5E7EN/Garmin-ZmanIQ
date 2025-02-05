@@ -41,6 +41,7 @@ class InitialView extends Ui.View {
             Sys.println(remoteZmanData);
             //* Zmanim are stored in memory
             subtitleLabel.setText(Ui.loadResource(Rez.Strings.AtAGlance));
+            promptLabel.setText("");
 
             //! rest of the fetched zmanim view
             //* maybe add "hold DOWN button for more" for showing all zmanim menu (instead of menu button, since we use that for main menu in all views)
@@ -72,7 +73,7 @@ class InitialView extends Ui.View {
                     break;
                 case "error":
                     subtitleLabel.setText(Ui.loadResource(Rez.Strings.Error));
-                    // TODO: Display a friendly error message
+                    // TODO: Display a friendly error message via new Storage key ZmanimRequestErrorMessage
                     promptLabel.setText(Ui.loadResource(Rez.Strings.FailedToFetch));
                     break;
             }
