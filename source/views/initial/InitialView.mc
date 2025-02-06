@@ -34,13 +34,17 @@ class InitialView extends Ui.View {
     //* Update the view
     //* @param dc Device Context
     public function onUpdate(dc as Dc) as Void {
-        // Check if zmanim are already stored and render the view accordingly
-        var remoteZmanData = Storage.getValue("RemoteZmanData") as Lang.Dictionary?;
+        var zmanimCacheKey = $.getZmanimCacheKey();
+        var zmanimStatusCacheKey = $.getZmanimStatusCacheKey();
 
-        if (remoteZmanData != null) {
+        // Check if zmanim are already stored and render the view accordingly
+        var zmanimRequestStatus = Storage.getValue(zmanimStatusCacheKey);
+        var remoteZmanData = Storage.getValue(zmanimCacheKey) as ZmanimApiResponse?;
+
+        if (zmanimRequestStatus != null && zmanimRequestStatus.equals("completed") && remoteZmanData != null) {
             //* Zmanim are stored in memory
 
-            // Ensure that zmanim data is not stale
+            // Ensure that zmanim are not stale
             var isZmanimStale = $.checkIfZmanimStale(remoteZmanData);
             if (isZmanimStale) {
                 $.log("[onUpdate] Zmanim are stale. Refreshing...");
@@ -60,11 +64,7 @@ class InitialView extends Ui.View {
             //! rest of the fetched zmanim view
             //* maybe add "hold DOWN button for more" for showing all zmanim menu (instead of menu button, since we use that for main menu in all views)
         } else {
-            //* Zmanim are not stored in memory.
-
-            // Determine status of Zmanim request and render the view accordingly
-            //* This should never be "completed" and have reached this point, since `remoteZmanData` is also populated when request is marked "completed"
-            var zmanimRequestStatus = Storage.getValue("ZmanimRequestStatus");
+            //* Zmanim are not stored in memory or request status is not "completed".
 
             // Set a default state if null
             //* Since switch statement can't handle null value for some reason
@@ -75,7 +75,7 @@ class InitialView extends Ui.View {
             // Debug: Print the current status of zmanim API request
             $.log("[onUpdate] Current status of zmanim request: " + zmanimRequestStatus.toUpper());
 
-            // Determine the message based on the request status
+            // Render display message based on the status of the zmanim request
             switch (zmanimRequestStatus) {
                 case "initial":
                     // //* This should only be reached the first time the app is opened, since after that zmanim will auto-refresh if stale. <- COMING SOON

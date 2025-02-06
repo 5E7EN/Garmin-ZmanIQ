@@ -14,5 +14,6 @@
 - [x] Use `Properties` w/ XML for storing settings instead of `Storage` (as seen in project below)
   - This enables easily defining defaults
 - [ ] Adapt best practices and menus from [this project](https://github.com/cedric-dufour/connectiq-app-rawlogger)
-- [ ] See also: https://github.com/myneur/late
+  - See also: https://github.com/myneur/late
 - [ ] Improve location handling. See [this great project](https://github.com/dagstuan/skredvarselGarmin).
+- [x] Make constants of Storage key names for cached data (e.g. constants/storage.mc, see `SkredvarselStorage.mc` in project above)
