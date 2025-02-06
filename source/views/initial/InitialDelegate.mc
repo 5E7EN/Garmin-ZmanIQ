@@ -26,14 +26,28 @@ class InitialDelegate extends WatchUi.BehaviorDelegate {
     public function onSelect() as Boolean {
         $.log("[onSelect] SELECT button pressed");
 
-        var zmanimStatusCacheKey = $.getZmanimStatusCacheKey();
-
         // If the zmanim request is already in progress, do nothing
+        var zmanimStatusCacheKey = $.getZmanimStatusCacheKey();
         var zmanimRequestStatus = Storage.getValue(zmanimStatusCacheKey);
         if (zmanimRequestStatus.equals("pending")) {
             $.log("Zmanim request already in progress...");
             return true;
         }
+
+        // (Re)fresh zmanim :)
+        //* This will set the zmanim request status to "pending"
+        refreshZmanim();
+
+        // Refresh the UI for the pending state
+        //* The main view will handle the new request state and render accordingly
+        WatchUi.requestUpdate();
+
+        return true;
+    }
+
+    //* Call `WatchUi.requestUpdate()` after invoking this method to refresh the UI to reflect the pending state
+    public function refreshZmanim() as Void {
+        var zmanimStatusCacheKey = $.getZmanimStatusCacheKey();
 
         // TODO: Ensure phone is connected (Sys.getDeviceSettings().phoneConnected == true)
 
@@ -41,7 +55,6 @@ class InitialDelegate extends WatchUi.BehaviorDelegate {
         $.clearZmanim();
 
         // Get the current location coordinates
-        // TODO: Make this global module like zmanim
         var coordinates = $.getLocation();
 
         // TODO: Ensure coordinates are not null
@@ -51,16 +64,10 @@ class InitialDelegate extends WatchUi.BehaviorDelegate {
 
         // Fetch zmanim passing callback (seen below)
         $.loadZmanim(coordinates[0], coordinates[1], method(:handleZmanimResponse));
-
-        // Refresh the UI for the pending state
-        //* The main view will handle the new ZmanimRequestStatus state and render accordingly
-        WatchUi.requestUpdate();
-
-        return true;
     }
 
     //* Handles the response from the zmanim API
-    function handleZmanimResponse(responseCode as Number, data as ZmanimApiResponse?) as Void {
+    public function handleZmanimResponse(responseCode as Number, data as ZmanimApiResponse?) as Void {
         var zmanimStatusCacheKey = $.getZmanimStatusCacheKey();
 
         // Update the request status based on request result

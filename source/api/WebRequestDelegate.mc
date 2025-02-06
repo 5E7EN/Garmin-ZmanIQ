@@ -45,7 +45,7 @@ class WebRequestDelegate {
 
     function onReceive(responseCode as Number, data as WebRequestCallbackData) as Void {
         if (responseCode == 200) {
-            $.log(Lang.format("[WebRequestDelegate] 200 OK. Setting in storage with key: $1$", [_storageKey]));
+            $.log(Lang.format("[WebRequestDelegate] 200 OK. Setting response data in storage with key: $1$", [_storageKey]));
 
             Storage.setValue(_storageKey, data);
         } else {

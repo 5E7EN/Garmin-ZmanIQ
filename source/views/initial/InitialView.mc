@@ -6,13 +6,15 @@ using Toybox.Application.Storage as Storage;
 
 //* This is the main view of the application.
 class InitialView extends Ui.View {
-    var subtitleLabel;
-    var promptLabel;
+    private var _refreshZmanim as (Method() as Void);
+    private var subtitleLabel;
+    private var promptLabel;
 
     //* Constructor
-    public function initialize() {
+    public function initialize(refreshZmanim as (Method() as Void)) {
         View.initialize();
 
+        _refreshZmanim = refreshZmanim;
         subtitleLabel = null;
         promptLabel = null;
     }
@@ -49,13 +51,17 @@ class InitialView extends Ui.View {
             if (isZmanimStale) {
                 $.log("[onUpdate] Zmanim are stale. Refreshing...");
 
-                // Fetch new zmanim
-                // TODO: Move zmanim refresh function in delegate to a separate function callable from here and there
-                // TODO cont.: We should not be calling a delegate/controller function from a view (let alone it doesn't work right now)
-                // $.onSelect();
-                // return;
+                // Refresh zmanim via method passed from delegate
+                //* This will set the zmanim request status to "pending"
+                _refreshZmanim.invoke();
+
+                // Refresh the UI for the pending state
+                WatchUi.requestUpdate();
+
+                return;
             }
 
+            $.log("[onUpdate] Cached zmanim are up-to-date!");
             $.log(remoteZmanData);
 
             subtitleLabel.setText(Ui.loadResource(Rez.Strings.AtAGlance));

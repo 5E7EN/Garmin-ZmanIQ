@@ -24,6 +24,9 @@ class ZmanIQ extends Application.AppBase {
     //* Return the initial view for the app
     //* @return Array [View, Delegate]
     public function getInitialView() as Array<Views or InputDelegates>? {
-        return [new $.InitialView(), new $.InitialDelegate()] as Array<Views or InputDelegates>;
+        var delegate = new $.InitialDelegate();
+        var view = new $.InitialView(delegate.method(:refreshZmanim));
+
+        return [view, delegate] as Array<Views or InputDelegates>;
     }
 }
