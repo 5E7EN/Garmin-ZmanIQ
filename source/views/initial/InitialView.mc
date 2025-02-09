@@ -6,15 +6,13 @@ using Toybox.Application.Storage as Storage;
 
 //* This is the main view of the application.
 class InitialView extends Ui.View {
-    private var _refreshZmanim as (Method() as Void);
     private var subtitleLabel;
     private var promptLabel;
 
     //* Constructor
-    public function initialize(refreshZmanim as (Method() as Void)) {
+    public function initialize() {
         View.initialize();
 
-        _refreshZmanim = refreshZmanim;
         subtitleLabel = null;
         promptLabel = null;
     }
@@ -53,7 +51,7 @@ class InitialView extends Ui.View {
 
                 // Refresh zmanim via method passed from delegate
                 //* This will set the zmanim request status to "pending"
-                _refreshZmanim.invoke();
+                $.refreshZmanim();
 
                 // Refresh the UI for the pending state
                 WatchUi.requestUpdate();
