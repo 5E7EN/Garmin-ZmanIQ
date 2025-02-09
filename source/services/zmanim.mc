@@ -11,6 +11,14 @@ using Toybox.Application.Storage as Storage;
 //* Call `WatchUi.requestUpdate()` after invoking this method to refresh the UI to reflect the pending state.
 function refreshZmanim() as Void {
     var zmanimStatusCacheKey = $.getZmanimStatusCacheKey();
+    var zmanimCacheKey = $.getZmanimCacheKey();
+    var isRefresh = false;
+
+    // Check if this is a refresh
+    var cachedZmanim = Storage.getValue(zmanimCacheKey);
+    if (cachedZmanim != null) {
+        isRefresh = true;
+    }
 
     // TODO: Ensure phone is connected (Sys.getDeviceSettings().phoneConnected == true)
 
@@ -23,7 +31,11 @@ function refreshZmanim() as Void {
     // TODO: Ensure coordinates are not null
 
     // Set request status to pending
-    Storage.setValue(zmanimStatusCacheKey, "pending");
+    if (isRefresh) {
+        Storage.setValue(zmanimStatusCacheKey, "pending_refresh");
+    } else {
+        Storage.setValue(zmanimStatusCacheKey, "pending");
+    }
 
     // Fetch zmanim, passing callback (seen below)
     loadZmanim(coordinates[0], coordinates[1], new Lang.Method($, :handleZmanimResponse));

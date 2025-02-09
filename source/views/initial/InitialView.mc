@@ -88,12 +88,18 @@ class InitialView extends Ui.View {
             // Render display message based on the status of the zmanim request
             switch (zmanimRequestStatus) {
                 case "initial":
-                    // //* This should only be reached the first time the app is opened, since after that zmanim will auto-refresh if stale. <- COMING SOON
+                    //* This should only be reached the first time the app is opened, since after that zmanim will auto-refresh if stale.
                     subtitleLabel.setText(Ui.loadResource(Rez.Strings.InitialWelcome));
                     promptLabel.setText(Ui.loadResource(Rez.Strings.InitialFetchPrompt));
                     break;
                 case "pending":
+                    //* This is reached the first time zmanim are fetched
                     subtitleLabel.setText(Ui.loadResource(Rez.Strings.Fetching));
+                    promptLabel.setText(Ui.loadResource(Rez.Strings.PleaseWait));
+                    break;
+                case "pending_refresh":
+                    //* This is reached when existing zmanim existed in the cache when $.refreshZmanim() was called
+                    subtitleLabel.setText(Ui.loadResource(Rez.Strings.Refreshing));
                     promptLabel.setText(Ui.loadResource(Rez.Strings.PleaseWait));
                     break;
                 case "error":
