@@ -17,3 +17,4 @@
   - See also: https://github.com/myneur/late
 - [ ] Improve location handling. See [this great project](https://github.com/dagstuan/skredvarselGarmin).
 - [x] Make constants of Storage key names for cached data (e.g. constants/storage.mc, see `SkredvarselStorage.mc` in project above)
+- [ ] Show user where we assume he his based on coords (use some API) to prevent confusion. See NOTES.md.

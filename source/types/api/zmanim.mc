@@ -1,5 +1,36 @@
 import Toybox.Lang;
 
+var ZmanimFriendlyNames = {
+    "chatzotNight" => "Chatzos Night",
+    "alotHaShachar" => "Alos HaShachar",
+    "misheyakir" => "Misheyakir",
+    "misheyakirMachmir" => "Misheyakir Machmir",
+    "dawn" => "Dawn",
+    "sunrise" => "Sunrise",
+    "sofZmanShmaMGA19Point8" => "Sof Zman Shma MGA 19.8°",
+    "sofZmanShmaMGA16Point1" => "Sof Zman Shma MGA 16.1°",
+    "sofZmanShmaMGA" => "Sof Zman Shma MGA",
+    "sofZmanShma" => "Sof Zman Shma",
+    "sofZmanTfillaMGA19Point8" => "Sof Zman Tfilla MGA 19.8°",
+    "sofZmanTfillaMGA16Point1" => "Sof Zman Tfilla MGA 16.1°",
+    "sofZmanTfillaMGA" => "Sof Zman Tfilla MGA",
+    "sofZmanTfilla" => "Sof Zman Tfilla",
+    "chatzot" => "Chatzot",
+    "minchaGedola" => "Mincha Gedola",
+    "minchaGedolaMGA" => "Mincha Gedola MGA",
+    "minchaKetana" => "Mincha Ketana",
+    "minchaKetanaMGA" => "Mincha Ketana MGA",
+    "plagHaMincha" => "Plag HaMincha",
+    "sunset" => "Sunset",
+    "beinHaShmashos" => "Bein HaShmashos",
+    "dusk" => "Dusk",
+    "tzeit7083deg" => "Tzeit 70.83°",
+    "tzeit85deg" => "Tzeit 85°",
+    "tzeit42min" => "Tzeit 42 min",
+    "tzeit50min" => "Tzeit 50 min",
+    "tzeit72min" => "Tzeit 72 min"
+};
+
 typedef ZmanimTimes as {
     "chatzotNight" as String,
     "alotHaShachar" as String,

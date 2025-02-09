@@ -6,11 +6,15 @@
     <string id="InitialWelcome">Welcome!</string>
     <string id="InitialFetchPrompt">Press the Start button\nto fetch zmanim.</string>
     <string id="Fetching">Fetching</string>
+    <string id="Refreshing">Refreshing</string>
     <string id="PleaseWait">Please wait...</string>
     <string id="Error">Error!</string>
     <string id="FailedToFetch">Failed to fetch zmanim.\nTry again later.</string>
     <!-- Initial View: Zmanim Cached -->
-    <string id="AtAGlance">At a glance...</string>
+    <string id="NextZman">Next zman:</string>
+
+    <!-- Zmanim Menu -->
+    <string id="ZmanimMenuTitle">Zmanim Menu</string>
 
     <!-- Main Menu -->
     <string id="MainMenuTitle">Main Menu</string>
