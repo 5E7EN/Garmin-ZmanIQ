@@ -62,10 +62,16 @@ class InitialView extends Ui.View {
             }
 
             $.log("[onUpdate] Cached zmanim are up-to-date!");
-            $.log(remoteZmanData);
-
             subtitleLabel.setText(Ui.loadResource(Rez.Strings.AtAGlance));
-            promptLabel.setText("");
+
+            //* Returns null if all zmanim have already passed
+            var nextZman = $.getNextUpcomingZman(remoteZmanData["times"]);
+
+            if (nextZman == null) {
+                promptLabel.setText("All zmanim\nhave passed.");
+            } else {
+                promptLabel.setText("Next zman:\n" + nextZman[0] + "\n" + $.parseTimestampToTimeString(nextZman[1]));
+            }
 
             //! rest of the fetched zmanim view
             //* maybe add "hold DOWN button for more" for showing all zmanim menu (instead of menu button, since we use that for main menu in all views)

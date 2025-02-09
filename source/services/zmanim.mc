@@ -30,7 +30,7 @@ function loadZmanim(latitude as Float, longitude as Float, callback as WebReques
     $.makeApiRequest(zmanimUrl, storageKey, callback);
 }
 
-//* Clears zmanim in storage
+//* Clears existing zmanim and metadata from storage
 function clearZmanim() as Void {
     Storage.deleteValue($.getZmanimCacheKey());
     Storage.deleteValue($.getZmanimStatusCacheKey());
@@ -41,25 +41,11 @@ function checkIfZmanimStale(data as ZmanimApiResponse) as Boolean {
     var zmanShema = data["times"]["sofZmanShma"];
 
     // Parse stored zman as Moment object
-    var momentZmanShemaUTC = $.parseISODateUTC(zmanShema);
+    var momentZmanShemaUTC = $.parseISODate(zmanShema);
     var gregorianZmanShema = Gregorian.info(momentZmanShemaUTC, Time.FORMAT_SHORT);
 
     // Ensure that the zmanim cached in local storage are today's zmanim
     var greorianToday = Gregorian.info(new Time.Moment(Time.now().value()), Time.FORMAT_SHORT);
-
-    // Debug
-    $.log("[DEBUG] Date today: " + Lang.format("$1$/$2$/$3$", [greorianToday.month, greorianToday.day, greorianToday.year]));
-    $.log(
-        "[DEBUG] Date of cached zman in our time: " +
-            Lang.format("$1$/$2$/$3$ $4$:$5$:$6$", [
-                gregorianZmanShema.month,
-                gregorianZmanShema.day,
-                gregorianZmanShema.year,
-                gregorianZmanShema.hour,
-                gregorianZmanShema.min,
-                gregorianZmanShema.sec
-            ])
-    );
 
     // If the stored zmanim dates don't match exactly, we must update them
     // Otherwise, display from local storage instead of making a redundant API request
@@ -70,4 +56,42 @@ function checkIfZmanimStale(data as ZmanimApiResponse) as Boolean {
         //* Same day
         return false;
     }
+}
+
+//* Determines the next upcoming zman from a given list of zmanim times
+//* Returns null if all zmanim have already passed
+function getNextUpcomingZman(zmanim as ZmanimTimes) as Array<String?>? {
+    var zmanKeys = zmanim.keys();
+    var zmanValues = zmanim.values();
+
+    var currentTime = Time.now().value();
+    var closestZmanName = null;
+    var closestZmanTime = null;
+    var minDifference = null;
+
+    // Find the next upcoming zman
+    for (var i = 0; i < zmanKeys.size(); i++) {
+        var name = zmanKeys[i];
+        var time = zmanValues[i];
+
+        var momentZmanUTC = $.parseISODate(time);
+        // Ensure current zman index is after current time (i.e. in the future)
+        if (momentZmanUTC.value() > currentTime) {
+            // Ensure zman time at current index is earlier than existing "earliest" zman
+            if (minDifference == null || momentZmanUTC.value() < minDifference) {
+                closestZmanName = name;
+                closestZmanTime = time;
+                minDifference = momentZmanUTC.value();
+            }
+        }
+    }
+
+    // If no zman today was after current time, return empty handed
+    if (minDifference == null) {
+        // TODO: If all passed today, call this function with tomorrow's zmanim to get real next time
+        return null;
+    }
+
+    // Return results
+    return [closestZmanName, closestZmanTime];
 }
