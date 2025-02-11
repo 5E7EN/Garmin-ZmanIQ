@@ -29,7 +29,7 @@ class InitialDelegate extends WatchUi.BehaviorDelegate {
         // If the zmanim request is already in progress, do nothing
         var zmanimStatusCacheKey = $.getZmanimStatusCacheKey();
         var zmanimRequestStatus = Storage.getValue(zmanimStatusCacheKey);
-        if (zmanimRequestStatus != null && zmanimRequestStatus.equals("pending")) {
+        if (zmanimRequestStatus != null && zmanimRequestStatus.find("pending") != null) {
             $.log("Zmanim request already in progress...");
             return true;
         }
