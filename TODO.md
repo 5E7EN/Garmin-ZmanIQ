@@ -18,3 +18,18 @@
 - [ ] Improve location handling. See [this great project](https://github.com/dagstuan/skredvarselGarmin).
 - [x] Make constants of Storage key names for cached data (e.g. constants/storage.mc, see `SkredvarselStorage.mc` in project above)
 - [ ] Show user where we assume he his based on coords (use some API) to prevent confusion. See NOTES.md.
+- [ ] Migrate to widget instead of app
+  - Implications: https://developer.garmin.com/connect-iq/connect-iq-basics/app-types/
+  - None affect us, other than loss of location fetching via Last Activity.
+- [ ] Initial view, if no zmanim yet cached, should be "fetching GPS coords, go outside". SELECT button opens menu to choose between Weather location or last fetched GPS coords.
+- [ ] Zmanim display should be a scrollable View instead of Menu (for onMenu support)
+- [ ] Support on-device zmanim calculations
+  - See: https://github.com/KosherJava/zmanim
+  - See: https://github.com/hebcal/hebcal-es6
+- [ ] Improve view/menu animations (see elegance in Menu2Custom sample)
+
+## Based on others
+
+Implement features as seen in the Reviews
+
+- [ ] https://apps.garmin.com/apps/5588a19d-ee0a-4445-8604-4b51d37f03a2?tid=2
