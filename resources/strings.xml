@@ -1,6 +1,6 @@
 <strings>
     <string id="AppName">ZmanIQ</string>
-    <string id="AppVersion">0.1.0</string>
+    <string id="AppVersion">0.8.0</string>
 
     <!-- Initial View: Zmanim Not Cached -->
     <string id="InitialWelcome">Welcome!</string>
