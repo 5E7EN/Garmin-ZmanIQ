@@ -26,9 +26,14 @@
 - [ ] Support on-device zmanim calculations
   - See: https://github.com/KosherJava/zmanim
   - See: https://github.com/hebcal/hebcal-es6
+  - Then, change "Reload Zmanim" button in menu to "Select Date"
+  - Also, get next day's zmanim that may be relevant for today (e.g. chatzos night, sunrise)
 - [ ] Improve view/menu animations (see elegance in Menu2Custom sample)
 - [ ] Select zman for Menu to Set Reminder
   - Main reminder settings (time before, etc.) should be in main menu
+- [ ] Add pref to choose between Gra and Magen Avraham
+  - Only currently relevant for sofZmanShma, sofZmanTfilla, minchaGedola, minchaKetana
+  - Once on-device calculations are used, may also support sunrise/sunset differences in opinion
 
 ## Based on others
 

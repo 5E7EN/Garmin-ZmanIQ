@@ -9,13 +9,13 @@ var ZmanimFriendlyNames = {
     "sunrise" => "Sunrise",
     "sofZmanShmaMGA19Point8" => "Zman Shema MGA 19.8°",
     "sofZmanShmaMGA16Point1" => "Zman Shema MGA 16.1°",
-    "sofZmanShmaMGA" => "Zman Shema MGA",
-    "sofZmanShma" => "Zman Shema",
+    "sofZmanShmaMGA" => "Sof Zman Shema MGA",
+    "sofZmanShma" => "Sof Zman Shema",
     "sofZmanTfillaMGA19Point8" => "Zman Tfilla MGA 19.8°",
     "sofZmanTfillaMGA16Point1" => "Zman Tfilla MGA 16.1°",
-    "sofZmanTfillaMGA" => "Zman Tfilla MGA",
-    "sofZmanTfilla" => "Zman Tefilla",
-    "chatzot" => "Chatzot",
+    "sofZmanTfillaMGA" => "Sof Zman Tfilla MGA",
+    "sofZmanTfilla" => "Sof Zman Tefilla",
+    "chatzot" => "Chatzot Day",
     "minchaGedola" => "Mincha Gedola",
     "minchaGedolaMGA" => "Mincha Gedola MGA",
     "minchaKetana" => "Mincha Ketana",
@@ -26,9 +26,9 @@ var ZmanimFriendlyNames = {
     "dusk" => "Dusk",
     "tzeit7083deg" => "Tzeit 70.83°",
     "tzeit85deg" => "Tzeit 85°",
-    "tzeit42min" => "Tzeit 42 min",
-    "tzeit50min" => "Tzeit 50 min",
-    "tzeit72min" => "Tzeit 72 min"
+    "tzeit42min" => "Tzeit (42 min)",
+    "tzeit50min" => "Tzeit (50 min)",
+    "tzeit72min" => "Tzeit (72 min)"
 };
 
 typedef ZmanimTimes as {

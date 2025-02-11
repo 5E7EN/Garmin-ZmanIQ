@@ -134,7 +134,7 @@ function checkIfZmanimStale(data as ZmanimApiResponse) as Boolean {
 
 //* Determines the next upcoming zman from a given list of zmanim times
 //* Returns null if all zmanim have already passed
-function getNextUpcomingZman(zmanim as ZmanimTimes) as Array<String?>? {
+function getNextUpcomingZman(zmanim as Dictionary<String, String>) as Array<String?>? {
     var zmanKeys = zmanim.keys();
     var zmanValues = zmanim.values();
 

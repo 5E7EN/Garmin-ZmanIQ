@@ -1,6 +1,7 @@
 # Build
 bin/
 prg/
+build/
 
 # Misc.
 developer_key

@@ -9,4 +9,4 @@
 
 - Module and type names are camel case with an initial uppercase letter.
 - Local variables are camel case and start with an initial lowercase letter.
-- Class member variables use a prefix and are camel case. Typically the prefix is `m`. (Not yet used).
+- Class member variables use a prefix and are camel case. Typically the prefix is `m`. (Not yet fully in effect).
