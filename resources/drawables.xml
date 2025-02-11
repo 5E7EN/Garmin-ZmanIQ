@@ -1,5 +1,7 @@
 <drawables>
     <bitmap id="LauncherIcon" filename="drawables/launcher_icon.png" />
 
+    <bitmap id="SettingsIcon" filename="drawables/settings_icon.png" />
+
     <drawable-list id="MenuForeground" background="Gfx.COLOR_TRANSPARENT" />
 </drawables>

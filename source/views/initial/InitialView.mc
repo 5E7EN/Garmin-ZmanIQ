@@ -62,7 +62,7 @@ class InitialView extends Ui.View {
             $.log("[onUpdate] Cached zmanim are up-to-date!");
 
             // Switch to zmanim view/menu
-            $.switchToZmanimView();
+            $.switchToZmanimMenu();
         } else {
             //* Zmanim are not stored in memory or request status is not "completed".
 

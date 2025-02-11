@@ -27,6 +27,8 @@
   - See: https://github.com/KosherJava/zmanim
   - See: https://github.com/hebcal/hebcal-es6
 - [ ] Improve view/menu animations (see elegance in Menu2Custom sample)
+- [ ] Select zman for Menu to Set Reminder
+  - Main reminder settings (time before, etc.) should be in main menu
 
 ## Based on others
 

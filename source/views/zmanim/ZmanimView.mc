@@ -4,8 +4,7 @@ import Toybox.Lang;
 using Toybox.WatchUi as Ui;
 using Toybox.Application.Storage as Storage;
 
-//* Create the all zmanim menu
-function switchToZmanimView() as Void {
+function switchToZmanimMenu() as Void {
     var zmanimCacheKey = $.getZmanimCacheKey();
     var remoteZmanData = Storage.getValue(zmanimCacheKey) as ZmanimApiResponse?;
 
@@ -13,25 +12,31 @@ function switchToZmanimView() as Void {
     //* Returns null if all zmanim have already passed
     var nextZman = $.getNextUpcomingZman(remoteZmanData["times"]);
 
-    // Generate a new Menu
-    //! TODO: Don't use a menu for this. Be more visually elegant.
-    var menu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.NextZman) });
-
-    // TODO: Add some kind of line separator here (between title and menu items)
+    // TODO: Add menu title
+    var topMenu = new $.WrapTopMenu(80, Graphics.COLOR_BLACK);
 
     if (nextZman != null) {
         var friendlyZmanName = $.ZmanimFriendlyNames[nextZman[0]];
         var parsedZmanTime = $.parseTimestampToTimeString(nextZman[1]);
-        menu.addItem(new Ui.MenuItem(friendlyZmanName, parsedZmanTime, :nextZman, null));
-    } else {
-        menu.addItem(new Ui.MenuItem("All zmanim have passed.", null, :nextZman, null));
+
+        // TODO: Support custom wrap item subtitles
+        topMenu.addItem(new $.CustomWrapItem(parsedZmanTime, :item1, Graphics.COLOR_WHITE));
+        topMenu.addItem(new $.CustomWrapItem(parsedZmanTime, :item2, Graphics.COLOR_WHITE));
+        topMenu.addItem(new $.CustomWrapItem(parsedZmanTime, :item3, Graphics.COLOR_WHITE));
+
+        // TODO: Figure out how to set focus on specific menu item (based on which zman is next)
     }
 
-    // Add "Menu" option
-    menu.addItem(new Ui.MenuItem("Menu", null, :menu, null));
+    Ui.switchToView(topMenu, new $.ZmanimTopDelegate(new Lang.Method($, :pushBottomZmanimMenu)), Ui.SLIDE_LEFT);
+}
 
-    // TODO: Add wrap (with next 3 zmanim)
-    // TODO: Add menu footer text explaining how to show all zmanim
+//* Create the sub-menu menu of the Wrap custom menu
+function pushBottomZmanimMenu() as Void {
+    var bottomMenu = new $.WrapBottomMenu(80, Graphics.COLOR_WHITE);
 
-    Ui.switchToView(menu, new $.ZmanimDelegate(), Ui.SLIDE_IMMEDIATE);
+    // menu.addItem(new Ui.MenuItem("Menu", null, :menu, null));
+    bottomMenu.addItem(new $.CustomWrapItem("Reload Zmanim", :reloadZmanim, Graphics.COLOR_BLACK));
+    bottomMenu.addItem(new $.CustomWrapItem("Settings", :settings, Graphics.COLOR_BLACK));
+
+    Ui.pushView(bottomMenu, new $.ZmanimBottomDelegate(), Ui.SLIDE_UP);
 }
