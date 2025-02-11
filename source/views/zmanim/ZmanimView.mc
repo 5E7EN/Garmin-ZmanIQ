@@ -3,6 +3,8 @@ import Toybox.Lang;
 
 using Toybox.WatchUi as Ui;
 using Toybox.Application.Storage as Storage;
+using Toybox.Time;
+using Toybox.Time.Gregorian;
 
 // TODO: Adjust key based on future "Gra-or-MGA" preference using ternary
 var displayedZmanimKeys = ["alotHaShachar", "sunrise", "sofZmanShma", "sofZmanTfilla", "chatzot", "minchaGedola", "sunset", "tzeit50min"];
@@ -15,8 +17,10 @@ function switchToZmanimMenu() as Void {
     var remoteZmanData = Storage.getValue(zmanimCacheKey) as ZmanimApiResponse?;
     var zmanim = remoteZmanData["times"] as ZmanimTimes;
 
+    // Set title as current date
     // TODO: Set menu title as current hebrew date
-    var topMenu = new $.CustomWrapTopMenu("Zmanim", 80, Graphics.COLOR_BLACK);
+    var greorianToday = Gregorian.info(new Time.Moment(Time.now().value()), Time.FORMAT_MEDIUM);
+    var topMenu = new $.CustomWrapTopMenu(Lang.format("$1$ $2$", [greorianToday.month, greorianToday.day.format("%02d")]), 80, Graphics.COLOR_BLACK);
 
     // Build the menu
     for (var i = 0; i < displayedZmanimKeys.size(); i++) {
