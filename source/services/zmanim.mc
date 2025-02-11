@@ -162,7 +162,6 @@ function getNextUpcomingZman(zmanim as Dictionary<String, String>) as Array<Stri
 
     // If no zman today was after current time, return empty handed
     if (minDifference == null) {
-        // TODO: If all passed today, call this function with tomorrow's zmanim to get real next time
         return null;
     }
 

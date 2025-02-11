@@ -37,12 +37,12 @@
 
 ## Priority Items
 
+- On-board zmanim
 - Reminders
   - Select a zman from the list to open a menu to enable/disable reminder for that zman
   - Alert time will be configurable via the Settings menu
   - Notify users which devices actually vibrate/beep/both/none to avoid surprised
   - Figure out how to set next temporal event after current one was just triggered
-- On-board zmanim
 - GPS-based location fetching
   - Instruct user to go outside for a signal, wait for signal, and set in Storage.
   - Save coords for easy re-use. Add menu item to "Reset Location" - clearing existing value.

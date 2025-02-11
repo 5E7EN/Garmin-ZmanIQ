@@ -6,7 +6,7 @@ using Toybox.Application.Storage as Storage;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
 
-// TODO: Adjust key based on future "Gra-or-MGA" preference using ternary
+// TODO: Adjust key based on future "Gra-or-MGA" preference using ternary. Currently using Gra only.
 var displayedZmanimKeys = ["alotHaShachar", "sunrise", "sofZmanShma", "sofZmanTfilla", "chatzot", "minchaGedola", "sunset", "tzeit50min"];
 
 function switchToZmanimMenu() as Void {
