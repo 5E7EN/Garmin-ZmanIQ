@@ -35,6 +35,20 @@
   - Only currently relevant for sofZmanShma, sofZmanTfilla, minchaGedola, minchaKetana
   - Once on-device calculations are used, may also support sunrise/sunset differences in opinion
 
+## Priority Items
+
+- Reminders
+  - Select a zman from the list to open a menu to enable/disable reminder for that zman
+  - Alert time will be configurable via the Settings menu
+  - Notify users which devices actually vibrate/beep/both/none to avoid surprised
+  - Figure out how to set next temporal event after current one was just triggered
+- On-board zmanim
+- GPS-based location fetching
+  - Instruct user to go outside for a signal, wait for signal, and set in Storage.
+  - Save coords for easy re-use. Add menu item to "Reset Location" - clearing existing value.
+  - [LOW-PRI] After successfully getting coords, prompt to save coordinates by name for future use. stored zmanim
+    - With this, selecting "Reset Location" should just clear location as currently in use (with ability to re-triangulate position or select from existing list)
+
 ## Based on others
 
 Implement features as seen in the Reviews
