@@ -49,7 +49,6 @@ class CustomWrapItem extends WatchUi.CustomMenuItem {
         } else {
             // Center the label if there's no sub-label
             labelYOffset = dc.getHeight() / 2;
-            labelFont = Graphics.FONT_MEDIUM;
         }
 
         // Draw label
