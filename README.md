@@ -1,6 +1,6 @@
-# Garmin Zmanim Reminder
+# ZmanIQ - Garmin App
 
-Connect IQ app for Garmin wearables for convenient Zmanim reminders.
+Connect IQ app for Garmin wearables for convenient Zmanim lookup & reminders.
 
 # Development
 
