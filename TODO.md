@@ -37,7 +37,7 @@
 
 ## Priority Items
 
-- [-] On-board zmanim
+- [ ] On-board zmanim
   - [x] Add algorithms (calculators & calenders)
   - [ ] Replace hebcal API request with on-board implementation
   - [ ] Detect and support Israel location and use 40min candle lighting offset instead of 18min
