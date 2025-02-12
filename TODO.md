@@ -40,7 +40,7 @@
 - [ ] On-board zmanim
   - [x] Add algorithms (calculators & calenders)
   - [ ] Replace hebcal API request with on-board implementation
-  - [ ] Detect and support Israel location and use 40min candle lighting offset instead of 18min
+  - [ ] Detect and support Israeli location and use 40min candle lighting offset instead of 18min where applicable
 - [ ] Reminders
   - Select a zman from the list to open a menu to enable/disable reminder for that zman
   - Alert time will be configurable via the Settings menu

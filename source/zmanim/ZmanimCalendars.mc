@@ -12,7 +12,7 @@ module JewishCalendarModule {
 
             hidden var calendar;
             hidden var geoLocation;
-            // TODO: Adjust this depending on whether the user is in Israel or not
+            // TODO: Adjust this depending on if and where user is in Israel
             hidden var candleLightingOffset = 18;
 
             hidden function getAstronomicalCalculator() {
