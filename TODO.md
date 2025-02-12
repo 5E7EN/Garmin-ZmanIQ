@@ -37,14 +37,17 @@
 
 ## Priority Items
 
-- On-board zmanim
-- Reminders
+- [-] On-board zmanim
+  - [x] Add algorithms (calculators & calenders)
+  - [ ] Replace hebcal API request with on-board implementation
+  - [ ] Detect and support Israel location and use 40min candle lighting offset instead of 18min
+- [ ] Reminders
   - Select a zman from the list to open a menu to enable/disable reminder for that zman
   - Alert time will be configurable via the Settings menu
   - Notify users which devices actually vibrate/beep/both/none to avoid surprised
   - Figure out how to set next temporal event after current one was just triggered
   - Not all devices support Attention alerts. Hide option if device doesn't support it.
-- GPS-based location fetching
+- [ ] GPS-based location fetching
   - Instruct user to go outside for a signal, wait for signal, and set in Storage.
   - Save coords for easy re-use. Add menu item to "Reset Location" - clearing existing value.
   - [LOW-PRI] After successfully getting coords, prompt to save coordinates by name for future use. stored zmanim

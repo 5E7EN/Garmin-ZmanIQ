@@ -4,6 +4,7 @@
 - `Gregorian.utcInfo` comverts the given `Moment` object into UTC time
 - Inform user that they must be in the same timezone as their assumed location to avoid miscalculations.
   - This can be particularly important when using "Last Activity" location pref
+- Thanks to [@slipperybee](https://github.com/slipperybee) for the zmanim calculation and calender algorithm Monkey C implementions. Originally adapted from [KosherJava](https://github.com/KosherJava/zmanim).
 
 ## Naming Conventions
 
