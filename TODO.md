@@ -23,24 +23,28 @@
   - None affect us, other than loss of location fetching via Last Activity.
 - [ ] Initial view, if no zmanim yet cached, should be "fetching GPS coords, go outside". SELECT button opens menu to choose between Weather location or last fetched GPS coords.
 - [-] ~~Zmanim display should be a scrollable View instead of Menu (for onMenu support)~~ No need. Using custom wrapping menu instead.
+- [x] Use device clock settings (12/24hr) for time display
 - [ ] Support on-device zmanim calculations
   - See: https://github.com/KosherJava/zmanim
   - See: https://github.com/hebcal/hebcal-es6
   - Then, change "Reload Zmanim" button in menu to "Select Date"
   - Also, get next day's zmanim that may be relevant for today (e.g. chatzos night, sunrise)
+  - Only use altitude when location source is GPS to prevent inaccuracies.
 - [ ] Improve view/menu animations (see elegance in Menu2Custom sample)
 - [ ] Select zman for Menu to Set Reminder
   - Main reminder settings (time before, etc.) should be in main menu
 - [ ] Add pref to choose between Gra and Magen Avraham
   - Only currently relevant for sofZmanShma, sofZmanTfilla, minchaGedola, minchaKetana
   - Once on-device calculations are used, may also support sunrise/sunset differences in opinion
+- [ ] Move `zmanim` folder to `utils/` in source
 
 ## Priority Items
 
 - [ ] On-board zmanim
   - [x] Add algorithms (calculators & calenders)
   - [ ] Replace hebcal API request with on-board implementation
-  - [ ] Detect and support Israeli location and use 40min candle lighting offset instead of 18min where applicable
+  - [ ] [HIGH-PRI] Compared to [KosherJava](https://kosherjava.com/maps/zmanim.html) there are
+  - [ ] [LOW-PRI] Detect and support Israeli location and use 40min candle lighting offset instead of 18min where applicable
 - [ ] Reminders
   - Select a zman from the list to open a menu to enable/disable reminder for that zman
   - Alert time will be configurable via the Settings menu
@@ -50,6 +54,7 @@
 - [ ] GPS-based location fetching
   - Instruct user to go outside for a signal, wait for signal, and set in Storage.
   - Save coords for easy re-use. Add menu item to "Reset Location" - clearing existing value.
+  - Use elevation (when using GPS location source only). Add pref to switch to sea level too.
   - [LOW-PRI] After successfully getting coords, prompt to save coordinates by name for future use. stored zmanim
     - With this, selecting "Reset Location" should just clear location as currently in use (with ability to re-triangulate position or select from existing list)
 

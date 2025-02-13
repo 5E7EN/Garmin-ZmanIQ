@@ -5,17 +5,23 @@ using Toybox.WatchUi as Ui;
 using Toybox.Application.Storage as Storage;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
-
-// TODO: Adjust key based on future "Gra-or-MGA" preference using ternary. Currently using Gra only.
-var displayedZmanimKeys = ["alotHaShachar", "sunrise", "sofZmanShma", "sofZmanTfilla", "chatzot", "minchaGedola", "sunset", "tzeit50min"];
+using Toybox.System as Sys;
 
 function switchToZmanimMenu() as Void {
     // TODO: If already on the zmanim menu, do nothing (prevent double-rendering)
     // TODO cont.: cannot use Ui.getCurrentView() because API level isn't supported on many watches
 
-    var zmanimCacheKey = $.getZmanimCacheKey();
-    var remoteZmanData = Storage.getValue(zmanimCacheKey) as ZmanimApiResponse?;
-    var zmanim = remoteZmanData["times"] as ZmanimTimes;
+    // TODO: Cache zmanim to prevent having to make all calculations every render (like before, and set date key to check against for expiration of cached data)
+    var dateToday = Time.now();
+    var coordinates = $.getLocation() as Array;
+    var elevation = 0; // $.getElevation() as Number?;
+    var zmanim = $.getZmanim(dateToday, coordinates, elevation) as Array<ZmanTime>; // getZmanim(date as Time.Moment, coordinates as Array<String, String>, elevation as Number?) as DisplayedZmanimTimes
+
+    // Ensure zmanim don't come back empty (type checked so should be fine, but I don't trust compiler)
+    if (zmanim.size() == 0) {
+        $.log("[switchToZmanimMenu] Zmanim are empty.");
+        // TODO: Set error flag in Storage and re-render to show it
+    }
 
     // Set title as current date
     // TODO: Set menu title as current hebrew date
@@ -23,28 +29,16 @@ function switchToZmanimMenu() as Void {
     var topMenu = new $.CustomWrapTopMenu(Lang.format("$1$ $2$", [greorianToday.month, greorianToday.day.format("%02d")]), 80, Graphics.COLOR_BLACK);
 
     // Build the menu
-    for (var i = 0; i < displayedZmanimKeys.size(); i++) {
-        var zmanKey = displayedZmanimKeys[i];
+    for (var i = 0; i < zmanim.size(); i++) {
+        var zman = zmanim[i];
+        var zmanName = zman["name"] as String;
+        var zmanTime = zman["time"] as Time.Moment;
 
-        if (zmanim.hasKey(zmanKey)) {
-            topMenu.addItem(createZmanMenuItem(zmanKey, zmanim, Graphics.COLOR_WHITE));
-        } else {
-            $.log("[switchToZmanimMenu] Zman key not found: " + zmanKey);
-        }
-    }
-
-    // Create a new dictionary containing only the displayed zmanim
-    var filteredZmanim = ({}) as Dictionary<String, String>;
-    for (var i = 0; i < displayedZmanimKeys.size(); i++) {
-        var key = displayedZmanimKeys[i];
-
-        if (zmanim.hasKey(key)) {
-            filteredZmanim.put(key, zmanim[key]);
-        }
+        topMenu.addItem(createZmanMenuItem(zmanName, zmanTime));
     }
 
     // Set focus to the next upcoming zman, passing filtered zmanim
-    var nextZman = $.getNextUpcomingZman(filteredZmanim);
+    var nextZman = $.getNextUpcomingZman(zmanim);
     if (nextZman != null) {
         $.log("[switchToZmanimMenu] Upcoming zman: " + nextZman[0]);
 
@@ -57,7 +51,7 @@ function switchToZmanimMenu() as Void {
     } else {
         //* All zmanim have passed for the day.
         // Focus last zman
-        topMenu.setFocus(displayedZmanimKeys.size() - 1);
+        topMenu.setFocus(zmanim.size() - 1);
     }
 
     Ui.switchToView(topMenu, new $.ZmanimTopDelegate(new Lang.Method($, :pushBottomZmanimMenu)), Ui.SLIDE_IMMEDIATE);
@@ -75,16 +69,18 @@ function pushBottomZmanimMenu() as Void {
 }
 
 //* Helper function to create a consistent menu item.
-function createZmanMenuItem(zmanKey as String, zmanim as ZmanimTimes, color as ColorType) as CustomWrapItem {
+function createZmanMenuItem(zmanName as String, zmanTime as Time.Moment) as CustomWrapItem {
     // Get the friendly name for the zman key
-    var friendlyName = $.ZmanimFriendlyNames[zmanKey];
+    var friendlyName = $.ZmanimFriendlyNames[zmanName];
 
     if (friendlyName == null) {
         // Fallback to the key if no friendly name is found for some reason
-        friendlyName = zmanKey;
+        friendlyName = zmanName;
     }
 
-    var timeString = $.parseTimestampToTimeString(zmanim[zmanKey]);
+    // Convert the zman time to a time string
+    var timeString = $.parseMomentToTimeString(zmanTime);
 
-    return new $.CustomWrapItem(friendlyName, timeString, zmanKey, color);
+    // Return the custom menu item
+    return new $.CustomWrapItem(friendlyName, timeString, zmanName, Graphics.COLOR_WHITE);
 }

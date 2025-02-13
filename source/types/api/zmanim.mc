@@ -1,34 +1,45 @@
 import Toybox.Lang;
+import Toybox.Time;
+
+// TODO: Use all of the following times:
+// Alos
+// Sunrise
+// Sof Zman Shema GR"A / Sof Zman Shema MG"A
+// Sof Zman Tfila GR"A / Sof Zman Tfila MG"A
+// Chatzos
+// Mincha Gedola
+// Mincha Ketana
+// Plag Hamincha
+// Sunset
+// Tzais
+// Tzais 72
+
+// TODO: Use symbols instead? May save memory.
+var ZmanNames = {
+    "ALOS" => "alos",
+    "SUNRISE" => "sunrise",
+    "SOF_ZMAN_SHEMA" => "sofZmanShema",
+    "SOF_ZMAN_TEFILLA" => "sofZmanTefilla",
+    "CHATZOS" => "chatzos",
+    "MINCHA_GEDOLA" => "minchaGedola",
+    "SUNSET" => "sunset",
+    "TZEIS" => "tzeis"
+};
 
 var ZmanimFriendlyNames = {
-    "chatzotNight" => "Chatzot",
-    "alotHaShachar" => "Alos",
-    "misheyakir" => "Misheyakir",
-    "misheyakirMachmir" => "Misheyakir Machmir",
-    "dawn" => "Dawn",
-    "sunrise" => "Sunrise",
-    "sofZmanShmaMGA19Point8" => "Zman Shema MGA 19.8°",
-    "sofZmanShmaMGA16Point1" => "Zman Shema MGA 16.1°",
-    "sofZmanShmaMGA" => "Sof Zman Shema MGA",
-    "sofZmanShma" => "Sof Zman Shema",
-    "sofZmanTfillaMGA19Point8" => "Zman Tfilla MGA 19.8°",
-    "sofZmanTfillaMGA16Point1" => "Zman Tfilla MGA 16.1°",
-    "sofZmanTfillaMGA" => "Sof Zman Tfilla MGA",
-    "sofZmanTfilla" => "Sof Zman Tefilla",
-    "chatzot" => "Chatzot Day",
-    "minchaGedola" => "Mincha Gedola",
-    "minchaGedolaMGA" => "Mincha Gedola MGA",
-    "minchaKetana" => "Mincha Ketana",
-    "minchaKetanaMGA" => "Mincha Ketana MGA",
-    "plagHaMincha" => "Plag HaMincha",
-    "sunset" => "Sunset",
-    "beinHaShmashos" => "Bein HaShmashos",
-    "dusk" => "Dusk",
-    "tzeit7083deg" => "Tzeit 70.83°",
-    "tzeit85deg" => "Tzeit 85°",
-    "tzeit42min" => "Tzeit (42 min)",
-    "tzeit50min" => "Tzeit (50 min)",
-    "tzeit72min" => "Tzeit (72 min)"
+    ZmanNames["ALOS"] => "Alos",
+    ZmanNames["SUNRISE"] => "Sunrise",
+    ZmanNames["SOF_ZMAN_SHEMA"] => "Sof Zman Shema",
+    ZmanNames["SOF_ZMAN_TEFILLA"] => "Sof Zman Tefilla",
+    ZmanNames["CHATZOS"] => "Chatzos",
+    ZmanNames["MINCHA_GEDOLA"] => "Mincha Gedola",
+    ZmanNames["SUNSET"] => "Sunset",
+    ZmanNames["TZEIS"] => "Tzeis"
+};
+
+typedef ZmanTime as {
+    "name" as Symbol,
+    "time" as Time.Moment
 };
 
 typedef ZmanimTimes as {
