@@ -2,18 +2,20 @@ using Toybox.Time as Time;
 
 module JewishCalendarModule {
     module ZmanimCalendars {
+        // 90° below the vertical. Used as a basis for most calculations since the location of the sun is 90° below
+        // the horizon at sunrise and sunset.
         const GEOMETRIC_ZENITH = 90;
 
         class AstronomicalCalendar {
+            // Sun's zenith at civil twilight (96°).
             const CIVIL_ZENITH = 96;
+            // Sun's zenith at nautical twilight (102°).
             const NAUTICAL_ZENITH = 102;
+            // Sun's zenith at astronomical twilight (108°).
             const ASTRONOMICAL_ZENITH = 108;
-            const ZENITH_11_POINT_5 = GEOMETRIC_ZENITH + 11.5;
 
             hidden var calendar;
             hidden var geoLocation;
-            // TODO: Adjust this depending on if and where user is in Israel
-            hidden var candleLightingOffset = 18;
 
             hidden function getAstronomicalCalculator() {
                 return ZmanimCalculators.AstronomicalCalculator.getDefault();
@@ -158,8 +160,14 @@ module JewishCalendarModule {
         }
 
         class ZmanimCalendar extends AstronomicalCalendar {
+            // The zenith of 8.5° below geometric zenith (90°).
             hidden static const ZENITH_8_POINT_5 = GEOMETRIC_ZENITH + 8.5;
+            // The zenith of 11.5° below geometric zenith (90°).
+            hidden static const ZENITH_11_POINT_5 = GEOMETRIC_ZENITH + 11.5;
+            // The zenith of 16.1° below geometric zenith (90°).
             hidden static const ZENITH_16_POINT_1 = GEOMETRIC_ZENITH + 16.1;
+            // TODO: Create setter to allow for adjustments (e.g. user is in certain parts of Israel where the offset is different)
+            hidden var candleLightingOffset = 18;
 
             function initialize(ingeoLocation, setCalendar) {
                 AstronomicalCalendar.initialize(ingeoLocation);
@@ -244,6 +252,8 @@ module JewishCalendarModule {
                 return getSpecificPlagHamincha(getSeaLevelSunrise(), getSeaLevelSunset());
             }
 
+            // Machlokes between (MyZmanim)[https://i.5e7en.me/3uc0mOvB8Cc5.png] and (KosherJava)[https://github.com/KosherJava/zmanim/blob/04dc83975db43582414d8639e0e204d9681aa6f0/src/main/java/com/kosherjava/zmanim/ComplexZmanimCalendar.java#L191] whether this translates to 60 or 52 minutes before sunrise.
+            // Ayin Sham.
             function getMisheyakir11Point5Degrees() {
                 return getSunriseOffsetByDegrees(ZENITH_11_POINT_5);
             }
