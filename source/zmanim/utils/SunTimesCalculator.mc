@@ -34,6 +34,28 @@ module JewishCalendarModule {
                 return doubleTime;
             }
 
+            // This implementation returns solar noon as the time halfway between sunrise and sunset.
+            // NOAACalculator, the soon-to-be default calculator, returns true solar noon.
+            // See here: https://kosherjava.com/2020/07/02/definition-of-chatzos/
+            public function getUTCNoon(moment, geoLocation) {
+                var sunrise = getUTCSunrise(moment, geoLocation, 90, false);
+                var sunset = getUTCSunset(moment, geoLocation, 90, false);
+                var noon = sunrise + (sunset - sunrise) / 2;
+
+                if (noon < 0) {
+                    noon += 12;
+                }
+                if (noon < sunrise) {
+                    noon -= 12;
+                }
+
+                return noon;
+            }
+
+            public function getUTCMidnight(moment, geoLocation) {
+                return getUTCNoon(moment, geoLocation) + 12;
+            }
+
             static function getTimeUTC(moment, latitude, longitude, zenith, isSunrise) {
                 var dayOfYear = getDayOfYear(moment);
                 var sunMeanAnomaly = getMeanAnomaly(dayOfYear, longitude, isSunrise);

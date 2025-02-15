@@ -150,7 +150,14 @@ module JewishCalendarModule {
             }
 
             function getSunTransit() {
-                return getSpecificSunTransit(getSeaLevelSunrise(), getSeaLevelSunset());
+                // OLD: return getSpecificSunTransit(getSeaLevelSunrise(), getSeaLevelSunset());
+                var noon = getAstronomicalCalculator().getUTCNoon(calendar, geoLocation);
+                return getDateFromTime(noon);
+            }
+
+            function getSolarMidnight() {
+                var midnight = getAstronomicalCalculator().getUTCMidnight(calendar, geoLocation);
+                return getDateFromTime(midnight);
             }
 
             function getSpecificSunTransit(startOfDay, endOfDay) {
@@ -189,6 +196,10 @@ module JewishCalendarModule {
 
             function getChatzot() {
                 return getSunTransit();
+            }
+
+            function getChatzotAsHalfDay() {
+                return getSpecificSunTransit(getSeaLevelSunrise(), getSeaLevelSunset());
             }
 
             function getSofZmanShma(startOfDay, endOfDay) {
