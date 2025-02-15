@@ -31,3 +31,13 @@ Points recorded while porting KosherJava library.
   - See below regarding NOAA algo
 - [NOAACalculator] Seems like szks, szt, mincha gedola (and maybe more) zmanim differ by a few seconds compared to KosherJava map. Figure out why.
 - [Note] Alos uses 16.1 degree zenith (find out why that's not default on KosherJava map, and as such, we're 1 minute behind the map's result)
+- Here's how zmanim at sea level currently compare to KosherJava map (NOAA!):
+  - Alos 16.1°: exact
+  - Sunrise: exact
+  - SZKS GR"A: behind by 2 seconds
+  - SZT GR"A: behind by 3 seconds
+  - Chatzos: exact
+  - Mincha Gedola: behind by 5 seconds
+  - Sunset: exact
+  - Tzais 8.5°: exact
+  - Same differences with HebCal API... Need to figure out what's causing it. May be floating point related?

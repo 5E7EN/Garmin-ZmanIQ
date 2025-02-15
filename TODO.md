@@ -37,6 +37,8 @@
   - Only currently relevant for sofZmanShma, sofZmanTfilla, minchaGedola, minchaKetana
   - Once on-device calculations are used, may also support sunrise/sunset differences in opinion
 - [ ] Move `zmanim` folder to `utils/` in source
+- [ ] Determine how to allow user to choose between zman opinions (zenith differences, etc.)
+- [ ] Based on chosen zman opinion, determine how to differ results based on user's location (e.g. tzeis offset will be different in Israel vs Diaspora)
 
 ## Priority Items
 
