@@ -3,38 +3,15 @@ using Toybox.Time.Gregorian as Gregorian;
 
 module JewishCalendarModule {
     module ZmanimCalculators {
-        class AstronomicalCalculator {
-            static const GEOMETRIC_ZENITH = 90;
-            // The commonly used average solar radius in minutes of a degree.
-            static const SOLAR_RADIUS = 16.0 / 60.0;
-            // The commonly used average solar refraction. Calendrical Calculations lists a more accurate global average of
-            // 34.478885263888294
-            static const REFRACTION = 34.0 / 60.0;
-            static const EARTH_RADIUS = 6356.9; // in KM
-
-            function initialize() {}
-
-            function adjustZenith(zenith, elevation) {
-                var adjustedZenith = zenith;
-                if (zenith == GEOMETRIC_ZENITH) {
-                    // only adjust if it is exactly sunrise or sunset
-                    adjustedZenith = zenith + (SOLAR_RADIUS + REFRACTION + getElevationAdjustment(elevation));
-                }
-                return adjustedZenith;
-            }
-
-            function getElevationAdjustment(elevation) {
-                // double elevationAdjustment = 0.0347 * Math.sqrt(elevation);
-                var elevationAdjustment = ExtendedMaths.toDegrees(Maths.acos(EARTH_RADIUS / (EARTH_RADIUS + elevation / 1000)));
-                return elevationAdjustment;
-            }
-        }
-
         class SunTimesCalculator extends AstronomicalCalculator {
             static const DEG_PER_HOUR = 360.0 / 24.0;
 
             function initialize() {
                 AstronomicalCalculator.initialize();
+            }
+
+            function getCalculatorName() {
+                return "US Naval Almanac Algorithm";
             }
 
             function getUTCSunrise(moment, geoLocation, zenith, adjustForElevation) {
