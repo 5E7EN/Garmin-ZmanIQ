@@ -16,7 +16,7 @@ module JewishCalendarModule {
             hidden var candleLightingOffset = 18;
 
             hidden function getAstronomicalCalculator() {
-                return new ZmanimCalculators.AstronomicalCalculator.getDefault();
+                return ZmanimCalculators.AstronomicalCalculator.getDefault();
             }
 
             function initialize(ingeoLocation) {

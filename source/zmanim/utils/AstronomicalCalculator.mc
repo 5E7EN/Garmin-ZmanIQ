@@ -18,7 +18,7 @@ module JewishCalendarModule {
 
             // Returns the default class for calculating sunrise and sunset. This is currently the
             // SunTimesCalculator, but this will change in the future once NOAA is ported.
-            public function getDefault() {
+            public static function getDefault() {
                 return new ZmanimCalculators.SunTimesCalculator();
             }
 
