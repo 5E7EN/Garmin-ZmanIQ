@@ -5,6 +5,18 @@ module JewishCalendarModule {
     module ExtendedMaths {
         const PI_2 = Maths.PI / 2.0;
 
+        function fmod(dividend, divisor) {
+            if (divisor == 0.0) {
+                // Handle division by zero. Return NaN.
+                return Maths.acos(2);
+            }
+
+            var quotient = dividend / divisor;
+            // integral_part truncates to 0
+            var integral_part = quotient > 0 ? Maths.floor(quotient) : Maths.ceil(quotient);
+            return dividend - integral_part * divisor;
+        }
+
         function toDegrees(angrad) {
             return Maths.toDegrees(angrad);
         }

@@ -21,9 +21,13 @@ Points recorded while porting KosherJava library.
   - USNO algorithm uses halfway time between sunrise and sunset to determine solar noon. NOAACalculator calculates true solar noon.
     - Chatzos before change (USNO): 11:53:30
     - Chatzos after change (USNO): 11:53:35
-    <!-- - Chatzos after true solar noon (NOAACalculator): 11:53:17 -->
+    - Chatzos after true solar noon (NOAACalculator): 11:53:17
 - Port does not implement antimeridian adjustment. Unsure of the implications of this as of yet.
   - Seems to require knowledge of current timezone
   - This affects anything that invokes `AstronomicalCalendar.getDateFromTime()` ([since it should be using adjusted cal](https://github.com/KosherJava/zmanim/blob/04dc83975db43582414d8639e0e204d9681aa6f0/src/main/java/com/kosherjava/zmanim/AstronomicalCalendar.java#L627))
 - Why are alos, szks, szt, and more not the same as KosherJava map result?
   - Result doesn't seem to be changing based on elevation... Review implementation.
+  - Only occurs significantly with SunTimesCalculator (USNO algo)
+  - See below regarding NOAA algo
+- [NOAACalculator] Seems like szks, szt, mincha gedola (and maybe more) zmanim differ by a few seconds compared to KosherJava map. Figure out why.
+- [Note] Alos uses 16.1 degree zenith (find out why that's not default on KosherJava map, and as such, we're 1 minute behind the map's result)
