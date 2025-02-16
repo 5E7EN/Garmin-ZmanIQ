@@ -38,14 +38,18 @@
   - Once on-device calculations are used, may also support sunrise/sunset differences in opinion
 - [ ] Move `zmanim` folder to `utils/` in source
 - [ ] Determine how to allow user to choose between zman opinions (zenith differences, etc.)
+  - Add pref to toggle for showing Rabbeinu Tam (72 minute) times
 - [ ] Based on chosen zman opinion, determine how to differ results based on user's location (e.g. tzeis offset will be different in Israel vs Diaspora)
+- [ ] Add "Expert Mode"
+  - Shows more zmanim
+  - Adds explanations of zmanim when selected
 
 ## Priority Items
 
 - [ ] On-board zmanim
   - [x] Add algorithms (calculators & calenders)
   - [ ] Replace hebcal API request with on-board implementation
-  - [ ] [HIGH-PRI] Compared to [KosherJava](https://kosherjava.com/maps/zmanim.html) there are
+  - [ ] [HIGH-PRI] Compared to [KosherJava](https://kosherjava.com/maps/zmanim.html)
   - [ ] [LOW-PRI] Detect and support Israeli location and use 40min candle lighting offset instead of 18min where applicable
 - [ ] Reminders
   - Select a zman from the list to open a menu to enable/disable reminder for that zman
@@ -56,7 +60,7 @@
 - [ ] GPS-based location fetching
   - Instruct user to go outside for a signal, wait for signal, and set in Storage.
   - Save coords for easy re-use. Add menu item to "Reset Location" - clearing existing value.
-  - Use elevation (when using GPS location source only). Add pref to switch to sea level too.
+  - Use elevation (when using GPS location source only). Important: Add pref to switch to sea level too.
   - [LOW-PRI] After successfully getting coords, prompt to save coordinates by name for future use. stored zmanim
     - With this, selecting "Reset Location" should just clear location as currently in use (with ability to re-triangulate position or select from existing list)
 

@@ -27,7 +27,7 @@ var ZmanNames = {
 };
 
 var ZmanimFriendlyNames = {
-    ZmanNames["ALOS"] => "Alos",
+    ZmanNames["ALOS"] => "Alos 16.1°",
     ZmanNames["SUNRISE"] => "Sunrise",
     ZmanNames["SOF_ZMAN_SHEMA"] => "Sof Zman Shema",
     ZmanNames["SOF_ZMAN_TEFILLA"] => "Sof Zman Tefilla",
