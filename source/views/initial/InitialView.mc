@@ -34,69 +34,28 @@ class InitialView extends Ui.View {
     //* Update the view
     //* @param dc Device Context
     public function onUpdate(dc as Dc) as Void {
-        var zmanimCacheKey = $.getZmanimCacheKey();
-        var zmanimStatusCacheKey = $.getZmanimStatusCacheKey();
+        var location = $.getLocation();
+        var zmanimErrorMessage = Storage.getValue($.getZmanimErrorMessageCacheKey());
 
-        // Check if zmanim are already stored and render the view accordingly
-        var zmanimRequestStatus = Storage.getValue(zmanimStatusCacheKey);
-        var remoteZmanData = Storage.getValue(zmanimCacheKey) as ZmanimApiResponse?;
-
-        if (zmanimRequestStatus != null && zmanimRequestStatus.equals("completed") && remoteZmanData != null) {
-            //* Zmanim are stored in memory
-
-            // Ensure that zmanim are not stale
-            var isZmanimStale = $.checkIfZmanimStale(remoteZmanData);
-            if (isZmanimStale) {
-                $.log("[onUpdate] Zmanim are stale. Refreshing...");
-
-                // Refresh zmanim via method passed from delegate
-                //* This will set the zmanim request status to "pending"
-                $.refreshZmanim();
-
-                // Refresh the UI for the pending state
-                WatchUi.requestUpdate();
-
-                return;
-            }
-
-            $.log("[onUpdate] Cached zmanim are up-to-date!");
+        // Check if location is available
+        if (location != null && zmanimErrorMessage == null) {
+            //* Location is available from the chosen source and no errors have been reported.
 
             // Switch to zmanim view/menu
-            $.switchToZmanimMenu();
+            $.switchToZmanimMenu(false);
         } else {
-            //* Zmanim are not stored in memory or request status is not "completed".
+            //* Location is null based on source setting or a calculation error has occured.
 
-            // Set a default state if null
-            //* Since switch statement can't handle null value for some reason
-            if (zmanimRequestStatus == null) {
-                zmanimRequestStatus = "initial";
-            }
-
-            // Debug: Print the current status of zmanim API request
-            $.log("[onUpdate] Current status of zmanim request: " + zmanimRequestStatus.toUpper());
-
-            // Render display message based on the status of the zmanim request
-            switch (zmanimRequestStatus) {
-                case "initial":
-                    //* This should only be reached the first time the app is opened, since after that zmanim will auto-refresh if stale.
-                    subtitleLabel.setText(Ui.loadResource(Rez.Strings.InitialWelcome));
-                    promptLabel.setText(Ui.loadResource(Rez.Strings.InitialFetchPrompt));
-                    break;
-                case "pending":
-                    //* This is reached the first time zmanim are fetched
-                    subtitleLabel.setText(Ui.loadResource(Rez.Strings.Fetching));
-                    promptLabel.setText(Ui.loadResource(Rez.Strings.PleaseWait));
-                    break;
-                case "pending_refresh":
-                    //* This is reached when existing zmanim existed in the cache when $.refreshZmanim() was called
-                    subtitleLabel.setText(Ui.loadResource(Rez.Strings.Refreshing));
-                    promptLabel.setText(Ui.loadResource(Rez.Strings.PleaseWait));
-                    break;
-                case "error":
-                    subtitleLabel.setText(Ui.loadResource(Rez.Strings.Error));
-                    // TODO: Display a friendly error message via new Storage key ZmanimRequestErrorMessage
-                    promptLabel.setText(Ui.loadResource(Rez.Strings.FailedToFetch));
-                    break;
+            // If an error message is set, display it
+            // Otherwise, display the welcome message
+            if (zmanimErrorMessage != null) {
+                // Display error message
+                subtitleLabel.setText(Ui.loadResource(Rez.Strings.Error));
+                promptLabel.setText(zmanimErrorMessage);
+            } else {
+                // Display welcome message
+                subtitleLabel.setText(Ui.loadResource(Rez.Strings.InitialWelcome));
+                promptLabel.setText(Ui.loadResource(Rez.Strings.InitialFetchPrompt));
             }
         }
 

@@ -26,17 +26,16 @@ class InitialDelegate extends WatchUi.BehaviorDelegate {
     public function onSelect() as Boolean {
         $.log("[onSelect] SELECT button pressed");
 
-        // If the zmanim request is already in progress, do nothing
-        var zmanimStatusCacheKey = $.getZmanimStatusCacheKey();
-        var zmanimRequestStatus = Storage.getValue(zmanimStatusCacheKey);
-        if (zmanimRequestStatus != null && zmanimRequestStatus.find("pending") != null) {
-            $.log("Zmanim request already in progress...");
-            return true;
-        }
+        // If the GPS request is already in progress, do nothing
+        // var zmanimStatusCacheKey = $.getZmanimStatusCacheKey();
+        // var zmanimRequestStatus = Storage.getValue(zmanimStatusCacheKey);
+        // if (zmanimRequestStatus != null && zmanimRequestStatus.find("pending") != null) {
+        //     $.log("Zmanim request already in progress...");
+        //     return true;
+        // }
 
-        // (Re)fresh zmanim :)
-        //* This will set the zmanim request status to "pending"
-        $.refreshZmanim();
+        // TODO: Get GPS location
+        // TODO: Set storage key indicating pending GPS. Update it when location is received in onPosition.
 
         // Refresh the UI for the pending state
         //* The main view will handle the new request state and render accordingly

@@ -9,7 +9,7 @@
     <string id="Refreshing">Refreshing</string>
     <string id="PleaseWait">Please wait...</string>
     <string id="Error">Error!</string>
-    <string id="FailedToFetch">Failed to fetch zmanim.\nTry again later.</string>
+    <string id="FailedToCalculate">Failed to calculate zmanim.\nTry again later.</string>
     <!-- Initial View: Zmanim Cached -->
     <string id="NextZman">Next zman:</string>
 

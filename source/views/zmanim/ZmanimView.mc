@@ -7,20 +7,34 @@ using Toybox.Time;
 using Toybox.Time.Gregorian;
 using Toybox.System as Sys;
 
-function switchToZmanimMenu() as Void {
+function switchToZmanimMenu(isRefresh as Boolean?) as Void {
     // TODO: If already on the zmanim menu, do nothing (prevent double-rendering)
     // TODO cont.: cannot use Ui.getCurrentView() because API level isn't supported on many watches
 
     // TODO: Cache zmanim to prevent having to make all calculations every render (like before, and set date key to check against for expiration of cached data)
-    var dateToday = Time.now();
     var coordinates = $.getLocation() as Array;
+
+    // If no coordinates are available, switch to initial view
+    //* This could occur if the user switches to GPS location source and hasn't yet retrieved location.
+    if (coordinates == null) {
+        $.log("[switchToZmanimMenu] No coordinates available. Switching to initial view...");
+
+        // Switch to initial view
+        Ui.switchToView(new $.InitialView(), new $.InitialDelegate(), Ui.SLIDE_IMMEDIATE);
+        return;
+    }
+
+    var dateToday = Time.now();
     var elevation = 0; // $.getElevation() as Number?;
     var zmanim = $.getZmanim(dateToday, coordinates, elevation) as Array<ZmanTime>; // getZmanim(date as Time.Moment, coordinates as Array<String, String>, elevation as Number?) as DisplayedZmanimTimes
 
     // Ensure zmanim don't come back empty (type checked so should be fine, but I don't trust compiler)
     if (zmanim.size() == 0) {
-        $.log("[switchToZmanimMenu] Zmanim are empty.");
-        // TODO: Set error flag in Storage and re-render to show it
+        $.log("[switchToZmanimMenu] Zmanim are empty. Refreshing view for error state...");
+
+        // Refresh the UI for the error state
+        //* The main view will handle the error and render accordingly.
+        Ui.requestUpdate();
     }
 
     // Set title as current date
@@ -39,7 +53,7 @@ function switchToZmanimMenu() as Void {
 
     // Set focus to the next upcoming zman, passing filtered zmanim
     var nextZman = $.getNextUpcomingZman(zmanim);
-    if (nextZman != null) {
+    if (nextZman != null && isRefresh != true) {
         $.log("[switchToZmanimMenu] Upcoming zman: " + nextZman[0]);
 
         // Get next zman by ID (which is the zman key)
@@ -49,8 +63,8 @@ function switchToZmanimMenu() as Void {
             topMenu.setFocus(nextZmanIndex);
         }
     } else {
-        //* All zmanim have passed for the day.
-        // Focus last zman
+        //* All zmanim have passed for the day or user is navigating from a submenu. Focus the last zman.
+
         topMenu.setFocus(zmanim.size() - 1);
     }
 

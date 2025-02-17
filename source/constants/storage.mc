@@ -1,9 +1,9 @@
 import Toybox.Lang;
 
-function getZmanimCacheKey() {
-    return "RemoteZmanData";
+function getZmanimErrorMessageCacheKey() {
+    return "ZmanimErrorMessage";
 }
 
-function getZmanimStatusCacheKey() {
-    return "ZmanimRequestStatus";
+function getLocationCacheKey() {
+    return "GPSLocation";
 }

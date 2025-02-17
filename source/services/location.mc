@@ -3,6 +3,7 @@ import Toybox.Activity;
 import Toybox.Lang;
 
 using Toybox.Application.Properties as Properties;
+using Toybox.Application.Storage as Storage;
 
 function getLocation() as Array? {
     var source = Properties.getValue("locationSource");
@@ -16,6 +17,7 @@ function getLocation() as Array? {
 
     // Determine current coordinates based on the selected location source
     switch (source) {
+        // TODO: Remove "Auto" as an option to avoid confusion.
         case "Auto":
             // First, try to get location based on weather location
             if (weatherLocation != null && weatherLocation.observationLocationPosition != null) {
@@ -30,7 +32,17 @@ function getLocation() as Array? {
 
             break;
         case "GPS":
-            // TODO: Implement
+            // Get coordinates from storage
+            //* This will have been stored by the onPosition event listener. If it's empty, user hasn't retrieved location yet.
+            var storedLocation = Storage.getValue($.getLocationCacheKey());
+
+            if (storedLocation != null && storedLocation.size() == 2) {
+                position = storedLocation;
+                finalSource = "GPS";
+            } else {
+                $.log("[getLocation] GPS coordinates not yet available.");
+                position = null;
+            }
             break;
         case "Weather":
             if (weatherLocation != null && weatherLocation.observationLocationPosition != null) {
