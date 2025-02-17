@@ -7,7 +7,7 @@ using Toybox.Time;
 using Toybox.Time.Gregorian;
 using Toybox.System as Sys;
 
-function switchToZmanimMenu(isRefresh as Boolean?) as Void {
+function switchToZmanimMenu(skipZmanAutoFocus as Boolean?) as Void {
     // TODO: If already on the zmanim menu, do nothing (prevent double-rendering)
     // TODO cont.: cannot use Ui.getCurrentView() because API level isn't supported on many watches
 
@@ -53,7 +53,7 @@ function switchToZmanimMenu(isRefresh as Boolean?) as Void {
 
     // Set focus to the next upcoming zman, passing filtered zmanim
     var nextZman = $.getNextUpcomingZman(zmanim);
-    if (nextZman != null && isRefresh != true) {
+    if (nextZman != null && skipZmanAutoFocus != true) {
         $.log("[switchToZmanimMenu] Upcoming zman: " + nextZman[0]);
 
         // Get next zman by ID (which is the zman key)
