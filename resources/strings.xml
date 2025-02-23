@@ -2,19 +2,24 @@
     <string id="AppName">ZmanIQ</string>
     <string id="AppVersion">0.8.0</string>
 
-    <!-- Initial View: Zmanim Not Cached -->
+    <!-- Initial View: General -->
     <string id="InitialWelcome">Welcome!</string>
-    <string id="InitialFetchPrompt">Press the Start button\nto fetch zmanim.</string>
-    <string id="Fetching">Fetching</string>
-    <string id="Refreshing">Refreshing</string>
-    <string id="PleaseWait">Please wait...</string>
+    <string id="InitialGpsPrompt">Press the Start button\nto find location.</string>
+
+    <string id="Locating">Locating</string>
+    <string id="MoveOutside">Move to a location with\na clear sky view\nWait a min...</string>
+
+    <!-- Initial View: Error Messages -->
+    <string id="SelectToTryAgain">Press SELECT to try again.</string>
+
+    <string id="LocationUnavailable">No Location</string>
+    <string id="ChooseLocationSource">Choose other location\nsource, or sync\n phone.</string>
+
     <string id="Error">Error!</string>
-    <string id="FailedToCalculate">Failed to calculate zmanim.\nTry again later.</string>
-    <!-- Initial View: Zmanim Cached -->
-    <string id="NextZman">Next zman:</string>
+    <string id="InternalError">Please submit bug\nreport or try\nagain.</string>
 
     <!-- Zmanim Menu -->
-    <string id="ZmanimMenuTitle">Zmanim Menu</string>
+    <!-- TODO: Add strings used in the top and bottom wrap menus -->
 
     <!-- Main Menu -->
     <string id="MainMenuTitle">Main Menu</string>

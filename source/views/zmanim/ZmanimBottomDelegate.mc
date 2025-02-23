@@ -19,7 +19,6 @@ class ZmanimBottomDelegate extends WatchUi.Menu2InputDelegate {
         if (id == :reloadZmanim) {
             // Reload zmanim
             // TODO: This will be "reload GPS"
-            reloadZmanimOption();
         } else if (id == :settings) {
             // Render main menu
             $.pushMainMenuView();
@@ -28,9 +27,9 @@ class ZmanimBottomDelegate extends WatchUi.Menu2InputDelegate {
 
     //* Handle the back key being pressed
     public function onBack() as Void {
-        // WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
+        WatchUi.popView(WatchUi.SLIDE_DOWN);
 
-        //* Reloads zmanim (in case of location source change)
+        //* Reloads zmanim (in case of setting change)
         $.switchToZmanimMenu(true);
     }
 
@@ -39,7 +38,9 @@ class ZmanimBottomDelegate extends WatchUi.Menu2InputDelegate {
     //* @return true if wrap is allowed, false otherwise
     public function onWrap(key as Key) as Boolean {
         if (key == WatchUi.KEY_UP) {
-            //* Reloads zmanim (in case of location source change)
+            WatchUi.popView(WatchUi.SLIDE_DOWN);
+
+            //* Reloads zmanim (in case of setting change)
             $.switchToZmanimMenu(true);
         }
         return false;
@@ -48,24 +49,9 @@ class ZmanimBottomDelegate extends WatchUi.Menu2InputDelegate {
     //* Handle the title being selected
     //* Should be the same as onWrap with KEY_UP condition
     public function onTitle() as Void {
-        // WatchUi.popView(WatchUi.SLIDE_DOWN);
+        WatchUi.popView(WatchUi.SLIDE_DOWN);
 
-        //* Reloads zmanim (in case of location source change)
+        //* Reloads zmanim (in case of setting change)
         $.switchToZmanimMenu(true);
-    }
-
-    private function reloadZmanimOption() {
-        $.log("[reloadZmanimOption] Reload triggered via menu");
-
-        // (Re)fresh zmanim :)
-        //* This will set the zmanim request status to "pending"
-        // $.refreshZmanim();
-
-        // Switch back to intial view for reloading
-        // WatchUi.switchToView(new $.InitialView(), new $.InitialDelegate(), WatchUi.SLIDE_DOWN);
-
-        // Refresh the UI for the pending state
-        //* The main view will handle the new request state and render accordingly
-        WatchUi.requestUpdate();
     }
 }

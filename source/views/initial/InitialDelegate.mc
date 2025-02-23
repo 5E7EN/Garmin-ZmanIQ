@@ -26,6 +26,20 @@ class InitialDelegate extends WatchUi.BehaviorDelegate {
     public function onSelect() as Boolean {
         $.log("[onSelect] SELECT button pressed");
 
+        // Handle "try again" attempt following error
+        var zmanimErrorMessage = Storage.getValue($.getZmanimErrorMessageCacheKey());
+        if (zmanimErrorMessage != null) {
+            //* User was likely presented with an error message and is trying again.
+
+            // Clear the error message
+            Storage.deleteValue($.getZmanimErrorMessageCacheKey());
+
+            // Try again by switching to zmanim view/menu
+            $.switchToZmanimMenu(false);
+
+            return true;
+        }
+
         // If the GPS request is already in progress, do nothing
         // var zmanimStatusCacheKey = $.getZmanimStatusCacheKey();
         // var zmanimRequestStatus = Storage.getValue(zmanimStatusCacheKey);

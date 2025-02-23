@@ -8,9 +8,13 @@ using Toybox.Time.Gregorian;
 using Toybox.Application.Storage as Storage;
 
 function getZmanim(date as Time.Moment, coordinates as Array, elevation as Number) as Array<ZmanTime> {
+    // Clear any existing error message
+    // Storage.deleteValue($.getZmanimErrorMessageCacheKey());
+
     // Ensure date, coordinates, and elevation are not null
     if (date == null || coordinates == null || elevation == null) {
         $.log("[getZmanim] Invalid parameters provided.");
+        Storage.setValue($.getZmanimErrorMessageCacheKey(), WatchUi.loadResource($.Rez.Strings.InternalError));
         return [];
     }
 
@@ -40,12 +44,12 @@ function getZmanim(date as Time.Moment, coordinates as Array, elevation as Numbe
         zmanim.add({ "name" => $.ZmanNames["MINCHA_GEDOLA"], "time" => zmanimCalendar.getMinchaGedola() });
         zmanim.add({ "name" => $.ZmanNames["SUNSET"], "time" => zmanimCalendar.getSunset() });
         zmanim.add({ "name" => $.ZmanNames["TZEIS"], "time" => zmanimCalendar.getTzait() });
-    } catch (error instanceof Lang.Exception) {
+    } catch (error) {
         // Log error
         $.log("[getZmanim] Error occurred while calculating zmanim: " + error);
 
         // Set error message to storage
-        Storage.setValue($.getZmanimErrorMessageCacheKey(), WatchUi.loadResource($.Rez.Strings.FailedToCalculate));
+        Storage.setValue($.getZmanimErrorMessageCacheKey(), WatchUi.loadResource($.Rez.Strings.InternalError));
     } finally {
         return zmanim;
     }

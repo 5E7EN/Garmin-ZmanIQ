@@ -11,15 +11,23 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?) as Void {
     // TODO: If already on the zmanim menu, do nothing (prevent double-rendering)
     // TODO cont.: cannot use Ui.getCurrentView() because API level isn't supported on many watches
 
+    // If there's an error, switch to initial view to display the error message
+    var zmanimErrorMessage = Storage.getValue($.getZmanimErrorMessageCacheKey());
+    if (zmanimErrorMessage != null) {
+        $.log("[switchToZmanimMenu] Error message found. Switching to initial view...");
+
+        // Switch to the initial view
+        Ui.switchToView(new $.InitialView(), new $.InitialDelegate(), Ui.SLIDE_IMMEDIATE);
+        return;
+    }
+
     // TODO: Cache zmanim to prevent having to make all calculations every render (like before, and set date key to check against for expiration of cached data)
     var coordinates = $.getLocation() as Array;
 
     // If no coordinates are available, switch to initial view
-    //* This could occur if the user switches to GPS location source and hasn't yet retrieved location.
+    //* Initial view will handle lack of location and render accordingly.
     if (coordinates == null) {
-        $.log("[switchToZmanimMenu] No coordinates available. Switching to initial view...");
-
-        // Switch to initial view
+        //* This isn't reached upon error, but rather when location is not available via the chosen source.
         Ui.switchToView(new $.InitialView(), new $.InitialDelegate(), Ui.SLIDE_IMMEDIATE);
         return;
     }
@@ -32,9 +40,10 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?) as Void {
     if (zmanim.size() == 0) {
         $.log("[switchToZmanimMenu] Zmanim are empty. Refreshing view for error state...");
 
-        // Refresh the UI for the error state
+        // Switch to main view (is likely already the current one)
         //* The main view will handle the error and render accordingly.
-        Ui.requestUpdate();
+        Ui.switchToView(new $.InitialView(), new $.InitialDelegate(), Ui.SLIDE_IMMEDIATE);
+        return;
     }
 
     // Set title as current date
@@ -76,7 +85,7 @@ function pushBottomZmanimMenu() as Void {
     var bottomMenu = new $.CustomWrapBottomMenu(80, Graphics.COLOR_WHITE);
 
     // menu.addItem(new Ui.MenuItem("Menu", null, :menu, null));
-    bottomMenu.addItem(new $.CustomWrapItem("Reload Zmanim", null, :reloadZmanim, Graphics.COLOR_BLACK));
+    // bottomMenu.addItem(new $.CustomWrapItem("Reload Zmanim", null, :reloadZmanim, Graphics.COLOR_BLACK));
     bottomMenu.addItem(new $.CustomWrapItem("Settings", null, :settings, Graphics.COLOR_BLACK));
 
     Ui.pushView(bottomMenu, new $.ZmanimBottomDelegate(), Ui.SLIDE_UP);

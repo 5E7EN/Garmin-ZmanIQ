@@ -30,3 +30,14 @@
 - Before migration, hebcal API: []
 - During migration (on-device and hebcal API): https://i.5e7en.me/Iso369sOPsI6.png
 - After migration, on-device only: []
+
+## Error Message Logic
+
+- If user switches a setting from zmanim bottom wrap menu and an error occurs using the new setting (e.g. location source), `switchToZmanimMenu` will populate the error cache key and switch to `InitialView` which will handle it.
+- If user switches a setting from `InitialView` menu and an error occurs using the new setting:
+
+  - If it's a bad location source, the error will immediately be caught (since `onUpdate` called `getLocation` and will react to the `null` return value), and a pre-defined error message will be displayed
+  - If it's something else (location is populated but `zmanimErrorMessage` has a value), the value of `zmanimErrorMessage` will be displayed.
+
+- You may ask, following a zmanim (`zmanimErrorMessage`) error, how does `InitialView.onUpdate()` know if perhaps the user already changed the afflicted setting and is retrying (- without requiring the user to press SELECT to try again manually)?
+  - Answer: When the user exists the main menu, the "pending retry" cache key is set to `true` which will force `InitialView.onUpdate()` to discard any pre-existing error messages before the error message is checked if it exists. In doing so, we assume that any time the user exits the main menu, he has changed a setting while within it.

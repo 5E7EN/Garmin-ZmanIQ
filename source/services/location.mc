@@ -34,7 +34,7 @@ function getLocation() as Array? {
         case "GPS":
             // Get coordinates from storage
             //* This will have been stored by the onPosition event listener. If it's empty, user hasn't retrieved location yet.
-            var storedLocation = Storage.getValue($.getLocationCacheKey());
+            var storedLocation = Storage.getValue($.getGpsLocationCacheKey());
 
             if (storedLocation != null && storedLocation.size() == 2) {
                 position = storedLocation;

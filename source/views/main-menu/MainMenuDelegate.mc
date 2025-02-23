@@ -28,6 +28,11 @@ class MainMenuDelegate extends WatchUi.Menu2InputDelegate {
 
     //* Handle the back key being pressed
     public function onBack() as Void {
+        // Set pending retry to true
+        //* This will force the app to reload zmanim when the initial view is rendered.
+        //* This is in case a setting was changed that previously caused an error to occur.
+        $.setPendingRetry(true);
+
         WatchUi.popView(WatchUi.SLIDE_DOWN);
     }
 }
