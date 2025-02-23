@@ -27,10 +27,7 @@ class ZmanimBottomDelegate extends WatchUi.Menu2InputDelegate {
 
     //* Handle the back key being pressed
     public function onBack() as Void {
-        WatchUi.popView(WatchUi.SLIDE_DOWN);
-
-        //* Reloads zmanim (in case of setting change)
-        $.switchToZmanimMenu(true);
+        goBack();
     }
 
     //* Handle the user navigating off the end of the menu
@@ -38,10 +35,7 @@ class ZmanimBottomDelegate extends WatchUi.Menu2InputDelegate {
     //* @return true if wrap is allowed, false otherwise
     public function onWrap(key as Key) as Boolean {
         if (key == WatchUi.KEY_UP) {
-            WatchUi.popView(WatchUi.SLIDE_DOWN);
-
-            //* Reloads zmanim (in case of setting change)
-            $.switchToZmanimMenu(true);
+            goBack();
         }
         return false;
     }
@@ -49,9 +43,24 @@ class ZmanimBottomDelegate extends WatchUi.Menu2InputDelegate {
     //* Handle the title being selected
     //* Should be the same as onWrap with KEY_UP condition
     public function onTitle() as Void {
-        WatchUi.popView(WatchUi.SLIDE_DOWN);
+        goBack();
+    }
 
-        //* Reloads zmanim (in case of setting change)
-        $.switchToZmanimMenu(true);
+    //* Goes back to top zmanim wrap menu
+    private function goBack() {
+        var isPendingRefresh = $.getPendingRefresh();
+        if (isPendingRefresh == true) {
+            $.log("[goBack] Forced refresh is pending. Reloading zmanim...");
+            // Clear pending refresh
+            $.setPendingRefresh(false);
+
+            // Pop current view
+            WatchUi.popView(WatchUi.SLIDE_DOWN);
+            // Reload zmanim
+            $.switchToZmanimMenu(true);
+        } else {
+            // Pop current view
+            WatchUi.popView(WatchUi.SLIDE_DOWN);
+        }
     }
 }

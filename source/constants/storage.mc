@@ -17,22 +17,22 @@ function getGpsStatusCacheKey() {
     return "GPSStatus";
 }
 
-function getPendingRetryCacheKey() {
-    return "PendingRetry";
+function getPendingRefreshCacheKey() {
+    return "PendingRefresh";
 }
 
 //* Methods
 
-function getPendingRetry() as Boolean {
-    var isPendingRetry = Storage.getValue(getPendingRetryCacheKey());
+function getPendingRefresh() as Boolean {
+    var isPendingRefresh = Storage.getValue(getPendingRefreshCacheKey());
 
-    if (isPendingRetry == null || isPendingRetry == false) {
+    if (isPendingRefresh == null || isPendingRefresh == false) {
         return false;
     }
 
     return true;
 }
 
-function setPendingRetry(value as Boolean) {
-    Storage.setValue(getPendingRetryCacheKey(), value);
+function setPendingRefresh(value as Boolean) {
+    Storage.setValue(getPendingRefreshCacheKey(), value);
 }

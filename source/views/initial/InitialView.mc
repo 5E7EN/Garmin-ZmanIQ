@@ -40,13 +40,13 @@ class InitialView extends Ui.View {
     public function onUpdate(dc as Dc) as Void {
         // TODO: Figure out another way to determine if location is ready. This is otherwise a redundant retrieval.
 
-        // If forced retry is pending, clear any error message and continue
+        // If forced refresh is pending, clear any error message and continue
         //* This will be true, for example, after exiting the main menu with the assumption that changes have been made.
-        var isPendingRetry = $.getPendingRetry();
+        var isPendingRetry = $.getPendingRefresh();
         if (isPendingRetry == true) {
             $.log("[onUpdate] Forced retry is pending. Clearing error message and continuing.");
             Storage.setValue($.getZmanimErrorMessageCacheKey(), null);
-            $.setPendingRetry(false);
+            $.setPendingRefresh(false);
         }
 
         var isLocationAvailable = $.getLocation() != null;
