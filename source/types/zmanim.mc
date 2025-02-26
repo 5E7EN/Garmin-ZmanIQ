@@ -2,7 +2,7 @@ import Toybox.Lang;
 import Toybox.Time;
 
 // TODO: Use all of the following times:
-// Alos
+// Alos 16.1
 // Sunrise
 // Sof Zman Shema GR"A / Sof Zman Shema MG"A
 // Sof Zman Tfila GR"A / Sof Zman Tfila MG"A

@@ -75,16 +75,22 @@ function getLocation() as LocationInfo? {
         $.log("[getLocation] Unable to determine coordinates.");
         return null;
     } else {
-        // TODO: If "Use Elevation" pref is disabled, override elevation with 0
+        // Check if user has elevation disabled. If so, set elevation to 0.
+        var useElevation = Properties.getValue("useElevation") as Boolean;
+        if (useElevation == false) {
+            elevation = 0;
+        }
 
-        $.log(Lang.format("[getLocation] Coordinates found via $1$: $2$ (elevated $3$ meters)", [finalSource, coordinates, elevation]));
+        $.log(Lang.format("[getLocation] Coordinates found via $1$: $2$ (elevated $3$ meters). UseElevation? $4$", [finalSource, coordinates, elevation, useElevation.toString()]));
 
         return (
             ({
                 "coordinates" => coordinates,
                 "elevation" => elevation,
                 "source" => finalSource,
-                "gpsQuality" => gpsQuality
+                "gpsQuality" => gpsQuality,
+                "useElevation" => useElevation
+                // TODO: "lastUpdated" => [...]
             }) as LocationInfo
         );
     }

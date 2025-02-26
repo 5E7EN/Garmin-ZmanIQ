@@ -30,6 +30,8 @@
     <string id="MainMenuTitle">Main Menu</string>
     <string id="MainMenuLocationSourceText">Location Source</string>
     <string id="MainMenuLocationSourceSubText">Set location source</string>
+    <string id="MainMenuUseElevationText">Use Elevation?</string>
+    <string id="MainMenuUseElevationSubText">For sunrise/sunset</string>
 
     <!-- Location Info Menu -->
     <string id="LocationInfoMenuTitle">Location Info</string>

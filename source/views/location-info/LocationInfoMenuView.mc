@@ -10,18 +10,16 @@ function pushLocationInfoMenuView(locationInfo as LocationInfo) as Void {
     // Generate a new Menu
     var menu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.LocationInfoMenuTitle) });
 
+    // Determine displayed elevation value
+    var elevationValue = locationInfo["elevation"].equals(0) ? "Unavailable" : locationInfo["elevation"].toString() + " meters";
+    if (locationInfo["useElevation"] == false) {
+        elevationValue = "Disabled";
+    }
+
     // Add info items
     menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.LocationInfoMenuSource), locationInfo["source"].toString(), null, null));
     menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.LocationInfoMenuCoords), locationInfo["coordinates"].toString(), null, null));
-    menu.addItem(
-        new Ui.MenuItem(
-            Ui.loadResource(Rez.Strings.LocationInfoMenuElevation),
-            // TODO: If "Use Elevation" pref is disabled, show "Unused" as the elevation
-            locationInfo["elevation"].equals(0) ? "Unavailable" : locationInfo["elevation"].toString() + " meters",
-            null,
-            null
-        )
-    );
+    menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.LocationInfoMenuElevation), elevationValue, null, null));
 
     // If using GPS, add related info
     if (locationInfo["source"].equals("GPS")) {
