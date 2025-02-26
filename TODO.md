@@ -51,6 +51,7 @@
 - [ ] Create map view to show user's current detected location.
   - See NOTES.md
   - See MapSample SDK sample
+- [ ] Add "last updated" for location info (more complicated than it seems)
 
 ## Priority Items
 

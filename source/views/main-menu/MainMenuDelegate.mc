@@ -2,6 +2,8 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
 
+using Toybox.Application.Properties as Properties;
+
 //* This is the menu input delegate/handler for the main menu of the application
 class MainMenuDelegate extends WatchUi.Menu2InputDelegate {
     //* Constructor
@@ -20,6 +22,9 @@ class MainMenuDelegate extends WatchUi.Menu2InputDelegate {
             $.pushLocationSourceView();
         } else if (id == :about) {
             $.pushAboutView();
+        } else if (id == :useElevation) {
+            // Toggle the elevation preference
+            Properties.setValue("useElevation", Properties.getValue("useElevation") ? false : true);
         }
         // } else if (id == :reminders) {
         //     $.pushRemindersMenuView();
