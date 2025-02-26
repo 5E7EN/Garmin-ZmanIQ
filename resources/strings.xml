@@ -31,12 +31,13 @@
     <string id="MainMenuLocationSourceText">Location Source</string>
     <string id="MainMenuLocationSourceSubText">Set location source</string>
 
-    <!-- GPS Info Menu -->
-    <string id="GpsInfoMenuTitle">GPS Info</string>
-    <string id="GpsInfoMenuCoords">Coordinates</string>
-    <string id="GpsInfoMenuElevation">Elevation</string>
-    <string id="GpsInfoMenuQuality">Signal Quality</string>
-    <string id="GpsInfoMenuReloadLocation">Reload Location</string>
+    <!-- Location Info Menu -->
+    <string id="LocationInfoMenuTitle">Location Info</string>
+    <string id="LocationInfoMenuSource">Source</string>
+    <string id="LocationInfoMenuCoords">Coordinates</string>
+    <string id="LocationInfoMenuElevation">Elevation</string>
+    <string id="LocationInfoMenuGpsQuality">Signal Quality</string>
+    <string id="LocationInfoMenuReloadLocation">Reload Location</string>
 
     <!-- Location Source -->
     <string id="LocationSourceTitle">Location Source</string>

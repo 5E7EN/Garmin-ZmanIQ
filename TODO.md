@@ -46,6 +46,8 @@
 - [ ] Add "Airplane Mode" setting
   - If enabled, use pass `Position.POSITIONING_MODE_AVIATION` as PositioningMode when invoking `enableLocationEvents()` to support higher altitudes. Warning: This may not be supported on all devices (requires API Level 3.2.0).
 - [ ] Clean up code comments
+- [x] Improve memory usage
+  - Clear existing view stack before calling `switchToZmanimMenu` to reload zmanim.
 
 ## Priority Items
 

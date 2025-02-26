@@ -8,6 +8,7 @@ typedef GPSInfo as {
 
 typedef LocationInfo as {
     "coordinates" as Array<Double>,
+    "source" as String,
     "elevation" as Number?,
-    "source" as String
+    "gpsQuality" as String?
 };

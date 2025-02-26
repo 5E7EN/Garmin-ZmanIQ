@@ -16,15 +16,12 @@ class ZmanimBottomDelegate extends WatchUi.Menu2InputDelegate {
         var id = item.getId();
 
         // React based on the selected item ID
-        if (id == :reloadZmanim) {
-            // Reload zmanim
-            // TODO: This will be "reload GPS"
-        } else if (id == :settings) {
+        if (id == :settings) {
             // Render main menu
             $.pushMainMenuView();
-        } else if (id == :gpsInfo) {
-            // Render GPS info menu
-            $.pushGpsInfoMenuView();
+        } else if (id == :locationInfo) {
+            // Render location info menu
+            $.pushLocationInfoMenuView();
         }
     }
 

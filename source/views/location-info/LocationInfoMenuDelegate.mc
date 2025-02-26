@@ -1,11 +1,12 @@
 import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
+
 using Toybox.System as Sys;
 using Toybox.Application.Storage as Storage;
 
 //* This is the menu input delegate/handler for the menu of the application
-class GpsInfoMenuDelegate extends WatchUi.Menu2InputDelegate {
+class LocationInfoMenuDelegate extends WatchUi.Menu2InputDelegate {
     //* Constructor
     public function initialize() {
         Menu2InputDelegate.initialize();
@@ -18,18 +19,21 @@ class GpsInfoMenuDelegate extends WatchUi.Menu2InputDelegate {
         var id = item.getId();
 
         // React based on the selected item ID
-        if (id == :reloadGps) {
-            $.log("[onSelect] User triggered GPS reload.");
+        if (id == :reloadLocation) {
+            $.log("[onSelect] User triggered location reload.");
 
-            // Clear the GPS status and info from storage
+            // Clear GPS related data from storage
             Storage.deleteValue($.getGpsStatusCacheKey());
             Storage.deleteValue($.getGpsInfoCacheKey());
 
             // Set pending refresh flag
-            $.setPendingRefresh(true);
+            //* This will trigger a refresh of the zmanim top wrap menu when the user inevitably goes back to it from the bottom wrap menu.
+            // $.setPendingRefresh(true);
 
-            // Switch to zmanim menu
-            //* The zmanim menu will try to get location, see there is none, and switch to initial view.
+            // Go back to zmanim menu
+            //* Pop existing views to save memory.
+            WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
+            WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
             $.switchToZmanimMenu(false);
         }
     }

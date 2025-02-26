@@ -23,11 +23,11 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?) as Void {
     }
 
     // Retrieve the current location
-    var location = $.getLocation() as LocationInfo?;
+    var locationInfo = $.getLocation() as LocationInfo?;
 
     // If no location/coordinates are available, switch to initial view
     //* Initial view will handle lack of location and render accordingly. It will do this same check there too.
-    if (location == null) {
+    if (locationInfo == null) {
         //* This isn't reached upon error necessarily, but rather when location is not available via the chosen source.
         Ui.switchToView(new $.InitialView(), new $.InitialDelegate(), Ui.SLIDE_IMMEDIATE);
         return;
@@ -36,8 +36,8 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?) as Void {
     // Get zmanim
     // TODO: Allow user to select zmanim for a different date
     var dateToday = Time.now();
-    var coordinates = location["coordinates"];
-    var elevation = location["elevation"];
+    var coordinates = locationInfo["coordinates"];
+    var elevation = locationInfo["elevation"];
     var zmanim = $.getZmanim(dateToday, coordinates, elevation) as Array<ZmanTime>; // getZmanim(date as Time.Moment, coordinates as Array<String, String>, elevation as Number?) as DisplayedZmanimTimes
 
     // Ensure zmanim don't come back empty (type checked so should be fine, but I don't trust compiler)
@@ -86,17 +86,12 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?) as Void {
 
 //* Create the sub-menu menu of the Wrap custom menu
 function pushBottomZmanimMenu() as Void {
-    var locationSource = Properties.getValue("locationSource");
     var bottomMenu = new $.CustomWrapBottomMenu(80, Graphics.COLOR_WHITE);
 
     // menu.addItem(new Ui.MenuItem("Menu", null, :menu, null));
     // bottomMenu.addItem(new $.CustomWrapItem("Reload Zmanim", null, :reloadZmanim, Graphics.COLOR_BLACK));
+    bottomMenu.addItem(new $.CustomWrapItem("Location Info", null, :locationInfo, Graphics.COLOR_BLACK));
     bottomMenu.addItem(new $.CustomWrapItem("Settings", null, :settings, Graphics.COLOR_BLACK));
-
-    // Add GPS info menu option, if location source is set to GPS
-    if (locationSource.equals("GPS")) {
-        bottomMenu.addItem(new $.CustomWrapItem("GPS Info", null, :gpsInfo, Graphics.COLOR_BLACK));
-    }
 
     Ui.pushView(bottomMenu, new $.ZmanimBottomDelegate(), Ui.SLIDE_UP);
 }
