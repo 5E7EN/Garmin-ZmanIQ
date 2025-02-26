@@ -5,7 +5,7 @@
 - Inform user that they must be in the same timezone as their assumed location to avoid miscalculations.
   - This can be particularly important when using "Last Activity" location pref
 - Thanks to [@slipperybee](https://github.com/slipperybee) for the Monkey-C port of the zmanim calender and USNO algorithm. We've ported the more accurate and up-to-date NOAA (Jean Meeus) algorithm in addition. All has been adapted from [KosherJava](https://github.com/KosherJava/zmanim).
-- I very much believe in transparency when it comes to solutions with Halachic implications. The code for this project is [available on GitHub](https://github.com/5E7EN/Garmin-Zmanim-Reminder) for analysis.
+- I very much believe in transparency when it comes to solutions with Halachic implications. The code for this project is [available on GitHub](https://github.com/5E7EN/Garmin-ZmanIQ) for analysis.
 - Elevation based zmanim (even sunrise and sunset) should not be used lekula without the guidance of a posek.
   - In settings, you will be able to enable/disable "Use Elevation". [More Info](https://kosherjava.com/zmanim/docs/api/com/kosherjava/zmanim/ZmanimCalendar.html) (only changes sunrise/sunset).
   - Even when "Use Elevation" is enabled, only sunrise and sunset will use elevation. Other zmanim will use sea level.
