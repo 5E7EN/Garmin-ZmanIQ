@@ -22,6 +22,9 @@ class ZmanimBottomDelegate extends WatchUi.Menu2InputDelegate {
         } else if (id == :settings) {
             // Render main menu
             $.pushMainMenuView();
+        } else if (id == :gpsInfo) {
+            // Render GPS info menu
+            $.pushGpsInfoMenuView();
         }
     }
 

@@ -3,6 +3,7 @@ import Toybox.Lang;
 
 using Toybox.WatchUi as Ui;
 using Toybox.Application.Storage as Storage;
+using Toybox.Application.Properties as Properties;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
 using Toybox.System as Sys;
@@ -82,11 +83,17 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?) as Void {
 
 //* Create the sub-menu menu of the Wrap custom menu
 function pushBottomZmanimMenu() as Void {
+    var locationSource = Properties.getValue("locationSource");
     var bottomMenu = new $.CustomWrapBottomMenu(80, Graphics.COLOR_WHITE);
 
     // menu.addItem(new Ui.MenuItem("Menu", null, :menu, null));
     // bottomMenu.addItem(new $.CustomWrapItem("Reload Zmanim", null, :reloadZmanim, Graphics.COLOR_BLACK));
     bottomMenu.addItem(new $.CustomWrapItem("Settings", null, :settings, Graphics.COLOR_BLACK));
+
+    // Add GPS info menu option, if location source is set to GPS
+    if (locationSource.equals("GPS")) {
+        bottomMenu.addItem(new $.CustomWrapItem("GPS Info", null, :gpsInfo, Graphics.COLOR_BLACK));
+    }
 
     Ui.pushView(bottomMenu, new $.ZmanimBottomDelegate(), Ui.SLIDE_UP);
 }

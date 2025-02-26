@@ -9,12 +9,12 @@ function getZmanimErrorMessageCacheKey() {
     return "ZmanimErrorMessage";
 }
 
-function getGpsLocationCacheKey() {
-    return "GPSLocation";
-}
-
 function getGpsStatusCacheKey() {
     return "GPSStatus";
+}
+
+function getGpsInfoCacheKey() {
+    return "GPSInfo";
 }
 
 function getPendingRefreshCacheKey() {
@@ -23,6 +23,7 @@ function getPendingRefreshCacheKey() {
 
 //* Methods
 
+//* These refresh-related methods are defined here since as of now I have no better place to put them.
 function getPendingRefresh() as Boolean {
     var isPendingRefresh = Storage.getValue(getPendingRefreshCacheKey());
 

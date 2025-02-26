@@ -43,6 +43,9 @@
 - [ ] Add "Expert Mode"
   - Shows more zmanim
   - Adds explanations of zmanim when selected
+- [ ] Add "Airplane Mode" setting
+  - If enabled, use pass `Position.POSITIONING_MODE_AVIATION` as PositioningMode when invoking `enableLocationEvents()` to support higher altitudes. Warning: This may not be supported on all devices (requires API Level 3.2.0).
+- [ ] Clean up code comments
 
 ## Priority Items
 

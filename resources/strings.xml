@@ -12,6 +12,11 @@
     <!-- Initial View: Error Messages -->
     <string id="SelectToTryAgain">Press SELECT to try again.</string>
 
+    <string id="GpsTimeout">GPS Timeout</string>
+
+    <string id="NoGpsSignal">No Signal</string>
+    <string id="MoveToBetterArea">Ensure you're outside\nwith a clear sky\nview.</string>
+
     <string id="LocationUnavailable">No Location</string>
     <string id="ChooseLocationSource">Choose other location\nsource, or sync\n phone.</string>
 
@@ -25,6 +30,13 @@
     <string id="MainMenuTitle">Main Menu</string>
     <string id="MainMenuLocationSourceText">Location Source</string>
     <string id="MainMenuLocationSourceSubText">Set location source</string>
+
+    <!-- GPS Info Menu -->
+    <string id="GpsInfoMenuTitle">GPS Info</string>
+    <string id="GpsInfoMenuCoords">Coordinates</string>
+    <string id="GpsInfoMenuElevation">Elevation</string>
+    <string id="GpsInfoMenuQuality">Signal Quality</string>
+    <string id="GpsInfoMenuReloadLocation">Reload Location</string>
 
     <!-- Location Source -->
     <string id="LocationSourceTitle">Location Source</string>
