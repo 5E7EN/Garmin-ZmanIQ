@@ -15,5 +15,5 @@ function pushMainMenuView() as Void {
     // menu.addItem(new Ui.MenuItem("Reminders", "Manage active reminders", :reminders, null));
     menu.addItem(new Ui.MenuItem("About", null, :about, null));
 
-    Ui.pushView(menu, new $.MainMenuDelegate(), Ui.SLIDE_UP);
+    Ui.pushView(menu, new $.MainMenuDelegate(), Ui.SLIDE_LEFT);
 }

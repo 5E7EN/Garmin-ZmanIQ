@@ -3,6 +3,7 @@ import Toybox.Lang;
 import Toybox.WatchUi;
 using Toybox.System as Sys;
 using Toybox.Application.Properties as Properties;
+using Toybox.Application.Storage as Storage;
 
 //* This is the menu input delegate/handler for the main menu of the application
 class LocationSourceDelegate extends WatchUi.Menu2InputDelegate {
@@ -28,14 +29,19 @@ class LocationSourceDelegate extends WatchUi.Menu2InputDelegate {
             Properties.setValue("locationSource", "Activity");
         }
 
+        // Clear GPS status and info (if set)
+        // TODO: This will require re-fetching GPS location ever time GPS is reselected... Figure out an alternative.
+        Storage.deleteValue($.getGpsStatusCacheKey());
+        Storage.deleteValue($.getGpsInfoCacheKey());
+
         // TODO: Show toast explaining implications of the change (see TODO)
 
         // Go back and refresh the main menu
-        WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
+        WatchUi.popView(WatchUi.SLIDE_RIGHT);
     }
 
     //* Handle the back key being pressed
     public function onBack() as Void {
-        WatchUi.popView(WatchUi.SLIDE_DOWN);
+        WatchUi.popView(WatchUi.SLIDE_RIGHT);
     }
 }

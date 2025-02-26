@@ -38,10 +38,11 @@ class CustomWrapBottomMenu extends WatchUi.CustomMenu {
         // Set the text color to white with a transparent background.
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
 
-        // Draw the title text "Back to Top", centered horizontally.
+        // Draw the title text, centered horizontally.
         // Position the text 2/3 down from the top of the title area.
         // Use a medium font and both horizontal and vertical centering.
-        dc.drawText(dc.getWidth() / 2, (dc.getHeight() / 3) * 2, Graphics.FONT_MEDIUM, "Back to Top", Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        // TODO: Change this to use rez string
+        dc.drawText(dc.getWidth() / 2, (dc.getHeight() / 3) * 2, Graphics.FONT_MEDIUM, "Show Zmanim", Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
 
         // Set the drawing color to white.
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_WHITE);

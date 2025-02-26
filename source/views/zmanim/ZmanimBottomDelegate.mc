@@ -5,9 +5,13 @@ import Toybox.WatchUi;
 using Toybox.Application.Storage as Storage;
 
 class ZmanimBottomDelegate extends WatchUi.Menu2InputDelegate {
+    public var mLocationInfo as LocationInfo;
+
     //* Constructor
-    public function initialize() {
+    public function initialize(locationInfo as LocationInfo) {
         Menu2InputDelegate.initialize();
+
+        mLocationInfo = locationInfo;
     }
 
     //* Handle an item being selected
@@ -16,19 +20,18 @@ class ZmanimBottomDelegate extends WatchUi.Menu2InputDelegate {
         var id = item.getId();
 
         // React based on the selected item ID
-        if (id == :reloadZmanim) {
-            // Reload zmanim
-            reloadZmanimOption();
-        } else if (id == :settings) {
+        if (id == :settings) {
             // Render main menu
             $.pushMainMenuView();
+        } else if (id == :locationInfo) {
+            // Render location info menu
+            $.pushLocationInfoMenuView(mLocationInfo);
         }
     }
 
     //* Handle the back key being pressed
     public function onBack() as Void {
-        WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
-        WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
+        goBack();
     }
 
     //* Handle the user navigating off the end of the menu
@@ -36,36 +39,32 @@ class ZmanimBottomDelegate extends WatchUi.Menu2InputDelegate {
     //* @return true if wrap is allowed, false otherwise
     public function onWrap(key as Key) as Boolean {
         if (key == WatchUi.KEY_UP) {
-            WatchUi.popView(WatchUi.SLIDE_DOWN);
+            goBack();
         }
         return false;
     }
 
     //* Handle the title being selected
+    //* Should be the same as onWrap with KEY_UP condition
     public function onTitle() as Void {
-        WatchUi.popView(WatchUi.SLIDE_DOWN);
+        goBack();
     }
 
-    private function reloadZmanimOption() {
-        $.log("[reloadZmanimOption] Reload triggered via menu");
+    //* Goes back to top zmanim wrap menu
+    private function goBack() {
+        var isPendingRefresh = $.getPendingRefresh();
+        if (isPendingRefresh == true) {
+            $.log("[goBack] Forced refresh is pending. Reloading zmanim...");
+            // Clear pending refresh
+            $.setPendingRefresh(false);
 
-        // If the zmanim request is already in progress, do nothing
-        var zmanimStatusCacheKey = $.getZmanimStatusCacheKey();
-        var zmanimRequestStatus = Storage.getValue(zmanimStatusCacheKey);
-        if (zmanimRequestStatus != null && zmanimRequestStatus.find("pending") != null) {
-            $.log("Zmanim request already in progress...");
-            return;
+            // Pop current view
+            WatchUi.popView(WatchUi.SLIDE_DOWN);
+            // Reload zmanim
+            $.switchToZmanimMenu(true);
+        } else {
+            // Pop current view
+            WatchUi.popView(WatchUi.SLIDE_DOWN);
         }
-
-        // (Re)fresh zmanim :)
-        //* This will set the zmanim request status to "pending"
-        $.refreshZmanim();
-
-        // Switch back to intial view for reloading
-        WatchUi.switchToView(new $.InitialView(), new $.InitialDelegate(), WatchUi.SLIDE_DOWN);
-
-        // Refresh the UI for the pending state
-        //* The main view will handle the new request state and render accordingly
-        WatchUi.requestUpdate();
     }
 }
