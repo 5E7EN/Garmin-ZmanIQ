@@ -13,5 +13,5 @@ function pushAboutView() as Void {
     menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.AboutVersionText), Ui.loadResource(Rez.Strings.AppVersion), null, null));
 
     // TODO: Can we just pass some generic delegate that does nothing?
-    Ui.pushView(menu, new $.AboutDelegate(), Ui.SLIDE_IMMEDIATE);
+    Ui.pushView(menu, new $.AboutDelegate(), Ui.SLIDE_LEFT);
 }

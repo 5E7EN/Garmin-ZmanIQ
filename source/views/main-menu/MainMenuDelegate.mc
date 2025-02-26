@@ -33,6 +33,6 @@ class MainMenuDelegate extends WatchUi.Menu2InputDelegate {
         //* This is in case a setting was changed that 1) previously caused an error to occur, or 2) implies an updated user preference for calculating zmanim.
         $.setPendingRefresh(true);
 
-        WatchUi.popView(WatchUi.SLIDE_DOWN);
+        WatchUi.popView(WatchUi.SLIDE_RIGHT);
     }
 }

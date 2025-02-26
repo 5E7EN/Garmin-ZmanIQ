@@ -30,7 +30,7 @@
   - Then, change "Reload Zmanim" button in menu to "Select Date"
   - Also, get next day's zmanim that may be relevant for today (e.g. chatzos night, sunrise)
   - Only use altitude when location source is GPS to prevent inaccuracies.
-- [ ] Improve view/menu animations (see elegance in Menu2Custom sample)
+- [x] Improve view/menu animations (see elegance in Menu2Custom sample)
 - [ ] Select zman for Menu to Set Reminder
   - Main reminder settings (time before, etc.) should be in main menu
 - [ ] Add pref to choose between Gra and Magen Avraham

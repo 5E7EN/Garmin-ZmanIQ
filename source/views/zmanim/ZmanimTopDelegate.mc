@@ -25,7 +25,8 @@ class ZmanimTopDelegate extends WatchUi.Menu2InputDelegate {
 
     //* Handle the back key being pressed
     public function onBack() as Void {
-        WatchUi.popView(WatchUi.SLIDE_DOWN);
+        //* If this is called, the app will just quit. No need for the line below really...
+        WatchUi.popView(WatchUi.SLIDE_RIGHT);
     }
 
     //* Handle the user navigating off the end of the menu

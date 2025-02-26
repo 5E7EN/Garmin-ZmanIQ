@@ -26,11 +26,7 @@ class LocationInfoMenuDelegate extends WatchUi.Menu2InputDelegate {
             Storage.deleteValue($.getGpsStatusCacheKey());
             Storage.deleteValue($.getGpsInfoCacheKey());
 
-            // Set pending refresh flag
-            //* This will trigger a refresh of the zmanim top wrap menu when the user inevitably goes back to it from the bottom wrap menu.
-            // $.setPendingRefresh(true);
-
-            // Go back to zmanim menu
+            // Go back to zmanim menu (AKA trigger a refresh)
             //* Pop existing views to save memory.
             WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
             WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);

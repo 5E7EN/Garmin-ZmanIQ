@@ -37,11 +37,11 @@ class LocationSourceDelegate extends WatchUi.Menu2InputDelegate {
         // TODO: Show toast explaining implications of the change (see TODO)
 
         // Go back and refresh the main menu
-        WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
+        WatchUi.popView(WatchUi.SLIDE_RIGHT);
     }
 
     //* Handle the back key being pressed
     public function onBack() as Void {
-        WatchUi.popView(WatchUi.SLIDE_DOWN);
+        WatchUi.popView(WatchUi.SLIDE_RIGHT);
     }
 }

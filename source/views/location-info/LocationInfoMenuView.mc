@@ -32,5 +32,5 @@ function pushLocationInfoMenuView(locationInfo as LocationInfo) as Void {
     menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.LocationInfoMenuReloadLocation), null, :reloadLocation, null));
 
     //* Delegate might need to be `new $.AboutDelegate()` to support back functionality
-    Ui.pushView(menu, new $.LocationInfoMenuDelegate(), Ui.SLIDE_IMMEDIATE);
+    Ui.pushView(menu, new $.LocationInfoMenuDelegate(), Ui.SLIDE_LEFT);
 }

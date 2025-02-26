@@ -29,5 +29,5 @@ function pushLocationSourceView() as Void {
         menu.setFocus(3);
     }
 
-    Ui.pushView(menu, new $.LocationSourceDelegate(), Ui.SLIDE_UP);
+    Ui.pushView(menu, new $.LocationSourceDelegate(), Ui.SLIDE_LEFT);
 }
