@@ -1,7 +1,7 @@
 # TODO
 
 - [x] Fix bug that breaks displayed time when in another timezone. Always show time relative to the user's timezone.
-- [ ] Fix bug that doesn't fetch the zmanim for the user's current location if it changes
+- [x] Fix bug that doesn't fetch the zmanim for the user's current location if it changes
 - [ ] Generate usage docs for the user using Gemini with the help of code logic/comments (GPTIJATP - GPT-is-just-a-tool-paradigm)
 - [x] Provide ability to choose method of location retrieval (GPS, weather, activity)
   - If choosing GPS, tell user to start an outdoor activity to get a GPS lock
@@ -15,7 +15,7 @@
   - This enables easily defining defaults
 - [x] Adapt best practices and menus from [this project](https://github.com/cedric-dufour/connectiq-app-rawlogger)
   - See also: https://github.com/myneur/late
-- [ ] Improve location handling. See [this great project](https://github.com/dagstuan/skredvarselGarmin).
+- [x] Improve location handling. See [this great project](https://github.com/dagstuan/skredvarselGarmin).
 - [x] Make constants of Storage key names for cached data (e.g. constants/storage.mc, see `SkredvarselStorage.mc` in project above)
 - [ ] Show user where we assume he his based on coords (use some API) to prevent confusion. See NOTES.md.
 - [ ] Migrate to widget instead of app
@@ -48,13 +48,16 @@
 - [ ] Clean up code comments
 - [x] Improve memory usage
   - Clear existing view stack before calling `switchToZmanimMenu` to reload zmanim.
+- [ ] Create map view to show user's location.
+  - See NOTES.md
+  - See MapSample SDK sample
 
 ## Priority Items
 
-- [ ] On-board zmanim
+- [x] On-board zmanim
   - [x] Add algorithms (calculators & calenders)
-  - [ ] Replace hebcal API request with on-board implementation
-  - [ ] [HIGH-PRI] Compared to [KosherJava](https://kosherjava.com/maps/zmanim.html)
+  - [x] Replace hebcal API request with on-board implementation
+  - [x] [HIGH-PRI] Compared to [KosherJava](https://kosherjava.com/maps/zmanim.html)
   - [ ] [LOW-PRI] Figure out what's causing a few seconds of difference compared to KosherJava map (see [NOTES](source/zmanim/NOTES.md#L32)). Maybe it's floating point differences? Create java example and compare output of functions (start with `AstronomicalCalendar.getSpecificTemporalHour()` or `AstronomicalCalendar.getDateFromTime()`).
   - [ ] [LOW-PRI] Detect and support Israeli location and use 40min candle lighting offset instead of 18min where applicable
 - [ ] Reminders
@@ -63,7 +66,7 @@
   - Notify users which devices actually vibrate/beep/both/none to avoid surprised
   - Figure out how to set next temporal event after current one was just triggered
   - Not all devices support Attention alerts. Hide option if device doesn't support it.
-- [ ] GPS-based location fetching
+- [x] GPS-based location fetching
   - Instruct user to go outside for a signal, wait for signal, and set in Storage.
   - Save coords for easy re-use. Add menu item to "Reset Location" - clearing existing value.
   - Use elevation (when using GPS location source only). Important: Add pref to switch to sea level too.
