@@ -3,10 +3,13 @@ import Toybox.Lang;
 using Toybox.WatchUi as Ui;
 using Toybox.System as Sys;
 using Toybox.Application.Storage as Storage;
+using Toybox.Application.Properties as Properties;
 
 //* This is the main view of the application.
 class InitialView extends Ui.View {
+    private var isFirstShowing = true;
     private var subtitleLabel;
+    private var underSubtitleLabel;
     private var promptLabel;
 
     //* Constructor
@@ -14,6 +17,7 @@ class InitialView extends Ui.View {
         View.initialize();
 
         subtitleLabel = null;
+        underSubtitleLabel = null;
         promptLabel = null;
     }
 
@@ -23,80 +27,114 @@ class InitialView extends Ui.View {
         setLayout($.Rez.Layouts.MainLayout(dc));
 
         subtitleLabel = View.findDrawableById("subtitle");
+        underSubtitleLabel = View.findDrawableById("under_subtitle");
         promptLabel = View.findDrawableById("prompt");
     }
 
     //* Called when this View is brought to the foreground. Restore
     //* the state of this View and prepare it to be shown. This includes
     //* loading resources into memory.
-    public function onShow() as Void {}
+    public function onShow() as Void {
+        // If this is the first time showing this view and GPS status has leftover "pending" state, clear it.
+        //* This could will occur if the user quit the app while waiting for GPS.
+        if (isFirstShowing == true) {
+            var gpsStatus = Storage.getValue($.getGpsStatusCacheKey());
+            if (gpsStatus != null && gpsStatus.equals("pending")) {
+                Storage.deleteValue($.getGpsStatusCacheKey());
+                $.log("[onShow] GPS status was pending and we're loading for first time, clearing status.");
+            }
+
+            isFirstShowing = false;
+        }
+    }
 
     //* Update the view
     //* @param dc Device Context
     public function onUpdate(dc as Dc) as Void {
-        var zmanimCacheKey = $.getZmanimCacheKey();
-        var zmanimStatusCacheKey = $.getZmanimStatusCacheKey();
+        // TODO: Figure out another way to determine if location is ready. This is otherwise a redundant retrieval.
 
-        // Check if zmanim are already stored and render the view accordingly
-        var zmanimRequestStatus = Storage.getValue(zmanimStatusCacheKey);
-        var remoteZmanData = Storage.getValue(zmanimCacheKey) as ZmanimApiResponse?;
+        // If forced refresh is pending, clear any error message and continue
+        //* This will be true, for example, after exiting the main menu with the assumption that changes have been made.
+        var isPendingRetry = $.getPendingRefresh();
+        if (isPendingRetry == true) {
+            $.log("[onUpdate] Forced retry is pending. Clearing error message and continuing.");
+            Storage.setValue($.getZmanimErrorMessageCacheKey(), null);
+            $.setPendingRefresh(false);
+        }
 
-        if (zmanimRequestStatus != null && zmanimRequestStatus.equals("completed") && remoteZmanData != null) {
-            //* Zmanim are stored in memory
+        var gpsStatus = Storage.getValue($.getGpsStatusCacheKey());
+        var isGpsStatusPending = gpsStatus != null && gpsStatus.equals("pending");
+        var isLocationAvailable = $.getLocation() != null;
+        var zmanimErrorMessage = Storage.getValue($.getZmanimErrorMessageCacheKey());
 
-            // Ensure that zmanim are not stale
-            var isZmanimStale = $.checkIfZmanimStale(remoteZmanData);
-            if (isZmanimStale) {
-                $.log("[onUpdate] Zmanim are stale. Refreshing...");
-
-                // Refresh zmanim via method passed from delegate
-                //* This will set the zmanim request status to "pending"
-                $.refreshZmanim();
-
-                // Refresh the UI for the pending state
-                WatchUi.requestUpdate();
-
-                return;
-            }
-
-            $.log("[onUpdate] Cached zmanim are up-to-date!");
+        // Check if location is available
+        if (isLocationAvailable == true && zmanimErrorMessage == null && isGpsStatusPending != true) {
+            //* Location is available from the chosen source and no errors have been set, or forced retry is pending.
 
             // Switch to zmanim view/menu
-            $.switchToZmanimMenu();
+            $.switchToZmanimMenu(false);
         } else {
-            //* Zmanim are not stored in memory or request status is not "completed".
+            //* Location is null based on source setting, a calculation error has occured, or GPS status is "pending".
+            //* Existing error messages are cleared before calculating zmanim, so this __shouldn't__ be reached by mistake.
 
-            // Set a default state if null
-            //* Since switch statement can't handle null value for some reason
-            if (zmanimRequestStatus == null) {
-                zmanimRequestStatus = "initial";
-            }
+            // Clear existing "SELECT to try again" display text
+            //* Since not all errors can be resolved by retrying.
+            underSubtitleLabel.setText("");
 
-            // Debug: Print the current status of zmanim API request
-            $.log("[onUpdate] Current status of zmanim request: " + zmanimRequestStatus.toUpper());
+            // If an error message is set, display it
+            // Otherwise, display the welcome message
+            if (zmanimErrorMessage != null) {
+                //* An error has occured.
 
-            // Render display message based on the status of the zmanim request
-            switch (zmanimRequestStatus) {
-                case "initial":
-                    //* This should only be reached the first time the app is opened, since after that zmanim will auto-refresh if stale.
-                    subtitleLabel.setText(Ui.loadResource(Rez.Strings.InitialWelcome));
-                    promptLabel.setText(Ui.loadResource(Rez.Strings.InitialFetchPrompt));
-                    break;
-                case "pending":
-                    //* This is reached the first time zmanim are fetched
-                    subtitleLabel.setText(Ui.loadResource(Rez.Strings.Fetching));
-                    promptLabel.setText(Ui.loadResource(Rez.Strings.PleaseWait));
-                    break;
-                case "pending_refresh":
-                    //* This is reached when existing zmanim existed in the cache when $.refreshZmanim() was called
-                    subtitleLabel.setText(Ui.loadResource(Rez.Strings.Refreshing));
-                    promptLabel.setText(Ui.loadResource(Rez.Strings.PleaseWait));
-                    break;
-                case "error":
-                    subtitleLabel.setText(Ui.loadResource(Rez.Strings.Error));
-                    // TODO: Display a friendly error message via new Storage key ZmanimRequestErrorMessage
-                    promptLabel.setText(Ui.loadResource(Rez.Strings.FailedToFetch));
-                    break;
+                // Display error message
+                subtitleLabel.setText(Ui.loadResource(Rez.Strings.Error));
+                underSubtitleLabel.setText(Ui.loadResource(Rez.Strings.SelectToTryAgain));
+                promptLabel.setText(zmanimErrorMessage); //* This will likely be `Rez.Strings.InternalError`
+            } else {
+                //* Not a zmanim error, but no location was available.
+
+                var locationSource = Properties.getValue("locationSource");
+
+                // If GPS is the source, show initial welcome or fetch pending message
+                if (locationSource.equals("GPS")) {
+                    if (gpsStatus == null) {
+                        //* GPS status is null; user hasn't yet retrieved location.
+
+                        // Display welcome message
+                        subtitleLabel.setText(Ui.loadResource(Rez.Strings.InitialWelcome));
+                        promptLabel.setText(Ui.loadResource(Rez.Strings.InitialGpsPrompt));
+                    } else if (gpsStatus.equals("pending")) {
+                        //* GPS status is pending; user has requested location and results have yet to come in.
+
+                        // Display locating GPS message
+                        subtitleLabel.setText(Ui.loadResource(Rez.Strings.Locating));
+                        promptLabel.setText(Ui.loadResource(Rez.Strings.MoveOutside));
+                    } else if (gpsStatus.equals("no_signal")) {
+                        //* GPS status is no signal; could not locate user.
+
+                        // Display no GPS signal message
+                        subtitleLabel.setText(Ui.loadResource(Rez.Strings.NoGpsSignal));
+                        underSubtitleLabel.setText(Ui.loadResource(Rez.Strings.SelectToTryAgain));
+                        promptLabel.setText(Ui.loadResource(Rez.Strings.MoveToBetterArea));
+                    } else if (gpsStatus.equals("timeout")) {
+                        //* GPS status is timeout; could not get a signal in time. Prompt to try again.
+
+                        // Display GPS location message indicating timeout
+                        subtitleLabel.setText(Ui.loadResource(Rez.Strings.GpsTimeout));
+                        underSubtitleLabel.setText(Ui.loadResource(Rez.Strings.SelectToTryAgain));
+                        promptLabel.setText(Ui.loadResource(Rez.Strings.MoveToBetterArea));
+                    }
+
+                    //* There should be no other GPS status values.
+                    //* onPosition handler will call Ui.requestUpdate() upon location.
+                } else {
+                    //* Location could not be determined (and location source is not GPS).
+
+                    // Display message
+                    subtitleLabel.setText(Ui.loadResource(Rez.Strings.LocationUnavailable));
+                    underSubtitleLabel.setText(Ui.loadResource(Rez.Strings.SelectToTryAgain));
+                    promptLabel.setText(Ui.loadResource(Rez.Strings.ChooseLocationSource));
+                }
             }
         }
 

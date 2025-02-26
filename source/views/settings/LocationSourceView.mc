@@ -10,6 +10,7 @@ function pushLocationSourceView() as Void {
 
     // Add menu items
     menu.addItem(new Ui.MenuItem("Auto", null, :auto, null));
+    // TODO: Only show this option if device supports GPS (Position.hasConfigurationSupport())
     menu.addItem(new Ui.MenuItem("GPS", Ui.loadResource(Rez.Strings.LocationSourceGPSSubText), :gps, null));
     menu.addItem(new Ui.MenuItem("Weather", Ui.loadResource(Rez.Strings.LocationSourceWeatherSubText), :weather, null));
     menu.addItem(new Ui.MenuItem("Last Activity", Ui.loadResource(Rez.Strings.LocationSourceLastActivitySubText), :lastActivity, null));
@@ -28,5 +29,5 @@ function pushLocationSourceView() as Void {
         menu.setFocus(3);
     }
 
-    Ui.pushView(menu, new $.LocationSourceDelegate(), Ui.SLIDE_UP);
+    Ui.pushView(menu, new $.LocationSourceDelegate(), Ui.SLIDE_LEFT);
 }

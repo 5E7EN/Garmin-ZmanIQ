@@ -84,8 +84,7 @@ class CustomWrapTopMenu extends WatchUi.CustomMenu {
         var iconX = centerX - iconWidth / 2;
         var iconY = height / 3 - iconHeight / 2;
 
-        // Draw the settings icon at the calculated centered position.  Re-loads the
-        // resource; this is inefficient and the previous load should be used.
+        // Draw the settings icon at the calculated centered position.
         dc.drawBitmap(iconX, iconY, settingsIcon);
 
         // dc.drawText(dc.getWidth() / 2, (dc.getHeight() / 3) * 2, Graphics.FONT_MEDIUM, "Zmanim", Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
