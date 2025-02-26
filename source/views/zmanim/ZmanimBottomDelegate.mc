@@ -5,9 +5,13 @@ import Toybox.WatchUi;
 using Toybox.Application.Storage as Storage;
 
 class ZmanimBottomDelegate extends WatchUi.Menu2InputDelegate {
+    public var mLocationInfo as LocationInfo;
+
     //* Constructor
-    public function initialize() {
+    public function initialize(locationInfo as LocationInfo) {
         Menu2InputDelegate.initialize();
+
+        mLocationInfo = locationInfo;
     }
 
     //* Handle an item being selected
@@ -21,7 +25,7 @@ class ZmanimBottomDelegate extends WatchUi.Menu2InputDelegate {
             $.pushMainMenuView();
         } else if (id == :locationInfo) {
             // Render location info menu
-            $.pushLocationInfoMenuView();
+            $.pushLocationInfoMenuView(mLocationInfo);
         }
     }
 

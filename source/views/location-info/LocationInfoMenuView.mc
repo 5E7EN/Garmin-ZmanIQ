@@ -6,10 +6,7 @@ using Toybox.WatchUi as Ui;
 using Toybox.Application.Storage as Storage;
 using Toybox.Application.Properties as Properties;
 
-function pushLocationInfoMenuView() as Void {
-    // Get location info
-    var locationInfo = $.getLocation() as LocationInfo?;
-
+function pushLocationInfoMenuView(locationInfo as LocationInfo) as Void {
     // Generate a new Menu
     var menu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.LocationInfoMenuTitle) });
 

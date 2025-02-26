@@ -3,13 +3,15 @@ import Toybox.Lang;
 import Toybox.WatchUi;
 
 class ZmanimTopDelegate extends WatchUi.Menu2InputDelegate {
-    private var mBottomMenuCallback as (Method() as Void);
+    private var mBottomMenuCallback as (Method(locationInfo as LocationInfo) as Void);
+    public var mLocationInfo as LocationInfo;
 
     //* Constructor
-    public function initialize(pushBottomMenu as (Method() as Void)) {
+    public function initialize(pushBottomMenu as (Method(locationInfo as LocationInfo) as Void), locationInfo as LocationInfo) {
         Menu2InputDelegate.initialize();
 
         mBottomMenuCallback = pushBottomMenu;
+        mLocationInfo = locationInfo;
     }
 
     //* Handle an item being selected
@@ -32,7 +34,7 @@ class ZmanimTopDelegate extends WatchUi.Menu2InputDelegate {
     public function onWrap(key as Key) as Boolean {
         if (key == WatchUi.KEY_DOWN) {
             // Push buttom menu
-            mBottomMenuCallback.invoke();
+            mBottomMenuCallback.invoke(mLocationInfo);
         }
         return false;
     }
@@ -40,6 +42,6 @@ class ZmanimTopDelegate extends WatchUi.Menu2InputDelegate {
     //* Handle the footer being selected
     public function onFooter() as Void {
         // Push buttom menu
-        mBottomMenuCallback.invoke();
+        mBottomMenuCallback.invoke(mLocationInfo);
     }
 }

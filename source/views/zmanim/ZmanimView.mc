@@ -81,11 +81,11 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?) as Void {
         topMenu.setFocus(zmanim.size() - 1);
     }
 
-    Ui.switchToView(topMenu, new $.ZmanimTopDelegate(new Lang.Method($, :pushBottomZmanimMenu)), Ui.SLIDE_IMMEDIATE);
+    Ui.switchToView(topMenu, new $.ZmanimTopDelegate(new Lang.Method($, :pushBottomZmanimMenu), locationInfo), Ui.SLIDE_IMMEDIATE);
 }
 
 //* Create the sub-menu menu of the Wrap custom menu
-function pushBottomZmanimMenu() as Void {
+function pushBottomZmanimMenu(locationInfo as LocationInfo) as Void {
     var bottomMenu = new $.CustomWrapBottomMenu(80, Graphics.COLOR_WHITE);
 
     // menu.addItem(new Ui.MenuItem("Menu", null, :menu, null));
@@ -93,7 +93,7 @@ function pushBottomZmanimMenu() as Void {
     bottomMenu.addItem(new $.CustomWrapItem("Location Info", null, :locationInfo, Graphics.COLOR_BLACK));
     bottomMenu.addItem(new $.CustomWrapItem("Settings", null, :settings, Graphics.COLOR_BLACK));
 
-    Ui.pushView(bottomMenu, new $.ZmanimBottomDelegate(), Ui.SLIDE_UP);
+    Ui.pushView(bottomMenu, new $.ZmanimBottomDelegate(locationInfo), Ui.SLIDE_UP);
 }
 
 //* Helper function to create a consistent menu item.
