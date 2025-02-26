@@ -8,10 +8,11 @@ using Toybox.Application.Properties as Properties;
 using Toybox.Application.Storage as Storage;
 using Toybox.System as System;
 
-function getLocation() as Array? {
+function getLocation() as LocationInfo? {
     var source = Properties.getValue("locationSource");
 
-    var position = null;
+    var coordinates = null;
+    var elevation = 0;
     var finalSource = null;
 
     // Get available locations (except GPS, for now)
@@ -21,43 +22,45 @@ function getLocation() as Array? {
     // Determine current coordinates based on the selected location source
     switch (source) {
         // TODO: Remove "Auto" as an option to avoid confusion.
+        // TODO cont.: then `finalSource` can just be the same as `source`
         case "Auto":
             // First, try to get location based on weather location
             if (weatherLocation != null && weatherLocation.observationLocationPosition != null) {
-                position = weatherLocation.observationLocationPosition.toDegrees();
+                coordinates = weatherLocation.observationLocationPosition.toDegrees();
                 finalSource = "Weather";
             }
             // Second, try to get location based on last activity
             else if (lastActivityLocation != null && lastActivityLocation.currentLocation != null) {
-                position = lastActivityLocation.currentLocation.toDegrees();
+                coordinates = lastActivityLocation.currentLocation.toDegrees();
                 finalSource = "Last Activity";
             }
 
             break;
         case "GPS":
-            // Get coordinates from storage
+            // Get coordinates and elevation from storage
             //* This will have been stored by the onPosition event listener. If it's empty, user hasn't retrieved location yet.
-            var gpsInfo = Storage.getValue($.getGpsInfoCacheKey()) as GPSInfo;
+            var gpsInfo = Storage.getValue($.getGpsInfoCacheKey()) as GPSInfo?;
 
             if (gpsInfo != null && gpsInfo["coordinates"] != null && gpsInfo["coordinates"].size() == 2) {
-                // TODO: Add elevation
-                position = gpsInfo["coordinates"];
+                coordinates = gpsInfo["coordinates"];
+                // Set elevation to 0 if not available
+                elevation = gpsInfo["elevation"] == -1 ? 0 : gpsInfo["elevation"];
                 finalSource = "GPS";
             } else {
                 $.log("[getLocation] GPS coordinates not yet available.");
-                position = null;
+                coordinates = null;
             }
             break;
         case "Weather":
             if (weatherLocation != null && weatherLocation.observationLocationPosition != null) {
-                position = weatherLocation.observationLocationPosition.toDegrees();
+                coordinates = weatherLocation.observationLocationPosition.toDegrees();
                 finalSource = "Weather";
             }
 
             break;
         case "Last Activity":
             if (lastActivityLocation != null && lastActivityLocation.currentLocation != null) {
-                position = lastActivityLocation.currentLocation.toDegrees();
+                coordinates = lastActivityLocation.currentLocation.toDegrees();
                 finalSource = "Last Activity";
             }
 
@@ -65,13 +68,22 @@ function getLocation() as Array? {
     }
 
     // Check if we got position
-    if (position == null || position.size() != 2) {
+    if (coordinates == null || coordinates.size() != 2) {
         $.log("[getLocation] Unable to determine coordinates.");
+        return null;
     } else {
-        $.log(Lang.format("[getLocation] Coordinates found via $1$: $2$", [finalSource, position]));
-    }
+        // TODO: If "Use Elevation" pref is disabled, override elevation with 0
 
-    return position;
+        $.log(Lang.format("[getLocation] Coordinates found via $1$: $2$ (elevated $3$ meters)", [finalSource, coordinates, elevation]));
+
+        return (
+            ({
+                "coordinates" => coordinates,
+                "elevation" => elevation,
+                "source" => finalSource
+            }) as LocationInfo
+        );
+    }
 }
 
 function setGpsLocation(info as Position.Info) {
@@ -95,17 +107,20 @@ function setGpsLocation(info as Position.Info) {
         }
 
         // Parse GPS info
+
+        // Set elevation to -1 if not available. If available, convert to number (removes decimals).
+        var parsedElevation = elevation != null ? elevation.toNumber() : -1;
         var gpsInfo =
             ({
                 "coordinates" => coordinates,
-                "elevation" => elevation != null ? elevation.toNumber() : -1,
+                "elevation" => parsedElevation,
                 "quality" => hrQuality
             }) as GPSInfo;
 
         // Set data to storage
         Storage.setValue($.getGpsInfoCacheKey(), gpsInfo);
 
-        $.log(Lang.format("[saveGpsLocation] Fresh GPS coordinates saved: $1$ - Elevation: $2$ ", [coordinates, elevation ? elevation.toNumber() : "N/A"]));
+        $.log(Lang.format("[saveGpsLocation] Fresh GPS coordinates saved: $1$ - Elevation: $2$ ", [coordinates, parsedElevation.equals(-1) ? "N/A" : parsedElevation]));
     } else {
         $.log("[saveGpsLocation] Provided coordinates are invalid.");
     }

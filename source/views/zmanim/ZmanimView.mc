@@ -22,19 +22,22 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?) as Void {
         return;
     }
 
-    // TODO: Cache zmanim to prevent having to make all calculations every render (like before, and set date key to check against for expiration of cached data)
-    var coordinates = $.getLocation() as Array;
+    // Retrieve the current location
+    var location = $.getLocation() as LocationInfo?;
 
-    // If no coordinates are available, switch to initial view
-    //* Initial view will handle lack of location and render accordingly.
-    if (coordinates == null) {
-        //* This isn't reached upon error, but rather when location is not available via the chosen source.
+    // If no location/coordinates are available, switch to initial view
+    //* Initial view will handle lack of location and render accordingly. It will do this same check there too.
+    if (location == null) {
+        //* This isn't reached upon error necessarily, but rather when location is not available via the chosen source.
         Ui.switchToView(new $.InitialView(), new $.InitialDelegate(), Ui.SLIDE_IMMEDIATE);
         return;
     }
 
+    // Get zmanim
+    // TODO: Allow user to select zmanim for a different date
     var dateToday = Time.now();
-    var elevation = 0; // $.getElevation() as Number?;
+    var coordinates = location["coordinates"];
+    var elevation = location["elevation"];
     var zmanim = $.getZmanim(dateToday, coordinates, elevation) as Array<ZmanTime>; // getZmanim(date as Time.Moment, coordinates as Array<String, String>, elevation as Number?) as DisplayedZmanimTimes
 
     // Ensure zmanim don't come back empty (type checked so should be fine, but I don't trust compiler)

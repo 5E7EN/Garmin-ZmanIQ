@@ -68,7 +68,7 @@ class InitialView extends Ui.View {
         var zmanimErrorMessage = Storage.getValue($.getZmanimErrorMessageCacheKey());
 
         // Check if location is available
-        if (isLocationAvailable && zmanimErrorMessage == null && isGpsStatusPending != true) {
+        if (isLocationAvailable == true && zmanimErrorMessage == null && isGpsStatusPending != true) {
             //* Location is available from the chosen source and no errors have been set, or forced retry is pending.
 
             // Switch to zmanim view/menu
