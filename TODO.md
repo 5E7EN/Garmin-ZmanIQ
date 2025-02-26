@@ -17,26 +17,26 @@
   - See also: https://github.com/myneur/late
 - [x] Improve location handling. See [this great project](https://github.com/dagstuan/skredvarselGarmin).
 - [x] Make constants of Storage key names for cached data (e.g. constants/storage.mc, see `SkredvarselStorage.mc` in project above)
-- [ ] Show user where we assume he his based on coords (use some API) to prevent confusion. See NOTES.md.
+- [-] ~~Show user where we assume he his based on coords (use some API) to prevent confusion. See NOTES.md.~~ Not feasible due to memory constraints.
 - [ ] Migrate to widget instead of app
   - Implications: https://developer.garmin.com/connect-iq/connect-iq-basics/app-types/
   - None affect us, other than loss of location fetching via Last Activity.
-- [ ] Initial view, if no zmanim yet cached, should be "fetching GPS coords, go outside". SELECT button opens menu to choose between Weather location or last fetched GPS coords.
+- [x] ~~Initial view, if no zmanim yet cached, should be "fetching GPS coords, go outside". SELECT button opens menu to choose between Weather location or last fetched GPS coords.~~ Did better :)
 - [-] ~~Zmanim display should be a scrollable View instead of Menu (for onMenu support)~~ No need. Using custom wrapping menu instead.
 - [x] Use device clock settings (12/24hr) for time display
-- [ ] Support on-device zmanim calculations
+- [x] Support on-device zmanim calculations
   - See: https://github.com/KosherJava/zmanim
   - See: https://github.com/hebcal/hebcal-es6
   - Then, change "Reload Zmanim" button in menu to "Select Date"
   - Also, get next day's zmanim that may be relevant for today (e.g. chatzos night, sunrise)
   - Only use altitude when location source is GPS to prevent inaccuracies.
 - [x] Improve view/menu animations (see elegance in Menu2Custom sample)
-- [ ] Select zman for Menu to Set Reminder
+- [ ] Select zman from list to Set Reminder
   - Main reminder settings (time before, etc.) should be in main menu
 - [ ] Add pref to choose between Gra and Magen Avraham
   - Only currently relevant for sofZmanShma, sofZmanTfilla, minchaGedola, minchaKetana
   - Once on-device calculations are used, may also support sunrise/sunset differences in opinion
-- [ ] Move `zmanim` folder to `utils/` in source
+- [x] Move `zmanim` folder to `utils/` in source
 - [ ] Determine how to allow user to choose between zman opinions (zenith differences, etc.)
   - Add pref to toggle for showing Rabbeinu Tam (72 minute) times
 - [ ] Based on chosen zman opinion, determine how to differ results based on user's location (e.g. tzeis offset will be different in Israel vs Diaspora)
@@ -48,7 +48,7 @@
 - [ ] Clean up code comments
 - [x] Improve memory usage
   - Clear existing view stack before calling `switchToZmanimMenu` to reload zmanim.
-- [ ] Create map view to show user's location.
+- [ ] Create map view to show user's current detected location.
   - See NOTES.md
   - See MapSample SDK sample
 
