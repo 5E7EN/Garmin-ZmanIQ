@@ -2,16 +2,16 @@ import Toybox.Lang;
 import Toybox.Time;
 
 // TODO: Use all of the following times:
-// Alos 16.1
-// Sunrise
-// Sof Zman Shema GR"A / Sof Zman Shema MG"A
-// Sof Zman Tfila GR"A / Sof Zman Tfila MG"A
-// Chatzos
-// Mincha Gedola
+// Alos 16.1 ✅
+// Sunrise ✅
+// Sof Zman Shema GR"A / Sof Zman Shema MG"A ✅
+// Sof Zman Tfila GR"A / Sof Zman Tfila MG"A ✅
+// Chatzos ✅
+// Mincha Gedola ✅
 // Mincha Ketana
 // Plag Hamincha
-// Sunset
-// Tzais
+// Sunset ✅
+// Tzais ✅
 // Tzais 72
 
 // TODO: Use symbols instead? May save memory.

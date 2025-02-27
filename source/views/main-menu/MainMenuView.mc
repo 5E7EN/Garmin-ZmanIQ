@@ -13,11 +13,17 @@ function pushMainMenuView() as Void {
 
     // Get current elevation preference
     var useElevation = Properties.getValue("useElevation") as Boolean;
+    var useMGAZmanim = Properties.getValue("useMGAZmanim") as Boolean;
 
     // Add menu items
     menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.MainMenuLocationSourceText), Ui.loadResource(Rez.Strings.MainMenuLocationSourceSubText), :locationSource, null));
     menu.addItem(
         new Ui.ToggleMenuItem(Ui.loadResource(Rez.Strings.MainMenuUseElevationText), Ui.loadResource(Rez.Strings.MainMenuUseElevationSubText), :useElevation, useElevation, {
+            :alignment => Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
+        })
+    );
+    menu.addItem(
+        new Ui.ToggleMenuItem(Ui.loadResource(Rez.Strings.MainMenuUseMGAZmanim), { :disabled => "Selected: GR\"A", :enabled => "Selected: MG\"A" }, :useMGAZmanim, useMGAZmanim, {
             :alignment => Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
         })
     );

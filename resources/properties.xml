@@ -2,4 +2,5 @@
     <!-- Settings -->
     <property id="locationSource" type="string">Auto</property>
     <property id="useElevation" type="boolean">true</property>
+    <property id="useMGAZmanim" type="boolean">false</property>
 </properties>
