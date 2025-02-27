@@ -10,10 +10,11 @@
   - In settings, you will be able to enable/disable "Use Elevation". [More Info](https://kosherjava.com/zmanim/docs/api/com/kosherjava/zmanim/ZmanimCalendar.html) (only changes sunrise/sunset).
   - Even when "Use Elevation" is enabled, only sunrise and sunset will use elevation. Other zmanim will use sea level.
 - There are places that consist of 0.00001% of the earth where zmanim may not be calculated properly, such as those across the antimeridian line. [More Info](https://github.com/KosherJava/zmanim/blob/d064715ebeaead29a01ec673f3885ee9bd9c78b4/src/main/java/com/kosherjava/zmanim/util/GeoLocation.java#L344)
-- Due to atmospheric conditions (pressure, humidity and other conditions), calculating zmanim accurately is very complex. The calculation of zmanim is dependent on [atmospheric refraction](https://en.wikipedia.org/wiki/Atmospheric_refraction) (refraction of sunlight through the atmosphere), and zmanim can be off by up to 2 minutes based on atmospheric conditions.
+- Due to atmospheric conditions (pressure, humidity and other conditions), calculating zmanim accurately is very complex. The calculation of zmanim is dependent on [atmospheric refraction](https://en.wikipedia.org/wiki/Atmospheric_refraction) (refraction of sunlight through the atmosphere), and zmanim can be off by up to 2 minutes based on atmospheric conditions. It is recommended to adjust sunrise and sunset by 2 minutes in either direction _lechumrah_.
 - While we've tried our best to ensure a high level of accuracy, please double check before relying on these zmanim for halacha lemaaseh.
 - [Coming Soon] Displays your current location on map.
   - Supported devices: [See Here](https://developer.garmin.com/connect-iq/api-docs/Toybox/WatchUi/MapView.html)
+- MyZmanim doesn't take weather into account for searched locations for some reason.
 
 ## Naming Conventions
 

@@ -7,7 +7,7 @@ using Toybox.Time;
 using Toybox.Time.Gregorian;
 using Toybox.Application.Storage as Storage;
 
-function getZmanim(date as Time.Moment, coordinates as Array, elevation as Number) as Array<ZmanTime> {
+function getZmanim(date as Time.Moment, coordinates as Array, elevation as Number, useMGAZmanim as Boolean?) as Array<ZmanTime> {
     // Clear any existing error message
     // Storage.deleteValue($.getZmanimErrorMessageCacheKey());
 
@@ -38,8 +38,14 @@ function getZmanim(date as Time.Moment, coordinates as Array, elevation as Numbe
         // TODO: Adjust based on future "Gra-or-MGA" preference. Currently using Gra only.
         zmanim.add({ "name" => $.ZmanNames["ALOS"], "time" => zmanimCalendar.getAlotHashachar() });
         zmanim.add({ "name" => $.ZmanNames["SUNRISE"], "time" => zmanimCalendar.getSunrise() });
-        zmanim.add({ "name" => $.ZmanNames["SOF_ZMAN_SHEMA"], "time" => zmanimCalendar.getSofZmanShmaGRA() });
-        zmanim.add({ "name" => $.ZmanNames["SOF_ZMAN_TEFILLA"], "time" => zmanimCalendar.getSofZmanTfilaGRA() });
+        // Use preferred opinion for certain times
+        if (useMGAZmanim == true) {
+            zmanim.add({ "name" => $.ZmanNames["SOF_ZMAN_SHEMA"], "time" => zmanimCalendar.getSofZmanShmaMGA() });
+            zmanim.add({ "name" => $.ZmanNames["SOF_ZMAN_TEFILLA"], "time" => zmanimCalendar.getSofZmanTfilaMGA() });
+        } else {
+            zmanim.add({ "name" => $.ZmanNames["SOF_ZMAN_SHEMA"], "time" => zmanimCalendar.getSofZmanShmaGRA() });
+            zmanim.add({ "name" => $.ZmanNames["SOF_ZMAN_TEFILLA"], "time" => zmanimCalendar.getSofZmanTfilaGRA() });
+        }
         zmanim.add({ "name" => $.ZmanNames["CHATZOS"], "time" => zmanimCalendar.getChatzot() });
         zmanim.add({ "name" => $.ZmanNames["MINCHA_GEDOLA"], "time" => zmanimCalendar.getMinchaGedola() });
         zmanim.add({ "name" => $.ZmanNames["SUNSET"], "time" => zmanimCalendar.getSunset() });

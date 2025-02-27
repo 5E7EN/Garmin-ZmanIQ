@@ -38,7 +38,9 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?) as Void {
     var dateToday = Time.now();
     var coordinates = locationInfo["coordinates"];
     var elevation = locationInfo["elevation"];
-    var zmanim = $.getZmanim(dateToday, coordinates, elevation) as Array<ZmanTime>; // getZmanim(date as Time.Moment, coordinates as Array<String, String>, elevation as Number?) as DisplayedZmanimTimes
+    // Get preference of opinion
+    var useMGAZmanim = Properties.getValue("useMGAZmanim") as Boolean;
+    var zmanim = $.getZmanim(dateToday, coordinates, elevation, useMGAZmanim) as Array<ZmanTime>;
 
     // Ensure zmanim don't come back empty (type checked so should be fine, but I don't trust compiler)
     if (zmanim.size() == 0) {

@@ -25,6 +25,9 @@ class MainMenuDelegate extends WatchUi.Menu2InputDelegate {
         } else if (id == :useElevation) {
             // Toggle the elevation preference
             Properties.setValue("useElevation", Properties.getValue("useElevation") ? false : true);
+        } else if (id == :useMGAZmanim) {
+            // Toggle the opinion preference
+            Properties.setValue("useMGAZmanim", Properties.getValue("useMGAZmanim") ? false : true);
         }
         // } else if (id == :reminders) {
         //     $.pushRemindersMenuView();
