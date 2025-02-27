@@ -48,8 +48,11 @@ function getZmanim(date as Time.Moment, coordinates as Array, elevation as Numbe
         }
         zmanim.add({ "name" => $.ZmanNames["CHATZOS"], "time" => zmanimCalendar.getChatzot() });
         zmanim.add({ "name" => $.ZmanNames["MINCHA_GEDOLA"], "time" => zmanimCalendar.getMinchaGedola() });
+        zmanim.add({ "name" => $.ZmanNames["MINCHA_KETANA"], "time" => zmanimCalendar.getMinchaKetana() });
+        zmanim.add({ "name" => $.ZmanNames["PLAG_HAMINCHA"], "time" => zmanimCalendar.getPlagHamincha() });
         zmanim.add({ "name" => $.ZmanNames["SUNSET"], "time" => zmanimCalendar.getSunset() });
         zmanim.add({ "name" => $.ZmanNames["TZEIS"], "time" => zmanimCalendar.getTzait() });
+        zmanim.add({ "name" => $.ZmanNames["TZEIS_72"], "time" => zmanimCalendar.getTzait72() });
     } catch (error) {
         // Log error
         $.log("[getZmanim] Error occurred while calculating zmanim: " + error);
