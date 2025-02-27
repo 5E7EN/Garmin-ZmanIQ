@@ -52,6 +52,8 @@
   - See NOTES.md
   - See MapSample SDK sample
 - [ ] Add "last updated" for location info (more complicated than it seems)
+- [ ] Add "Misheyakir" zman
+  - Zenith to use is dependant on location. [Read More](https://www.myzmanim.com/read/sources.aspx)
 
 ## Priority Items
 

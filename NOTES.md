@@ -15,6 +15,10 @@
 - [Coming Soon] Displays your current location on map.
   - Supported devices: [See Here](https://developer.garmin.com/connect-iq/api-docs/Toybox/WatchUi/MapView.html)
 - MyZmanim doesn't take weather into account for searched locations for some reason.
+- In settings, you may choose between using the opinion of the GR"A or MG"A for certain zmanim (Sof Zman Shema & Sof Zman Tefilla).
+- Mincha Gedola is calculated as 6.5 Shaaos Zmaniyos into the day (may be _lekulah_ or _lechumrah_ based on time of year).
+- Mincha Gedola is calculated as 9.5 Shaaos Zmaniyos into the day (GR"A & Baal HaTanya).
+- Plag HaMincha is calculated as 10.75 Shaaos Zmaniyos into the day (GR"A & Baal HaTanya).
 
 ## Naming Conventions
 
