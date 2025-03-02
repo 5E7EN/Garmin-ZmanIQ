@@ -16,6 +16,9 @@ function pushLocationInfoMenuView(locationInfo as LocationInfo) as Void {
         elevationValue = "Disabled";
     }
 
+    // Determine last updated value
+    var lastUpdatedValue = locationInfo["lastUpdated"] != null ? $.formatTimeAgo(locationInfo["lastUpdated"]) : "Unknown";
+
     // Add info items
     menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.LocationInfoMenuSource), locationInfo["source"].toString(), null, null));
     menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.LocationInfoMenuCoords), locationInfo["coordinates"].toString(), null, null));
@@ -25,6 +28,9 @@ function pushLocationInfoMenuView(locationInfo as LocationInfo) as Void {
     if (locationInfo["source"].equals("GPS")) {
         menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.LocationInfoMenuGpsQuality), locationInfo["gpsQuality"], null, null));
     }
+
+    // Add more info item(s)
+    menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.LocationInfoMenuLastUpdated), lastUpdatedValue, null, null));
 
     // Add functional items
     menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.LocationInfoMenuReloadLocation), null, :reloadLocation, null));
