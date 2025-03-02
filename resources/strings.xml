@@ -40,6 +40,7 @@
     <string id="LocationInfoMenuCoords">Coordinates</string>
     <string id="LocationInfoMenuElevation">Elevation</string>
     <string id="LocationInfoMenuGpsQuality">Signal Quality</string>
+    <string id="LocationInfoMenuLastUpdated">Last Updated</string>
     <string id="LocationInfoMenuReloadLocation">Reload Location</string>
 
     <!-- Location Source -->

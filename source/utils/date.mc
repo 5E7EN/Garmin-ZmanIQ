@@ -22,3 +22,49 @@ function parseMomentToTimeString(moment as Time.Moment) as String {
 
     return parsed;
 }
+
+function formatTimeAgo(epochSeconds as Number) as String? {
+    if (epochSeconds == null || !(epochSeconds instanceof Number)) {
+        $.log("[formatTimeAgo] Invalid epoch seconds: " + epochSeconds);
+        return null;
+    }
+
+    var now = Time.now();
+    var duration = now.subtract(new Time.Duration(epochSeconds));
+    var seconds = duration.value();
+
+    if (seconds < 0) {
+        // Handle future time (should not happen with proper usage)
+        return null;
+    }
+
+    if (seconds < 60) {
+        return seconds + " seconds ago";
+    }
+
+    var minutes = (seconds / 60).toNumber();
+    if (minutes < 60) {
+        return minutes + (minutes == 1 ? " minute" : " minutes") + " ago";
+    }
+
+    var hours = (minutes / 60).toNumber();
+    if (hours < 24) {
+        return hours + (hours == 1 ? " hour" : " hours") + " ago";
+    }
+
+    var days = (hours / 24).toNumber();
+    if (days < 30) {
+        // Approximate months
+        return days + (days == 1 ? " day" : " days") + " ago";
+    }
+
+    // Approximate months. We don't need perfect accuracy.
+    var months = (days / 30.44).toNumber(); // Average days in a month
+    if (months < 12) {
+        return months + (months == 1 ? " month" : " months") + " ago";
+    }
+
+    // Approximate years
+    var years = (months / 12).toNumber();
+    return years + (years == 1 ? " year" : " years") + " ago";
+}

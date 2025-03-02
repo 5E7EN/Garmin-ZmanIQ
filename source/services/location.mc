@@ -3,6 +3,7 @@ import Toybox.Activity;
 import Toybox.Lang;
 import Toybox.Position;
 import Toybox.Math;
+import Toybox.Time;
 
 using Toybox.Application.Properties as Properties;
 using Toybox.Application.Storage as Storage;
@@ -15,10 +16,11 @@ function getLocation() as LocationInfo? {
     var elevation = 0;
     var gpsQuality = null;
     var finalSource = null;
+    var lastUpdated = null;
 
     // Get available locations (except GPS, for now)
-    var weatherLocation = Weather.getCurrentConditions();
-    var lastActivityLocation = Activity.getActivityInfo();
+    var weather = Weather.getCurrentConditions();
+    var lastActivity = Activity.getActivityInfo();
 
     // Determine current coordinates based on the selected location source
     switch (source) {
@@ -26,14 +28,16 @@ function getLocation() as LocationInfo? {
         // TODO cont.: then `finalSource` can just be the same as `source`
         case "Auto":
             // First, try to get location based on weather location
-            if (weatherLocation != null && weatherLocation.observationLocationPosition != null) {
-                coordinates = weatherLocation.observationLocationPosition.toDegrees();
+            if (weather != null && weather.observationLocationPosition != null) {
+                coordinates = weather.observationLocationPosition.toDegrees();
                 finalSource = "Weather";
+                lastUpdated = weather.observationTime != null ? weather.observationTime.value() : null;
             }
             // Second, try to get location based on last activity
-            else if (lastActivityLocation != null && lastActivityLocation.currentLocation != null) {
-                coordinates = lastActivityLocation.currentLocation.toDegrees();
+            else if (lastActivity != null && lastActivity.currentLocation != null) {
+                coordinates = lastActivity.currentLocation.toDegrees();
                 finalSource = "Last Activity";
+                lastUpdated = lastActivity.startTime != null ? lastActivity.startTime.value() : null;
             }
 
             break;
@@ -49,22 +53,25 @@ function getLocation() as LocationInfo? {
                 elevation = gpsInfo["elevation"];
                 gpsQuality = gpsInfo["quality"];
                 finalSource = "GPS";
+                lastUpdated = gpsInfo["lastUpdated"];
             } else {
                 $.log("[getLocation] GPS coordinates not yet available.");
                 coordinates = null;
             }
             break;
         case "Weather":
-            if (weatherLocation != null && weatherLocation.observationLocationPosition != null) {
-                coordinates = weatherLocation.observationLocationPosition.toDegrees();
+            if (weather != null && weather.observationLocationPosition != null) {
+                coordinates = weather.observationLocationPosition.toDegrees();
                 finalSource = "Weather";
+                lastUpdated = weather.observationTime != null ? weather.observationTime.value() : null;
             }
 
             break;
         case "Last Activity":
-            if (lastActivityLocation != null && lastActivityLocation.currentLocation != null) {
-                coordinates = lastActivityLocation.currentLocation.toDegrees();
+            if (lastActivity != null && lastActivity.currentLocation != null) {
+                coordinates = lastActivity.currentLocation.toDegrees();
                 finalSource = "Last Activity";
+                lastUpdated = lastActivity.startTime != null ? lastActivity.startTime.value() : null;
             }
 
             break;
@@ -89,8 +96,8 @@ function getLocation() as LocationInfo? {
                 "elevation" => elevation,
                 "source" => finalSource,
                 "gpsQuality" => gpsQuality,
-                "useElevation" => useElevation
-                // TODO: "lastUpdated" => [...]
+                "useElevation" => useElevation,
+                "lastUpdated" => lastUpdated
             }) as LocationInfo
         );
     }
@@ -100,6 +107,7 @@ function setGpsLocation(info as Position.Info) {
     var coordinates = info.position.toDegrees();
     var elevation = info.altitude;
     var quality = info.accuracy;
+    var lastUpdated = Time.now().value();
 
     // Save GPS coordinates to storage
     //* Any "bad" quality values are already considered handled in the `onPosition` function (the caller of this one).
@@ -113,7 +121,8 @@ function setGpsLocation(info as Position.Info) {
             ({
                 "coordinates" => coordinates,
                 "elevation" => parsedElevation,
-                "quality" => parsedQuality
+                "quality" => parsedQuality,
+                "lastUpdated" => lastUpdated
             }) as GPSInfo;
 
         // Set data to storage
