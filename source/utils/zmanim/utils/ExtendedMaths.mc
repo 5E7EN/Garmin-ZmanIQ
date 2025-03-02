@@ -5,10 +5,16 @@ module JewishCalendarModule {
     module ExtendedMaths {
         const PI_2 = Maths.PI / 2.0;
 
+        // Checks if a number is NaN
+        //* Explained here: https://forums.garmin.com/developer/connect-iq/f/discussion/338071/testing-for-nan/1777041#1777041
+        function isNaN(x) {
+            return x != x;
+        }
+
         function fmod(dividend, divisor) {
             if (divisor == 0.0) {
-                // Handle division by zero. Return NaN.
-                return Maths.acos(2);
+                // Handle division by zero. Return null.
+                return null;
             }
 
             var quotient = dividend / divisor;

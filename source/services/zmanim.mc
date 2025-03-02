@@ -35,7 +35,6 @@ function getZmanim(date as Time.Moment, coordinates as Array, elevation as Numbe
         $.log(Lang.format("[getZmanim] Calculated zmanim for date: $1$/$2$/$3$", [parsedDate.month.format("%02d"), parsedDate.day.format("%02d"), parsedDate.year]));
 
         // Build zmanim
-        // TODO: Adjust based on future "Gra-or-MGA" preference. Currently using Gra only.
         zmanim.add({ "name" => $.ZmanNames["ALOS"], "time" => zmanimCalendar.getAlotHashachar() });
         zmanim.add({ "name" => $.ZmanNames["SUNRISE"], "time" => zmanimCalendar.getSunrise() });
         // Use preferred opinion for certain times
@@ -77,10 +76,10 @@ function getNextUpcomingZman(zmanim as Array<ZmanTime>) as Array? {
     for (var i = 0; i < zmanim.size(); i++) {
         var zman = zmanim[i];
         var zmanName = zman["name"] as String;
-        var zmanMoment = zman["time"] as Time.Moment;
+        var zmanMoment = zman["time"] as Time.Moment?;
 
         // Ensure current zman index is after current time (i.e. in the future)
-        if (zmanMoment.value() > currentTime) {
+        if (zmanMoment != null && zmanMoment.value() > currentTime) {
             // Ensure zman time at current index is earlier than existing "earliest" zman
             if (minDifference.equals(1337) || zmanMoment.value() < minDifference) {
                 closestZmanName = zmanName;

@@ -84,7 +84,9 @@ module JewishCalendarModule {
             }
 
             hidden function getDateFromTime(time) {
-                if (null == time) {
+                // Check for null or NaN
+                //* This occurs when making calculations, for example, at locations far north.
+                if (null == time || ExtendedMaths.isNaN(time) == true) {
                     return null;
                 }
                 var calculatedTime = time;
