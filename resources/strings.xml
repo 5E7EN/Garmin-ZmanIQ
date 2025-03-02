@@ -32,7 +32,7 @@
     <string id="MainMenuLocationSourceSubText">Set location source</string>
     <string id="MainMenuUseElevationText">Use Elevation?</string>
     <string id="MainMenuUseElevationSubText">For sunrise/sunset</string>
-    <string id="MainMenuUseMGAZmanim">GR"A or MG"A?</string>
+    <string id="MainMenuUseMGAZmanimText">GR"A or MG"A?</string>
 
     <!-- Location Info Menu -->
     <string id="LocationInfoMenuTitle">Location Info</string>
