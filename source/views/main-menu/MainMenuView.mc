@@ -23,9 +23,13 @@ function pushMainMenuView() as Void {
         })
     );
     menu.addItem(
-        new Ui.ToggleMenuItem(Ui.loadResource(Rez.Strings.MainMenuUseMGAZmanim), { :disabled => "Selected: GR\"A", :enabled => "Selected: MG\"A" }, :useMGAZmanim, useMGAZmanim, {
-            :alignment => Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
-        })
+        new Ui.ToggleMenuItem(
+            Ui.loadResource(Rez.Strings.MainMenuUseMGAZmanimText),
+            { :disabled => "Selected: GR\"A", :enabled => "Selected: MG\"A" },
+            :useMGAZmanim,
+            useMGAZmanim,
+            { :alignment => Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT }
+        )
     );
     // TODO: Implement Reminders logic
     // menu.addItem(new Ui.MenuItem("Reminders", "Manage active reminders", :reminders, null));
