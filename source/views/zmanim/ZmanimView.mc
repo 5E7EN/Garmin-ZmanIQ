@@ -61,7 +61,7 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?) as Void {
     for (var i = 0; i < zmanim.size(); i++) {
         var zman = zmanim[i];
         var zmanName = zman["name"] as String;
-        var zmanTime = zman["time"] as Time.Moment;
+        var zmanTime = zman["time"] as Time.Moment?;
 
         topMenu.addItem(createZmanMenuItem(zmanName, zmanTime));
     }
@@ -99,9 +99,10 @@ function pushBottomZmanimMenu(locationInfo as LocationInfo) as Void {
 }
 
 //* Helper function to create a consistent menu item.
-function createZmanMenuItem(zmanName as String, zmanTime as Time.Moment) as CustomWrapItem {
+function createZmanMenuItem(zmanName as String, zmanTime as Time.Moment?) as CustomWrapItem {
     // Get the friendly name for the zman key
     var friendlyName = $.ZmanimFriendlyNames[zmanName];
+    var timeString = null;
 
     if (friendlyName == null) {
         // Fallback to the key if no friendly name is found for some reason
@@ -109,7 +110,12 @@ function createZmanMenuItem(zmanName as String, zmanTime as Time.Moment) as Cust
     }
 
     // Convert the zman time to a time string
-    var timeString = $.parseMomentToTimeString(zmanTime);
+    if (zmanTime == null) {
+        //* Zman is null. For example, at locations in the far north (Longyearbyen, Norway).
+        timeString = "N/A";
+    } else {
+        timeString = $.parseMomentToTimeString(zmanTime);
+    }
 
     // Return the custom menu item
     return new $.CustomWrapItem(friendlyName, timeString, zmanName, Graphics.COLOR_WHITE);

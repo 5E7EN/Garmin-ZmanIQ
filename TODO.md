@@ -33,7 +33,7 @@
 - [x] Improve view/menu animations (see elegance in Menu2Custom sample)
 - [ ] Select zman from list to Set Reminder
   - Main reminder settings (time before, etc.) should be in main menu
-- [ ] Add pref to choose between Gra and Magen Avraham
+- [x] Add pref to choose between Gra and Magen Avraham
   - Only currently relevant for sofZmanShma, sofZmanTfilla, minchaGedola, minchaKetana
   - Once on-device calculations are used, may also support sunrise/sunset differences in opinion
 - [x] Move `zmanim` folder to `utils/` in source
@@ -51,7 +51,8 @@
 - [ ] Create map view to show user's current detected location.
   - See NOTES.md
   - See MapSample SDK sample
-- [ ] Add "last updated" for location info (more complicated than it seems)
+  - Only supported on some devices.
+- [x] Add "last updated" for location info
 - [ ] Add "Misheyakir" zman
   - Zenith to use is dependant on location. [Read More](https://www.myzmanim.com/read/sources.aspx)
 
