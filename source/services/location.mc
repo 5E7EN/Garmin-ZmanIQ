@@ -15,32 +15,10 @@ function getLocation() as LocationInfo? {
     var coordinates = null;
     var elevation = 0;
     var gpsQuality = null;
-    var finalSource = null;
     var lastUpdated = null;
-
-    // Get available locations (except GPS, for now)
-    var weather = Weather.getCurrentConditions();
-    var lastActivity = Activity.getActivityInfo();
 
     // Determine current coordinates based on the selected location source
     switch (source) {
-        // TODO: Remove "Auto" as an option to avoid confusion.
-        // TODO cont.: then `finalSource` can just be the same as `source`
-        case "Auto":
-            // First, try to get location based on weather location
-            if (weather != null && weather.observationLocationPosition != null) {
-                coordinates = weather.observationLocationPosition.toDegrees();
-                finalSource = "Weather";
-                lastUpdated = weather.observationTime != null ? weather.observationTime.value() : null;
-            }
-            // Second, try to get location based on last activity
-            else if (lastActivity != null && lastActivity.currentLocation != null) {
-                coordinates = lastActivity.currentLocation.toDegrees();
-                finalSource = "Last Activity";
-                lastUpdated = lastActivity.startTime != null ? lastActivity.startTime.value() : null;
-            }
-
-            break;
         case "GPS":
             // Get coordinates and elevation from storage
             //* This will have been stored by the onPosition event listener. If it's empty, user hasn't retrieved location yet.
@@ -52,7 +30,6 @@ function getLocation() as LocationInfo? {
                 // Set elevation to 0 if not available
                 elevation = gpsInfo["elevation"];
                 gpsQuality = gpsInfo["quality"];
-                finalSource = "GPS";
                 lastUpdated = gpsInfo["lastUpdated"];
             } else {
                 $.log("[getLocation] GPS coordinates not yet available.");
@@ -60,18 +37,13 @@ function getLocation() as LocationInfo? {
             }
             break;
         case "Weather":
+            // Get coordinates from weather
+            //* This will have been if/when the user synced their phone.
+            var weather = Weather.getCurrentConditions();
+
             if (weather != null && weather.observationLocationPosition != null) {
                 coordinates = weather.observationLocationPosition.toDegrees();
-                finalSource = "Weather";
                 lastUpdated = weather.observationTime != null ? weather.observationTime.value() : null;
-            }
-
-            break;
-        case "Last Activity":
-            if (lastActivity != null && lastActivity.currentLocation != null) {
-                coordinates = lastActivity.currentLocation.toDegrees();
-                finalSource = "Last Activity";
-                lastUpdated = lastActivity.startTime != null ? lastActivity.startTime.value() : null;
             }
 
             break;
@@ -88,13 +60,13 @@ function getLocation() as LocationInfo? {
             elevation = 0;
         }
 
-        $.log(Lang.format("[getLocation] Coordinates found via $1$: $2$ (elevated $3$ meters). UseElevation? $4$", [finalSource, coordinates, elevation, useElevation.toString()]));
+        $.log(Lang.format("[getLocation] Coordinates found via $1$: $2$ (elevated $3$ meters). Use elevation? $4$", [source, coordinates, elevation, useElevation.toString()]));
 
         return (
             ({
                 "coordinates" => coordinates,
                 "elevation" => elevation,
-                "source" => finalSource,
+                "source" => source,
                 "gpsQuality" => gpsQuality,
                 "useElevation" => useElevation,
                 "lastUpdated" => lastUpdated
@@ -116,7 +88,7 @@ function setGpsLocation(info as Position.Info) {
         // Set elevation to 0 if not available. If available, convert to number (removes decimals).
         var parsedElevation = elevation != null ? elevation.toNumber() : 0;
         // Set human-friendly quality value
-        var parsedQuality = getGpsQuality(quality);
+        var parsedQuality = parseGpsQuality(quality);
         var gpsInfo =
             ({
                 "coordinates" => coordinates,
@@ -134,7 +106,7 @@ function setGpsLocation(info as Position.Info) {
     }
 }
 
-function getGpsQuality(accuracy as Position.Quality) as String {
+function parseGpsQuality(accuracy as Position.Quality) as String {
     var hrQuality = null;
 
     // Set human-friendly quality value

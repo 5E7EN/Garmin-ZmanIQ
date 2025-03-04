@@ -119,14 +119,14 @@ class InitialView extends Ui.View {
                         // Display no GPS signal message
                         subtitleLabel.setText(Ui.loadResource(Rez.Strings.NoGpsSignal));
                         underSubtitleLabel.setText(Ui.loadResource(Rez.Strings.SelectToTryAgain));
-                        promptLabel.setText(Ui.loadResource(Rez.Strings.MoveToBetterArea));
+                        promptLabel.setText(Ui.loadResource(Rez.Strings.EnsureOutside));
                     } else if (gpsStatus.equals("timeout")) {
                         //* GPS status is timeout; could not get a signal in time. Prompt to try again.
 
                         // Display GPS location message indicating timeout
                         subtitleLabel.setText(Ui.loadResource(Rez.Strings.GpsTimeout));
                         underSubtitleLabel.setText(Ui.loadResource(Rez.Strings.SelectToTryAgain));
-                        promptLabel.setText(Ui.loadResource(Rez.Strings.MoveToBetterArea));
+                        promptLabel.setText(Ui.loadResource(Rez.Strings.EnsureOutside));
                     }
 
                     //* There should be no other GPS status values.

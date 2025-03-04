@@ -9,24 +9,18 @@ function pushLocationSourceView() as Void {
     var menu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.LocationSourceTitle) });
 
     // Add menu items
-    menu.addItem(new Ui.MenuItem("Auto", null, :auto, null));
     // TODO: Only show this option if device supports GPS (Position.hasConfigurationSupport())
-    menu.addItem(new Ui.MenuItem("GPS", Ui.loadResource(Rez.Strings.LocationSourceGPSSubText), :gps, null));
-    menu.addItem(new Ui.MenuItem("Weather", Ui.loadResource(Rez.Strings.LocationSourceWeatherSubText), :weather, null));
-    menu.addItem(new Ui.MenuItem("Last Activity", Ui.loadResource(Rez.Strings.LocationSourceLastActivitySubText), :lastActivity, null));
-    // TODO: Add "Manual" option to enter latitude and longitude coordinates
+    menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.LocationSourceGPSText), Ui.loadResource(Rez.Strings.LocationSourceGPSSubText), :gps, null));
+    menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.LocationSourceWeatherText), Ui.loadResource(Rez.Strings.LocationSourceWeatherSubText), :weather, null));
 
     // Determine selected item and focus it
     // TODO: Improve this code. Search for the selected item by value instead of mapping each index
     var locationSource = Properties.getValue("locationSource") as String;
 
-    if (locationSource.equals("Auto")) {
-    } else if (locationSource.equals("GPS")) {
-        menu.setFocus(1);
+    if (locationSource.equals("GPS")) {
+        // Do nothing, focused by default
     } else if (locationSource.equals("Weather")) {
-        menu.setFocus(2);
-    } else if (locationSource.equals("Activity")) {
-        menu.setFocus(3);
+        menu.setFocus(1);
     }
 
     Ui.pushView(menu, new $.LocationSourceDelegate(), Ui.SLIDE_LEFT);

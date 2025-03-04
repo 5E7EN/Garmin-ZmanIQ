@@ -7,7 +7,7 @@
     <string id="InitialGpsPrompt">Press the Start button\nto find location.</string>
 
     <string id="Locating">Locating</string>
-    <string id="MoveOutside">Move to a location with\na clear sky view\nWait a min...</string>
+    <string id="MoveOutside">Move to a location with\na clear sky view\nSearching...</string>
 
     <!-- Initial View: Error Messages -->
     <string id="SelectToTryAgain">Press SELECT to try again.</string>
@@ -15,7 +15,7 @@
     <string id="GpsTimeout">GPS Timeout</string>
 
     <string id="NoGpsSignal">No Signal</string>
-    <string id="MoveToBetterArea">Ensure you're outside\nwith a clear sky\nview.</string>
+    <string id="EnsureOutside">Ensure you're outside\nwith a clear sky\nview.</string>
 
     <string id="LocationUnavailable">No Location</string>
     <string id="ChooseLocationSource">Choose other location\nsource, or sync\n phone.</string>
@@ -29,7 +29,6 @@
     <!-- Main Menu -->
     <string id="MainMenuTitle">Main Menu</string>
     <string id="MainMenuLocationSourceText">Location Source</string>
-    <string id="MainMenuLocationSourceSubText">Set location source</string>
     <string id="MainMenuUseElevationText">Use Elevation?</string>
     <string id="MainMenuUseElevationSubText">For sunrise/sunset</string>
     <string id="MainMenuUseMGAZmanimText">GR"A or MG"A?</string>
@@ -49,9 +48,10 @@
 
     <!-- Location Source -->
     <string id="LocationSourceTitle">Location Source</string>
+    <string id="LocationSourceGPSText">GPS</string>
     <string id="LocationSourceGPSSubText">Most precise, outdoors</string>
+    <string id="LocationSourceWeatherText">Phone</string>
     <string id="LocationSourceWeatherSubText">Last synced location</string>
-    <string id="LocationSourceLastActivitySubText">Last active location</string>
 
     <!-- About -->
     <string id="AboutTitle">About</string>

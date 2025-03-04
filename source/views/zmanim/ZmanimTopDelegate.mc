@@ -33,6 +33,7 @@ class ZmanimTopDelegate extends WatchUi.Menu2InputDelegate {
     //* @param key The key triggering the menu wrap
     //* @return true if wrap is allowed, false otherwise
     public function onWrap(key as Key) as Boolean {
+        // TODO: On wrap up, go to bottom of zmanim list. Pass topMenu from View to this delegate and invoke `setFocus` (maybe not work though).
         if (key == WatchUi.KEY_DOWN) {
             // Push buttom menu
             mBottomMenuCallback.invoke(mLocationInfo);
