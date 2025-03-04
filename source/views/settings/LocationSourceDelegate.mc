@@ -19,14 +19,10 @@ class LocationSourceDelegate extends WatchUi.Menu2InputDelegate {
         var id = item.getId();
 
         // React based on the selected item ID
-        if (id == :auto) {
-            Properties.setValue("locationSource", "Auto");
-        } else if (id == :gps) {
+        if (id == :gps) {
             Properties.setValue("locationSource", "GPS");
         } else if (id == :weather) {
             Properties.setValue("locationSource", "Weather");
-        } else if (id == :lastActivity) {
-            Properties.setValue("locationSource", "Activity");
         }
 
         // Clear GPS status and info (if set)
