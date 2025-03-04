@@ -20,12 +20,15 @@ class ZmanimBottomDelegate extends WatchUi.Menu2InputDelegate {
         var id = item.getId();
 
         // React based on the selected item ID
-        if (id == :settings) {
-            // Render main menu
-            $.pushMainMenuView();
-        } else if (id == :locationInfo) {
+        if (id == :locationInfo) {
             // Render location info menu
             $.pushLocationInfoMenuView(mLocationInfo);
+        } else if (id == :changeDate) {
+            // Render date change picker
+            $.pushChangeDatePicker();
+        } else if (id == :settings) {
+            // Render main menu
+            $.pushMainMenuView();
         }
     }
 

@@ -21,6 +21,10 @@ function getPendingRefreshCacheKey() {
     return "PendingRefresh";
 }
 
+function getZmanimEpochDateCacheKey() {
+    return "ZmanimDate";
+}
+
 //* Methods
 
 //* These refresh-related methods are defined here since as of now I have no better place to put them.
