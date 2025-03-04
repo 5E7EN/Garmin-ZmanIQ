@@ -34,13 +34,14 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?) as Void {
     }
 
     // Get zmanim
-    // TODO: Allow user to select zmanim for a different date
-    var dateToday = Time.now();
+    //* Get user-configurable date from storage. This is (re)set on app launch and should therefore never be null.
+    var dateEpoch = Storage.getValue($.getZmanimEpochDateCacheKey()) as Number;
+    var dateMoment = new Time.Moment(dateEpoch);
     var coordinates = locationInfo["coordinates"];
     var elevation = locationInfo["elevation"];
     // Get preference of opinion
     var useMGAZmanim = Properties.getValue("useMGAZmanim") as Boolean;
-    var zmanim = $.getZmanim(dateToday, coordinates, elevation, useMGAZmanim) as Array<ZmanTime>;
+    var zmanim = $.getZmanim(dateMoment, coordinates, elevation, useMGAZmanim) as Array<ZmanTime>;
 
     // Ensure zmanim don't come back empty (type checked so should be fine, but I don't trust compiler)
     if (zmanim.size() == 0) {
@@ -52,10 +53,10 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?) as Void {
         return;
     }
 
-    // Set title as current date
-    // TODO: Set menu title as current hebrew date
-    var greorianToday = Gregorian.info(new Time.Moment(Time.now().value()), Time.FORMAT_MEDIUM);
-    var topMenu = new $.CustomWrapTopMenu(Lang.format("$1$ $2$", [greorianToday.month, greorianToday.day.format("%02d")]), 80, Graphics.COLOR_BLACK);
+    // Set title with the date
+    // TODO: Set menu title as hebrew date
+    var greorianDate = Gregorian.info(dateMoment, Time.FORMAT_MEDIUM);
+    var topMenu = new $.CustomWrapTopMenu(Lang.format("$1$ $2$", [greorianDate.month, greorianDate.day.format("%02d")]), 80, Graphics.COLOR_BLACK);
 
     // Build the menu
     for (var i = 0; i < zmanim.size(); i++) {
@@ -66,19 +67,25 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?) as Void {
         topMenu.addItem(createZmanMenuItem(zmanName, zmanTime));
     }
 
-    // Set focus to the next upcoming zman, passing filtered zmanim
-    var nextZman = $.getNextUpcomingZman(zmanim);
-    if (nextZman != null && skipZmanAutoFocus != true) {
-        $.log("[switchToZmanimMenu] Upcoming zman: " + nextZman[0]);
+    if (skipZmanAutoFocus != true) {
+        // Set focus to the next upcoming zman, passing filtered zmanim
+        var nextZman = $.getNextUpcomingZman(zmanim);
+        if (nextZman != null) {
+            $.log("[switchToZmanimMenu] Upcoming zman: " + nextZman[0]);
 
-        // Get next zman by ID (which is the zman key)
-        var nextZmanIndex = topMenu.findItemById(nextZman[0]);
+            // Get next zman by ID (which is the zman key)
+            var nextZmanIndex = topMenu.findItemById(nextZman[0]);
 
-        if (nextZmanIndex != -1) {
-            topMenu.setFocus(nextZmanIndex);
+            if (nextZmanIndex != -1) {
+                topMenu.setFocus(nextZmanIndex);
+            }
+        } else {
+            //* All zmanim have passed for the day. Focus the last zman.
+
+            topMenu.setFocus(zmanim.size() - 1);
         }
     } else {
-        //* All zmanim have passed for the day or user is navigating from a submenu. Focus the last zman.
+        //* User is likely returning to the menu from a submenu. Focus the last zman.
 
         topMenu.setFocus(zmanim.size() - 1);
     }
@@ -90,9 +97,8 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?) as Void {
 function pushBottomZmanimMenu(locationInfo as LocationInfo) as Void {
     var bottomMenu = new $.CustomWrapBottomMenu(80, Graphics.COLOR_WHITE);
 
-    // menu.addItem(new Ui.MenuItem("Menu", null, :menu, null));
-    // bottomMenu.addItem(new $.CustomWrapItem("Reload Zmanim", null, :reloadZmanim, Graphics.COLOR_BLACK));
     bottomMenu.addItem(new $.CustomWrapItem("Location Info", null, :locationInfo, Graphics.COLOR_BLACK));
+    bottomMenu.addItem(new $.CustomWrapItem("Change Date", null, :changeDate, Graphics.COLOR_BLACK));
     bottomMenu.addItem(new $.CustomWrapItem("Settings", null, :settings, Graphics.COLOR_BLACK));
 
     Ui.pushView(bottomMenu, new $.ZmanimBottomDelegate(locationInfo), Ui.SLIDE_UP);

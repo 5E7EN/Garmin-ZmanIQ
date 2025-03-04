@@ -35,14 +35,18 @@ class InitialView extends Ui.View {
     //* the state of this View and prepare it to be shown. This includes
     //* loading resources into memory.
     public function onShow() as Void {
-        // If this is the first time showing this view and GPS status has leftover "pending" state, clear it.
-        //* This could will occur if the user quit the app while waiting for GPS.
+        // If this is the first time showing this view (on initial app launch), set some defaults.
         if (isFirstShowing == true) {
+            // If GPS status has leftover "pending" state, clear it.
+            //* This could will occur if the user quit the app while waiting for GPS.
             var gpsStatus = Storage.getValue($.getGpsStatusCacheKey());
             if (gpsStatus != null && gpsStatus.equals("pending")) {
                 Storage.deleteValue($.getGpsStatusCacheKey());
                 $.log("[onShow] GPS status was pending and we're loading for first time, clearing status.");
             }
+
+            // Set/reset the date for zmanim to today
+            Storage.setValue($.getZmanimEpochDateCacheKey(), Time.now().value());
 
             isFirstShowing = false;
         }

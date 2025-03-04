@@ -34,6 +34,7 @@
     <string id="MainMenuUseElevationSubText">For sunrise/sunset</string>
     <string id="MainMenuUseMGAZmanimText">GR"A or MG"A?</string>
 
+
     <!-- Location Info Menu -->
     <string id="LocationInfoMenuTitle">Location Info</string>
     <string id="LocationInfoMenuSource">Source</string>
@@ -42,6 +43,9 @@
     <string id="LocationInfoMenuGpsQuality">Signal Quality</string>
     <string id="LocationInfoMenuLastUpdated">Last Updated</string>
     <string id="LocationInfoMenuReloadLocation">Reload Location</string>
+
+    <!-- Change Date Picker -->
+    <string id="ChangeDatePickerTitle">Choose date:</string>
 
     <!-- Location Source -->
     <string id="LocationSourceTitle">Location Source</string>
@@ -53,4 +57,18 @@
     <string id="AboutTitle">About</string>
     <string id="AboutVersionText">Version</string>
     <string id="AboutAuthorText">Author</string>
+
+    <!-- Dates-->
+    <string id="Month01">Jan</string>
+    <string id="Month02">Feb</string>
+    <string id="Month03">Mar</string>
+    <string id="Month04">Apr</string>
+    <string id="Month05">May</string>
+    <string id="Month06">Jun</string>
+    <string id="Month07">Jul</string>
+    <string id="Month08">Aug</string>
+    <string id="Month09">Sep</string>
+    <string id="Month10">Oct</string>
+    <string id="Month11">Nov</string>
+    <string id="Month12">Dec</string>
 </strings>

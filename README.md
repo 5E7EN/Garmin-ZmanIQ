@@ -2,6 +2,10 @@
 
 Connect IQ app for Garmin wearables for convenient Zmanim lookup & reminders.
 
+<p align="center">
+    <img src="https://img.shields.io/badge/built-BS%22D-brightgreen" />
+</p>
+
 # Development
 
 ## Prerequisites

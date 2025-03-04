@@ -19,6 +19,8 @@
 - Mincha Gedola is calculated as 6.5 Shaaos Zmaniyos into the day (may be _lekulah_ or _lechumrah_ based on time of year).
 - Mincha Gedola is calculated as 9.5 Shaaos Zmaniyos into the day (GR"A & Baal HaTanya).
 - Plag HaMincha is calculated as 10.75 Shaaos Zmaniyos into the day (GR"A & Baal HaTanya).
+- Your watch's timezone must be set to the same one as the location being calculated.
+- You may choose a custom date for zmanim calculations, 5 years into the future or past.
 
 ## Naming Conventions
 
