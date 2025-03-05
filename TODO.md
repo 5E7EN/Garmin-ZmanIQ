@@ -65,11 +65,14 @@
   - [ ] [LOW-PRI] Figure out what's causing a few seconds of difference compared to KosherJava map (see [NOTES](source/zmanim/NOTES.md#L32)). Maybe it's floating point differences? Create java example and compare output of functions (start with `AstronomicalCalendar.getSpecificTemporalHour()` or `AstronomicalCalendar.getDateFromTime()`).
   - [ ] [LOW-PRI] Detect and support Israeli location and use 40min candle lighting offset instead of 18min where applicable
 - [ ] Reminders
+  - Add menu option to enable/disable reminders
+  - If enabled, on zmanim list view show, registerForTemporalEvent() for NEXT zman that has ENABLED reminder (use `Moment` to bypass 5 minute restriction)
+  - Create `ReminderEnabledZmanim` storage array and check if it contains zman name (to be added/removed by zman selection menu in zmanim list)
+  - [---]
   - Select a zman from the list to open a menu to enable/disable reminder for that zman
   - Alert time will be configurable via the Settings menu
-  - Notify users which devices actually vibrate/beep/both/none to avoid surprised
-  - Figure out how to set next temporal event after current one was just triggered
   - Not all devices support Attention alerts. Hide option if device doesn't support it.
+  - Notify users which devices actually vibrate/beep/both/none to avoid surprises
 - [x] GPS-based location fetching
   - Instruct user to go outside for a signal, wait for signal, and set in Storage.
   - Save coords for easy re-use. Add menu item to "Reset Location" - clearing existing value.
