@@ -7,6 +7,7 @@ using Toybox.System as Sys;
 using Toybox.Application.Storage as Storage;
 using Toybox.Application.Properties as Properties;
 using Toybox.Timer;
+using Toybox.Attention;
 
 //* This delegate is for the main page of our application that pushes the menu
 //* when the onMenu() behavior is received.
@@ -98,6 +99,11 @@ class InitialDelegate extends WatchUi.BehaviorDelegate {
 
             // Store the location
             $.setGpsLocation(info);
+
+            // Vibrate to indicate success, if supported
+            if (Attention has :vibrate) {
+                Attention.vibrate([new Attention.VibeProfile(50, 500)]);
+            }
 
             // Switch to the zmanim menu
             $.switchToZmanimMenu(false);

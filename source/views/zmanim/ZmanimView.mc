@@ -56,7 +56,7 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?) as Void {
     // Set title with the date
     // TODO: Set menu title as hebrew date
     var greorianDate = Gregorian.info(dateMoment, Time.FORMAT_MEDIUM);
-    var topMenu = new $.CustomWrapTopMenu(Lang.format("$1$ $2$", [greorianDate.month, greorianDate.day.format("%02d")]), 80, Graphics.COLOR_BLACK);
+    var topMenu = new $.CustomWrapTopMenu(Lang.format("$1$ $2$", [greorianDate.month, greorianDate.day]), 80, Graphics.COLOR_BLACK);
 
     // Build the menu
     for (var i = 0; i < zmanim.size(); i++) {
@@ -80,12 +80,12 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?) as Void {
                 topMenu.setFocus(nextZmanIndex);
             }
         } else {
-            //* All zmanim have passed for the day. Focus the last zman.
+            //* All zmanim have passed for the day. Focus the last zman in list.
 
             topMenu.setFocus(zmanim.size() - 1);
         }
     } else {
-        //* User is likely returning to the menu from a submenu. Focus the last zman.
+        //* User is likely returning to the menu from a submenu. Focus the last zman in list.
 
         topMenu.setFocus(zmanim.size() - 1);
     }
