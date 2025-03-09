@@ -4,11 +4,15 @@ import Toybox.WatchUi;
 
 //* This is the sub-menu in the Wrap custom menu
 class CustomWrapBottomMenu extends WatchUi.CustomMenu {
+    private var _title as String;
+
     //* Constructor
     //* @param itemHeight The pixel height of menu items rendered by this menu
     //* @param backgroundColor The color for the menu background
-    public function initialize(itemHeight as Number, backgroundColor as ColorType) {
+    public function initialize(menuTitle as String, itemHeight as Number, backgroundColor as ColorType) {
         CustomMenu.initialize(itemHeight, backgroundColor, {});
+
+        _title = menuTitle;
     }
 
     //* Draw the menu title
@@ -41,8 +45,7 @@ class CustomWrapBottomMenu extends WatchUi.CustomMenu {
         // Draw the title text, centered horizontally.
         // Position the text 2/3 down from the top of the title area.
         // Use a medium font and both horizontal and vertical centering.
-        // TODO: Change this to use rez string
-        dc.drawText(dc.getWidth() / 2, (dc.getHeight() / 3) * 2, Graphics.FONT_MEDIUM, "Show Zmanim", Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        dc.drawText(dc.getWidth() / 2, (dc.getHeight() / 3) * 2, Graphics.FONT_MEDIUM, _title, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
 
         // Set the drawing color to white.
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_WHITE);
