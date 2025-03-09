@@ -8,7 +8,9 @@ using Toybox.Time;
 using Toybox.Time.Gregorian;
 using Toybox.System as Sys;
 
-function switchToZmanimMenu(skipZmanAutoFocus as Boolean?) as Void {
+//* @param skipZmanAutoFocus If true, skip auto-focusing the next zman.
+//* @param focusID The ID of the zman to focus on. If null, auto-focus the next upcoming zman (unless skipZmanAutoFocus is true).
+function switchToZmanimMenu(skipZmanAutoFocus as Boolean?, focusID as String?) as Void {
     // TODO: If already on the zmanim menu, do nothing (prevent double-rendering)
     // TODO cont.: cannot use Ui.getCurrentView() because API level isn't supported on many watches
 
@@ -88,6 +90,15 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?) as Void {
         //* User is likely returning to the menu from a submenu. Focus the last zman in list.
 
         topMenu.setFocus(zmanim.size() - 1);
+    }
+
+    // If a specific zman ID is provided, focus that zman instead
+    if (focusID != null) {
+        // Focus the zman with the given ID
+        var focusIndex = topMenu.findItemById(focusID);
+        if (focusIndex != -1) {
+            topMenu.setFocus(focusIndex);
+        }
     }
 
     Ui.switchToView(topMenu, new $.ZmanimTopDelegate(new Lang.Method($, :pushBottomZmanimMenu), locationInfo), Ui.SLIDE_IMMEDIATE);

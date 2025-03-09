@@ -16,12 +16,8 @@ function pushMainMenuView() as Void {
     var useMGAZmanim = Properties.getValue("useMGAZmanim") as Boolean;
 
     // Add menu items
+    menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.MainMenuRemindersText), null, :reminders, null));
     menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.MainMenuLocationSourceText), null, :locationSource, null));
-    menu.addItem(
-        new Ui.ToggleMenuItem(Ui.loadResource(Rez.Strings.MainMenuUseElevationText), Ui.loadResource(Rez.Strings.MainMenuUseElevationSubText), :useElevation, useElevation, {
-            :alignment => Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
-        })
-    );
     menu.addItem(
         new Ui.ToggleMenuItem(
             Ui.loadResource(Rez.Strings.MainMenuUseMGAZmanimText),
@@ -31,9 +27,12 @@ function pushMainMenuView() as Void {
             { :alignment => Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT }
         )
     );
-    // TODO: Implement Reminders logic
-    // menu.addItem(new Ui.MenuItem("Reminders", "Manage active reminders", :reminders, null));
-    menu.addItem(new Ui.MenuItem("About", null, :about, null));
+    menu.addItem(
+        new Ui.ToggleMenuItem(Ui.loadResource(Rez.Strings.MainMenuUseElevationText), Ui.loadResource(Rez.Strings.MainMenuUseElevationSubText), :useElevation, useElevation, {
+            :alignment => Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
+        })
+    );
+    menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.MainMenuAboutText), null, :about, null));
 
     Ui.pushView(menu, new $.MainMenuDelegate(), Ui.SLIDE_LEFT);
 }

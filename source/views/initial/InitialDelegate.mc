@@ -40,7 +40,7 @@ class InitialDelegate extends WatchUi.BehaviorDelegate {
             Storage.deleteValue($.getZmanimErrorMessageCacheKey());
 
             // Try again by switching to zmanim view/menu
-            $.switchToZmanimMenu(false);
+            $.switchToZmanimMenu(false, null);
 
             return true;
         }
@@ -106,7 +106,7 @@ class InitialDelegate extends WatchUi.BehaviorDelegate {
             }
 
             // Switch to the zmanim menu
-            $.switchToZmanimMenu(false);
+            $.switchToZmanimMenu(false, null);
         }
     }
 

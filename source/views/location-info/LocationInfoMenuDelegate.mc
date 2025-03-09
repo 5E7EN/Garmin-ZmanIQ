@@ -30,7 +30,7 @@ class LocationInfoMenuDelegate extends WatchUi.Menu2InputDelegate {
             //* Pop existing views to save memory.
             WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
             WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
-            $.switchToZmanimMenu(false);
+            $.switchToZmanimMenu(false, null);
         }
     }
 

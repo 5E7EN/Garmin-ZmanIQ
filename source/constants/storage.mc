@@ -25,6 +25,10 @@ function getZmanimEpochDateCacheKey() {
     return "ZmanimDate";
 }
 
+function getReminderEnabledZmanimCacheKey() {
+    return "ReminderEnabledZmanim";
+}
+
 //* Methods
 
 //* These refresh-related methods are defined here since as of now I have no better place to put them.
