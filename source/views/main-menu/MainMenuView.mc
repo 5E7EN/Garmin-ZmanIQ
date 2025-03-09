@@ -9,8 +9,6 @@ function pushMainMenuView() as Void {
     // Generate a new Menu
     var menu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.MainMenuTitle) });
 
-    // TODO: Add some kind of line separator here (between title and menu items)
-
     // Get current elevation preference
     var useElevation = Properties.getValue("useElevation") as Boolean;
     var useMGAZmanim = Properties.getValue("useMGAZmanim") as Boolean;

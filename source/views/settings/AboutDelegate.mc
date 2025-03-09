@@ -4,7 +4,6 @@ import Toybox.WatchUi;
 using Toybox.System as Sys;
 using Toybox.Application.Storage as Storage;
 
-//* This is the menu input delegate/handler for the main menu of the application
 class AboutDelegate extends WatchUi.Menu2InputDelegate {
     //* Constructor
     public function initialize() {

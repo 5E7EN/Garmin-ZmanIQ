@@ -5,7 +5,6 @@ using Toybox.System as Sys;
 using Toybox.Application.Properties as Properties;
 using Toybox.Application.Storage as Storage;
 
-//* This is the menu input delegate/handler for the main menu of the application
 class LocationSourceDelegate extends WatchUi.Menu2InputDelegate {
     //* Constructor
     public function initialize() {
