@@ -7,7 +7,6 @@ using Toybox.WatchUi as Ui;
 using Toybox.Application.Storage as Storage;
 using Toybox.Application.Properties as Properties;
 
-//* Create the all zmanim menu
 function pushChangeDatePicker() as Void {
     var months =
         [

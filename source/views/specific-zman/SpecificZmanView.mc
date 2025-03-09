@@ -16,8 +16,6 @@ function pushSpecificZmanView(zmanName as String) as Void {
     // Generate a new Menu
     var menu = new Ui.Menu2({ :title => Ui.loadResource(Rez.Strings.SpecificZmanMenuTitleStart) + "\n" + friendlyName });
 
-    // TODO: Add some kind of line separator here (between title and menu items)
-
     // Get reminder preference for current zman
     var remindBeforeTime = Properties.getValue("remindBeforeTime") as Number;
     var reminderEnabledZmanim = Storage.getValue($.getReminderEnabledZmanimCacheKey()) as Array<String>?;

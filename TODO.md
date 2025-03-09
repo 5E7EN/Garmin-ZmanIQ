@@ -57,7 +57,7 @@
   - Zenith to use is dependant on location. [Read More](https://www.myzmanim.com/read/sources.aspx)
 - [ ] Add hebrew translation
 - [ ] Add setting to enable/disable reminders entirely
-- [ ] Remove all `// TODO: Add some kind of line separator here (between title and menu items)` comments
+- [x] Remove all `// TODO: Add some kind of line separator here (between title and menu items)` comments
 
 ## Priority Items
 

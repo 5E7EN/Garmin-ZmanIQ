@@ -6,7 +6,6 @@ import Toybox.Time.Gregorian;
 
 using Toybox.Application.Storage as Storage;
 
-//* This is the menu input delegate/handler for the main menu of the application
 class ChangeDatePickerDelegate extends WatchUi.PickerDelegate {
     //* Constructor
     public function initialize() {
