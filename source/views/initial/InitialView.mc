@@ -76,7 +76,7 @@ class InitialView extends Ui.View {
             //* Location is available from the chosen source and no errors have been set, or forced retry is pending.
 
             // Switch to zmanim view/menu
-            $.switchToZmanimMenu(false);
+            $.switchToZmanimMenu(false, null);
         } else {
             //* Location is null based on source setting, a calculation error has occured, or GPS status is "pending".
             //* Existing error messages are cleared before calculating zmanim, so this __shouldn't__ be reached by mistake.

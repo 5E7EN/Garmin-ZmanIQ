@@ -64,7 +64,7 @@ class ZmanimBottomDelegate extends WatchUi.Menu2InputDelegate {
             // Pop current view
             WatchUi.popView(WatchUi.SLIDE_DOWN);
             // Reload zmanim
-            $.switchToZmanimMenu(true);
+            $.switchToZmanimMenu(true, null);
         } else {
             // Pop current view
             WatchUi.popView(WatchUi.SLIDE_DOWN);

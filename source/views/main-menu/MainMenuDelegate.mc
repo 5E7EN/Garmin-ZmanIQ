@@ -28,10 +28,9 @@ class MainMenuDelegate extends WatchUi.Menu2InputDelegate {
         } else if (id == :useMGAZmanim) {
             // Toggle the opinion preference
             Properties.setValue("useMGAZmanim", Properties.getValue("useMGAZmanim") ? false : true);
+        } else if (id == :reminders) {
+            $.pushRemindersMenuView();
         }
-        // } else if (id == :reminders) {
-        //     $.pushRemindersMenuView();
-        // }
     }
 
     //* Handle the back key being pressed

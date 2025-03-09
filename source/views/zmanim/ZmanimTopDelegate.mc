@@ -17,10 +17,19 @@ class ZmanimTopDelegate extends WatchUi.Menu2InputDelegate {
     //* Handle an item being selected
     //* @param item The selected menu item
     public function onSelect(item as MenuItem) as Void {
+        //* This ID will come back as a string (the zman name)
         var id = item.getId();
 
         //* Specific zman was selected
-        // TODO: Open zman menu (Set Reminder, etc.)
+        if (id != null) {
+            // Get the zman name from the ID
+            var zmanName = id as String;
+
+            // Push the specific zman view
+            $.pushSpecificZmanView(zmanName);
+        } else {
+            $.log("[onSelect] Specific zman was selected but ID is null");
+        }
     }
 
     //* Handle the back key being pressed

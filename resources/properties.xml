@@ -3,4 +3,5 @@
     <property id="locationSource" type="string">GPS</property>
     <property id="useElevation" type="boolean">true</property>
     <property id="useMGAZmanim" type="boolean">false</property>
+    <property id="remindBeforeTime" type="number">3</property>
 </properties>

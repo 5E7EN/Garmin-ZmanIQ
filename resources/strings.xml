@@ -26,13 +26,27 @@
     <!-- Zmanim Menu -->
     <!-- TODO: Add strings used in the top and bottom wrap menus -->
 
+    <!-- Specific Zman Menu -->
+    <string id="SpecificZmanMenuTitleStart">Options:</string>
+    <string id="SpecificZmanMenuEnableReminderText">Enable Reminder?</string>
+    <string id="SpecificZmanMenuEnableReminderSubTextEnd">minutes before</string>
+
     <!-- Main Menu -->
     <string id="MainMenuTitle">Main Menu</string>
     <string id="MainMenuLocationSourceText">Location Source</string>
+    <string id="MainMenuUseMGAZmanimText">GR"A or MG"A?</string>
     <string id="MainMenuUseElevationText">Use Elevation?</string>
     <string id="MainMenuUseElevationSubText">For sunrise/sunset</string>
-    <string id="MainMenuUseMGAZmanimText">GR"A or MG"A?</string>
+    <string id="MainMenuRemindersText">Reminders</string>
+    <string id="MainMenuAboutText">About</string>
 
+    <!-- Reminders Menu -->
+    <string id="RemindersMenuTitle">Reminders</string>
+    <string id="RemindersMenuTimeBeforeText">Set Time</string>
+    <string id="RemindersMenuTimeBeforeSubText">Alert ahead of zman</string>
+
+    <!-- Reminders Menu: Time Before Picker -->
+    <string id="RemindersMenuTimeBeforePickerTitle">Notify me before:</string>
 
     <!-- Location Info Menu -->
     <string id="LocationInfoMenuTitle">Location Info</string>
