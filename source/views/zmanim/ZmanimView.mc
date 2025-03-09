@@ -106,7 +106,8 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?, focusID as String?) a
 
 //* Create the sub-menu menu of the Wrap custom menu
 function pushBottomZmanimMenu(locationInfo as LocationInfo) as Void {
-    var bottomMenu = new $.CustomWrapBottomMenu(80, Graphics.COLOR_WHITE);
+    // TODO: Use rez strings for menu title and items
+    var bottomMenu = new $.CustomWrapBottomMenu("Show Zmanim", 80, Graphics.COLOR_WHITE);
 
     bottomMenu.addItem(new $.CustomWrapItem("Location Info", null, :locationInfo, Graphics.COLOR_BLACK));
     bottomMenu.addItem(new $.CustomWrapItem("Change Date", null, :changeDate, Graphics.COLOR_BLACK));
