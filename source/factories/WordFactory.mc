@@ -71,7 +71,7 @@ class WordFactory extends WatchUi.PickerFactory {
     public function getDrawable(index as Number, selected as Boolean) as Drawable? {
         return new WatchUi.Text({
             :text => _words[index],
-            :color => Graphics.COLOR_WHITE,
+            :color => selected ? Graphics.COLOR_WHITE : Graphics.COLOR_DK_GRAY,
             :font => _font,
             :locX => WatchUi.LAYOUT_HALIGN_CENTER,
             :locY => WatchUi.LAYOUT_VALIGN_CENTER

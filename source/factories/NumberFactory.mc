@@ -75,7 +75,7 @@ class NumberFactory extends WatchUi.PickerFactory {
 
         var drawable = new WatchUi.Text({
             :text => text,
-            :color => Graphics.COLOR_WHITE,
+            :color => selected ? Graphics.COLOR_WHITE : Graphics.COLOR_DK_GRAY,
             :font => _font,
             :locX => WatchUi.LAYOUT_HALIGN_CENTER,
             :locY => WatchUi.LAYOUT_VALIGN_CENTER
