@@ -65,8 +65,10 @@ function getZmanim(date as Time.Moment, coordinates as Array, elevation as Numbe
 
 //* Determines the next upcoming zman from a given list of zmanim times
 //* Returns null if all zmanim have already passed
-function getNextUpcomingZman(zmanim as Array<ZmanTime>) as Array? {
-    var currentTime = Time.now().value();
+//* @param zmanim - Array of zmanim times
+//* @param afterTime - Optional time Moment to check against (defaults to current time)
+function getNextUpcomingZman(zmanim as Array<ZmanTime>, afterTime as Time.Moment?) as Array? {
+    var currentTime = afterTime == null ? Time.now().value() : afterTime.value();
     var closestZmanName = null;
     var closestZmanTime = null;
     //* Initialize to 123 to prevent compiler complaints. This value will be overwritten.
@@ -96,4 +98,43 @@ function getNextUpcomingZman(zmanim as Array<ZmanTime>) as Array? {
 
     // Return results
     return [closestZmanName, closestZmanTime];
+}
+
+//* Determines the next reminder-enabled zman from a given list of zmanim times
+//* Returns null if, 1) all zmanim have already passed, or 2) the next zman is not occuring today, or 3) no zmanim have reminders enabled.
+//* @param zmanim - Array of zmanim times
+//* @param afterTime - Optional time Moment to check against
+function getNextRemindingZmanToday(zmanim as Array<ZmanTime>, afterTime as Time.Moment?) as Array? {
+    var nextZman = getNextUpcomingZman(zmanim, afterTime);
+
+    // Ensure next zman is not null
+    //* This will occur if all zmanim have passed for the day (min time) or no zmanim have reminders enabled (max time).
+    if (nextZman == null) {
+        return null;
+    }
+
+    // Ensure next zman is occuring today
+    // Otherwise, quit early
+    var nextZmanTime = nextZman[1] as Time.Moment;
+    var nextZmanGregorian = Gregorian.info(nextZmanTime, Time.FORMAT_SHORT);
+    var todayGregorian = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+    if (nextZmanGregorian.year != todayGregorian.year || nextZmanGregorian.month != todayGregorian.month || nextZmanGregorian.day != todayGregorian.day) {
+        return null;
+    }
+
+    // Check if zman key exists in reminder-enabled zmanim
+    var zmanKey = nextZman[0];
+    var reminderEnabledZmanim = Storage.getValue($.getReminderEnabledZmanimCacheKey()) as Array<String>;
+    var isReminderEnabled = reminderEnabledZmanim.indexOf(zmanKey) != -1;
+
+    if (isReminderEnabled == true) {
+        // Return the next zman
+        return nextZman;
+    } else {
+        // Recursively find the next zman that is reminder-enabled
+        // TODO: This is inefficient.
+        // TODO cont.: Instead, modify `getNextUpcomingZman()` to return ALL upcoming zmanim, and shift using an offset [until end of array].
+        // TODO cont.: See if that significantly affects memory usage since we would have to switch to an array of dictionaries - which are memory hungry(er).
+        return $.getNextRemindingZmanToday(zmanim, nextZmanTime);
+    }
 }

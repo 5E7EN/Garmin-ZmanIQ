@@ -58,6 +58,8 @@
 - [ ] Add hebrew translation
 - [ ] Add setting to enable/disable reminders entirely
 - [x] Remove all `// TODO: Add some kind of line separator here (between title and menu items)` comments
+- [ ] Add ability to show/hide specific zmanim from the list
+- [ ] [LOW-PRI] Add support for reminders for the next day's zmanim as well (if all zmanim for today have already passed)
 
 ## Priority Items
 

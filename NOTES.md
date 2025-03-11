@@ -21,6 +21,7 @@
 - Plag HaMincha is calculated as 10.75 Shaaos Zmaniyos into the day (GR"A & Baal HaTanya).
 - Your watch's timezone must be set to the same one as the location being calculated.
 - You may choose a custom date for zmanim calculations, 5 years into the future or past.
+- Reminders will only be schedule for future zmanim of the current day.
 
 ## Naming Conventions
 

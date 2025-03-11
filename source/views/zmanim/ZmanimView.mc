@@ -55,6 +55,11 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?, focusID as String?) a
         return;
     }
 
+    // TODO: Set zman reminder here, if supported on device (i.e. can grab user's attention).
+    // TODO: Execute in background thread, since it can be a long operation
+    var nextReminding = $.getNextRemindingZmanToday(zmanim, null);
+    $.log("[switchToZmanimMenu] Next reminding zman: " + (nextReminding != null ? nextReminding[0] : "null"));
+
     // Set title with the date
     // TODO: Set menu title as hebrew date
     var greorianDate = Gregorian.info(dateMoment, Time.FORMAT_MEDIUM);
@@ -71,7 +76,7 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?, focusID as String?) a
 
     if (skipZmanAutoFocus != true) {
         // Set focus to the next upcoming zman, passing filtered zmanim
-        var nextZman = $.getNextUpcomingZman(zmanim);
+        var nextZman = $.getNextUpcomingZman(zmanim, null);
         if (nextZman != null) {
             $.log("[switchToZmanimMenu] Upcoming zman: " + nextZman[0]);
 
