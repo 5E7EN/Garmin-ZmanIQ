@@ -124,7 +124,7 @@ function pushBottomZmanimMenu(locationInfo as LocationInfo) as Void {
 //* Helper function to create a consistent menu item.
 function createZmanMenuItem(zmanName as String, zmanTime as Time.Moment?) as CustomWrapItem {
     // Get the friendly name for the zman key
-    var friendlyName = $.ZmanimFriendlyNames[zmanName];
+    var friendlyName = $.ZmanMeta.ZmanimFriendlyNames[zmanName];
     var timeString = null;
 
     if (friendlyName == null) {

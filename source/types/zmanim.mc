@@ -16,33 +16,35 @@ import Toybox.Time;
 // Tzais 72 ✅
 
 // TODO: Use symbols instead? May save memory.
-var ZmanNames = {
-    "ALOS" => "alos",
-    "SUNRISE" => "sunrise",
-    "SOF_ZMAN_SHEMA" => "sofZmanShema",
-    "SOF_ZMAN_TEFILLA" => "sofZmanTefilla",
-    "CHATZOS" => "chatzos",
-    "MINCHA_GEDOLA" => "minchaGedola",
-    "MINCHA_KETANA" => "minchaKetana",
-    "PLAG_HAMINCHA" => "plagHamincha",
-    "SUNSET" => "sunset",
-    "TZEIS" => "tzeis",
-    "TZEIS_72" => "tzeis72"
-};
+class ZmanMeta {
+    public static const ZmanNames = {
+        "ALOS" => "alos",
+        "SUNRISE" => "sunrise",
+        "SOF_ZMAN_SHEMA" => "sofZmanShema",
+        "SOF_ZMAN_TEFILLA" => "sofZmanTefilla",
+        "CHATZOS" => "chatzos",
+        "MINCHA_GEDOLA" => "minchaGedola",
+        "MINCHA_KETANA" => "minchaKetana",
+        "PLAG_HAMINCHA" => "plagHamincha",
+        "SUNSET" => "sunset",
+        "TZEIS" => "tzeis",
+        "TZEIS_72" => "tzeis72"
+    };
 
-var ZmanimFriendlyNames = {
-    ZmanNames["ALOS"] => "Alos 16.1°",
-    ZmanNames["SUNRISE"] => "Sunrise",
-    ZmanNames["SOF_ZMAN_SHEMA"] => "Sof Zman Shema",
-    ZmanNames["SOF_ZMAN_TEFILLA"] => "Sof Zman Tefilla",
-    ZmanNames["CHATZOS"] => "Chatzos",
-    ZmanNames["MINCHA_GEDOLA"] => "Earliest Mincha",
-    ZmanNames["MINCHA_KETANA"] => "Mincha Ketana",
-    ZmanNames["PLAG_HAMINCHA"] => "Plag HaMincha",
-    ZmanNames["SUNSET"] => "Sunset",
-    ZmanNames["TZEIS"] => "Tzeis",
-    ZmanNames["TZEIS_72"] => "Tzeis 72"
-};
+    public static const ZmanimFriendlyNames = {
+        self.ZmanNames["ALOS"] => "Alos 16.1°",
+        self.ZmanNames["SUNRISE"] => "Sunrise",
+        self.ZmanNames["SOF_ZMAN_SHEMA"] => "Sof Zman Shema",
+        self.ZmanNames["SOF_ZMAN_TEFILLA"] => "Sof Zman Tefilla",
+        self.ZmanNames["CHATZOS"] => "Chatzos",
+        self.ZmanNames["MINCHA_GEDOLA"] => "Earliest Mincha",
+        self.ZmanNames["MINCHA_KETANA"] => "Mincha Ketana",
+        self.ZmanNames["PLAG_HAMINCHA"] => "Plag HaMincha",
+        self.ZmanNames["SUNSET"] => "Sunset",
+        self.ZmanNames["TZEIS"] => "Tzeis",
+        self.ZmanNames["TZEIS_72"] => "Tzeis 72"
+    };
+}
 
 typedef ZmanTime as {
     "name" as Symbol,

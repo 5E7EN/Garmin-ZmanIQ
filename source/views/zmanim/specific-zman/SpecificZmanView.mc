@@ -7,7 +7,7 @@ using Toybox.Application.Storage as Storage;
 
 function pushSpecificZmanView(zmanName as String) as Void {
     // Get friendly zman name
-    var friendlyName = $.ZmanimFriendlyNames[zmanName];
+    var friendlyName = $.ZmanMeta.ZmanimFriendlyNames[zmanName];
     if (friendlyName == null) {
         // Fallback to the key if no friendly name is found for some reason
         friendlyName = zmanName;
