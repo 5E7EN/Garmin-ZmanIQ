@@ -24,7 +24,7 @@
 - You may choose a custom date for zmanim calculations, 5 years into the future or past.
 - Requires ConnectIQ v3.0.0 or later
   - "Subtracting a Duration from a Moment was not supported until ConnectIQ 3.0.0".
-- Zman Reminders: Due to system limitations, the app must be manually opened at any point on the same day before to schedule a reminder for the upcoming zman (e.g. open before sunrise to be alerted before sunrise). Only the next upcoming reminder-enabled zman is scheduled when the app is launched. See tip below.
+- Important: Zman Reminders - Due to system limitations, the app must be manually opened on the same day to schedule a reminder for the upcoming zman (e.g. open before sunrise to be alerted before sunrise). Only the **next** upcoming reminder-enabled zman can be scheduled at a time. See tip below.
 - Pro Tip: When a zman alert is triggered, be sure to "confirm" the dialog to open the app (press SELECT button or tap the screen). The next zman reminder will then be automatically scheduled and you may close the app. Adapt to this behavior to experience seamless zmanim alerts!
 - Reminders are only scheduled for zmanim that will occur today. If the date is changed via the date picker, reminders will not be scheduled.
 
