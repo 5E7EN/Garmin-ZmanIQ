@@ -1,9 +1,10 @@
 import Toybox.Application;
 import Toybox.Lang;
 import Toybox.WatchUi;
-using Toybox.System as Sys;
+
 using Toybox.Application.Storage as Storage;
 
+(:background)
 class ZmanIQ extends Application.AppBase {
     //* Constructor
     public function initialize() {
@@ -28,5 +29,10 @@ class ZmanIQ extends Application.AppBase {
         var delegate = new $.InitialDelegate();
 
         return [view, delegate] as Array<Views or InputDelegates>;
+    }
+
+    (:background_method)
+    function getServiceDelegate() {
+        return [new BackgroundServiceDelegate()];
     }
 }

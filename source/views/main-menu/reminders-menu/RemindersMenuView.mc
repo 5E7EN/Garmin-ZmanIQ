@@ -10,5 +10,5 @@ function pushRemindersMenuView() as Void {
     // Add menu items
     menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.RemindersMenuTimeBeforeText), Ui.loadResource(Rez.Strings.RemindersMenuTimeBeforeSubText), :timeBefore, null));
 
-    Ui.pushView(menu, new $.RemindersMenuDelegate(), Ui.SLIDE_UP);
+    Ui.pushView(menu, new $.RemindersMenuDelegate(), Ui.SLIDE_LEFT);
 }

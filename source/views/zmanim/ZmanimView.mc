@@ -57,8 +57,8 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?, focusID as String?) a
 
     // TODO: Set zman reminder here, if supported on device (i.e. can grab user's attention).
     // TODO: Execute in background thread, since it can be a long operation
-    var nextReminding = $.getNextRemindingZmanToday(zmanim, null);
-    $.log("[switchToZmanimMenu] Next reminding zman: " + (nextReminding != null ? nextReminding[0] : "null"));
+    // TODO: Only schedule is device supports attention-grabbing reminders
+    $.scheduleNextReminder(zmanim);
 
     // Set title with the date
     // TODO: Set menu title as hebrew date

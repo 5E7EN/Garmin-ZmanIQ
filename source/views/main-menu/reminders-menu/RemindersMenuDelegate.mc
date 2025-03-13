@@ -25,6 +25,11 @@ class RemindersMenuDelegate extends WatchUi.Menu2InputDelegate {
 
     //* Handle the back key being pressed
     public function onBack() as Void {
+        // Delete any existing temporal event
+        //* This is to ensure that, if the remind before time was changed, a pending reminder doesn't fire using the old time.
+        //* The next reminding zman will be scheduled with the updated time when the user goes back to the zmanim top menu.
+        $.clearPendingReminder();
+
         //* We can just pop this view without having to set "pending refresh" flag, since
         //* this submenu is accessed via the main menu and the main menu will do that for us
         //* when the user exits from it.

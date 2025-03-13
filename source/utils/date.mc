@@ -5,6 +5,7 @@ using Toybox.Time;
 using Toybox.Time.Gregorian;
 
 //* Converts Time.Moment to time string (e.g. 12:30:03 PM). Accounts for 24-hour time device setting.
+(:background)
 function parseMomentToTimeString(moment as Time.Moment) as String {
     // Determine if the device is set to 24-hour time
     var is24Hour = Sys.getDeviceSettings().is24Hour;

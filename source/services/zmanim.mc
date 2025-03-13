@@ -1,7 +1,6 @@
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-using Toybox.System as Sys;
 using Toybox.Communications as Comm;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
@@ -104,8 +103,14 @@ function getNextUpcomingZman(zmanim as Array<ZmanTime>, afterTime as Time.Moment
 //* Returns null if, 1) all zmanim have already passed, or 2) the next zman is not occuring today, or 3) no zmanim have reminders enabled.
 //* @param zmanim - Array of zmanim times
 //* @param afterTime - Optional time Moment to check against
-function getNextRemindingZmanToday(zmanim as Array<ZmanTime>, afterTime as Time.Moment?) as Array? {
-    var nextZman = getNextUpcomingZman(zmanim, afterTime);
+function getNextRemindingZmanToday(zmanim as Array<ZmanTime>, remindBeforeTimeSecs as Number, afterTime as Time.Moment?) as Array? {
+    // Get next upcoming zman, after the given/current time PLUS the reminder time
+    //* We add the reminder time in case this is invoked after the reminder time has
+    //* already passed but the zman is still upcoming.
+    var nextZman = getNextUpcomingZman(
+        zmanim,
+        afterTime != null ? afterTime.add(new Time.Duration(remindBeforeTimeSecs)) : Time.now().add(new Time.Duration(remindBeforeTimeSecs))
+    );
 
     // Ensure next zman is not null
     //* This will occur if all zmanim have passed for the day (min time) or no zmanim have reminders enabled (max time).
@@ -135,6 +140,6 @@ function getNextRemindingZmanToday(zmanim as Array<ZmanTime>, afterTime as Time.
         // TODO: This is inefficient.
         // TODO cont.: Instead, modify `getNextUpcomingZman()` to return ALL upcoming zmanim, and shift using an offset [until end of array].
         // TODO cont.: See if that significantly affects memory usage since we would have to switch to an array of dictionaries - which are memory hungry(er).
-        return $.getNextRemindingZmanToday(zmanim, nextZmanTime);
+        return $.getNextRemindingZmanToday(zmanim, remindBeforeTimeSecs, nextZmanTime);
     }
 }

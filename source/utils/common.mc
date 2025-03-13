@@ -1,11 +1,12 @@
 import Toybox.Lang;
+
 using Toybox.WatchUi as Ui;
 using Toybox.System as Sys;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
 
-(:release)
-public function log(message as String) {}
+(:release,:background)
+public function log(message as String or Dictionary) {}
 
 (:debug,:background)
 public function log(message as String or Dictionary) {

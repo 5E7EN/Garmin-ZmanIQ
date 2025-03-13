@@ -42,7 +42,6 @@
 - [ ] Based on chosen zman opinion, determine how to differ results based on user's location (e.g. tzeis offset will be different in Israel vs Diaspora)
 - [ ] Add "Expert Mode"
   - Shows more zmanim
-  - Adds explanations of zmanim when selected
 - [ ] Add "Airplane Mode" setting
   - If enabled, use pass `Position.POSITIONING_MODE_AVIATION` as PositioningMode when invoking `enableLocationEvents()` to support higher altitudes. Warning: This may not be supported on all devices (requires API Level 3.2.0).
 - [ ] Clean up code comments
@@ -60,6 +59,8 @@
 - [x] Remove all `// TODO: Add some kind of line separator here (between title and menu items)` comments
 - [ ] Add ability to show/hide specific zmanim from the list
 - [ ] [LOW-PRI] Add support for reminders for the next day's zmanim as well (if all zmanim for today have already passed)
+- [ ] Add zman info (About) in specific zman selection menu
+  - Show explanation of zman and calculation method
 
 ## Priority Items
 
@@ -69,7 +70,7 @@
   - [x] [HIGH-PRI] Compared to [KosherJava](https://kosherjava.com/maps/zmanim.html)
   - [ ] [LOW-PRI] Figure out what's causing a few seconds of difference compared to KosherJava map (see [NOTES](source/zmanim/NOTES.md#L32)). Maybe it's floating point differences? Create java example and compare output of functions (start with `AstronomicalCalendar.getSpecificTemporalHour()` or `AstronomicalCalendar.getDateFromTime()`).
   - [ ] [LOW-PRI] Detect and support Israeli location and use 40min candle lighting offset instead of 18min where applicable
-- [ ] Reminders
+- [x] Reminders
   - Add menu option to enable/disable reminders
   - If enabled, on zmanim list view show, registerForTemporalEvent() for NEXT zman that has ENABLED reminder (use `Moment` to bypass 5 minute restriction)
   - Create `ReminderEnabledZmanim` storage array and check if it contains zman name (to be added/removed by zman selection menu in zmanim list)

@@ -1,5 +1,6 @@
 import Toybox.Graphics;
 import Toybox.Lang;
+
 using Toybox.WatchUi as Ui;
 using Toybox.System as Sys;
 using Toybox.Application.Storage as Storage;
@@ -47,6 +48,15 @@ class InitialView extends Ui.View {
 
             // Set/reset the date for zmanim to today
             Storage.setValue($.getZmanimEpochDateCacheKey(), Time.now().value());
+
+            // Initialize the reminder-enabled zmanim storage array if empty
+            //* It should only be empty on first time launch on device
+            // TODO: Find a better place to put this
+            var reminderEnabledZmanim = Storage.getValue($.getReminderEnabledZmanimCacheKey()) as Array<String>?;
+            // If the reminders list is null, create it
+            if (reminderEnabledZmanim == null) {
+                Storage.setValue($.getReminderEnabledZmanimCacheKey(), []);
+            }
 
             isFirstShowing = false;
         }

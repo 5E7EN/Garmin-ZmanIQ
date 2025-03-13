@@ -29,6 +29,11 @@ function getReminderEnabledZmanimCacheKey() {
     return "ReminderEnabledZmanim";
 }
 
+(:background)
+function getPendingZmanReminderInfoCacheKey() {
+    return "PendingZmanReminderInfo";
+}
+
 //* Methods
 
 //* These refresh-related methods are defined here since as of now I have no better place to put them.

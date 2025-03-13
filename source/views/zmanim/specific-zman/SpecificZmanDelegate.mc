@@ -30,12 +30,6 @@ class SpecificZmanDelegate extends WatchUi.Menu2InputDelegate {
 
             var reminderEnabledZmanim = Storage.getValue($.getReminderEnabledZmanimCacheKey()) as Array<String>?;
 
-            // If the reminders list is null, create it
-            if (reminderEnabledZmanim == null) {
-                Storage.setValue($.getReminderEnabledZmanimCacheKey(), []);
-                reminderEnabledZmanim = Storage.getValue($.getReminderEnabledZmanimCacheKey()) as Array<String>;
-            }
-
             // Determine if reminder is enabled for the current zman
             var isReminderEnabled = reminderEnabledZmanim.indexOf(mZmanName) != -1;
 
@@ -55,19 +49,26 @@ class SpecificZmanDelegate extends WatchUi.Menu2InputDelegate {
     //* Handle the back key being pressed
     public function onBack() as Void {
         // Pop current view
-        WatchUi.popView(WatchUi.SLIDE_DOWN);
+        WatchUi.popView(WatchUi.SLIDE_RIGHT);
 
         // Check if a zman pref was updated
         if (mPrefUpdated == true) {
+            // Delete any existing temporal event
+            //* This is to ensure that, if the pref is updated to "disabled", a pending reminder doesn't fire if this
+            //* specific zman was upcoming next and had been previously scheduled to fire soon.
+            //* (If it's next, and the pref was updated to "enabled", no worries - it'll be rescheduled in $.switchToZmanimMenu() below).
+            $.clearPendingReminder();
+
             // Reload zmanim
             //* This will ensure that any changes made in the specific zman menu are reflected in the main zmanim menu.
-            //* e.g. schedule reminder based on new zman preference
+            //* e.g. Scheduling reminder based on new zman preference
             // TODO: Fix this not going back to focus the selected item
             $.switchToZmanimMenu(true, mZmanName);
 
             //* Explanation:
             //* Similar to the goBack() function in ZmanimBottomDelegate, but since going back from the "specific zman" menu
             //* doesn't go back to that view/delegate, we need to handle the force refreshing here instead.
+            //* The "force refresh" is done by invoking $.switchToZmanimMenu().
         }
     }
 }
