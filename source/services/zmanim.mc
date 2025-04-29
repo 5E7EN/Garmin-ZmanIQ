@@ -24,6 +24,7 @@ function getZmanim(date as Time.Moment, coordinates as Array, elevation as Numbe
         // Geolocation
         var latitude = coordinates[0];
         var longitude = coordinates[1];
+        elevation = elevation > 0 ? elevation : 0; // If elevation is under sea level, set to 0 (sea level)
         var geoLocation = new $.JewishCalendarModule.GeoLocation("Zmanim", latitude, longitude, elevation);
 
         // Create a new zmanim calendar

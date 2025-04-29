@@ -61,6 +61,7 @@
 - [ ] [LOW-PRI] Add support for reminders for the next day's zmanim as well (if all zmanim for today have already passed)
 - [ ] Add zman info (About) in specific zman selection menu
   - Show explanation of zman and calculation method
+- [x] Fix `N/A` sunrise/sunset if elevation is below 0
 
 ## Priority Items
 
