@@ -6,7 +6,7 @@
     <string id="InitialWelcome">Welcome!</string>
     <string id="InitialGpsPrompt">Press the Start button\nto find location.</string>
 
-    <string id="Locating">Locating</string>
+    <string id="Locating">GPS</string>
     <string id="MoveOutside">Move to a location with\na clear sky view\nSearching...</string>
 
     <!-- Initial View: Error Messages -->

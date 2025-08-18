@@ -3,10 +3,9 @@
 - [x] Fix bug that breaks displayed time when in another timezone. Always show time relative to the user's timezone.
 - [x] Fix bug that doesn't fetch the zmanim for the user's current location if it changes
 - [ ] Generate usage docs for the user using Gemini with the help of code logic/comments (GPTIJATP - GPT-is-just-a-tool-paradigm)
-- [x] Provide ability to choose method of location retrieval (GPS, weather, activity)
+- [x] Provide ability to choose method of location retrieval (GPS, Phone)
   - If choosing GPS, tell user to start an outdoor activity to get a GPS lock
-  - If choosing weather, ensure user is connected to their phone/or was recently connected
-  - If choosing Activity, ensure user is aware that the location will be based on the last activity they recorded
+  - If choosing Phone, ensure user is connected to their phone/or was recently connected
 - [x] Replace all `//!` comments with `//*` instead (too much red)
 - [x] Use strings within pushed views for multilingual support
 - [ ] Add more supported devices
@@ -21,7 +20,7 @@
 - [ ] Migrate to widget instead of app
   - Implications: https://developer.garmin.com/connect-iq/connect-iq-basics/app-types/
   - None affect us, other than loss of location fetching via Last Activity.
-- [x] ~~Initial view, if no zmanim yet cached, should be "fetching GPS coords, go outside". SELECT button opens menu to choose between Weather location or last fetched GPS coords.~~ Did better :)
+- [x] ~~Initial view, if no zmanim yet cached, should be "fetching GPS coords, go outside". SELECT button opens menu to choose between Phone location or last fetched GPS coords.~~ Did better :)
 - [-] ~~Zmanim display should be a scrollable View instead of Menu (for onMenu support)~~ No need. Using custom wrapping menu instead.
 - [x] Use device clock settings (12/24hr) for time display
 - [x] Support on-device zmanim calculations
