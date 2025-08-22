@@ -8,9 +8,9 @@ using Toybox.Time;
 using Toybox.Time.Gregorian;
 using Toybox.System as Sys;
 
-//* @param skipZmanAutoFocus If true, skip auto-focusing the next zman.
-//* @param focusID The ID of the zman to focus on. If null, auto-focus the next upcoming zman (unless skipZmanAutoFocus is true).
-function switchToZmanimMenu(skipZmanAutoFocus as Boolean?, focusID as String?) as Void {
+//* Show zmanim menu. Every time this is invoked, the zmanim will be reloaded.
+//* @param focusID The ID of the zman to focus on. If null, auto-focuses the next upcoming zman.
+function switchToZmanimMenu(focusID as String?) as Void {
     // TODO: If already on the zmanim menu, do nothing (prevent double-rendering)
     // TODO cont.: cannot use Ui.getCurrentView() because API level isn't supported on many watches
 
@@ -62,51 +62,45 @@ function switchToZmanimMenu(skipZmanAutoFocus as Boolean?, focusID as String?) a
 
     // Set title with the date
     // TODO: Set menu title as hebrew date
-    var greorianDate = Gregorian.info(dateMoment, Time.FORMAT_MEDIUM);
-    var topMenu = new $.CustomWrapTopMenu(Lang.format("$1$ $2$", [greorianDate.month, greorianDate.day]), 80, Graphics.COLOR_BLACK);
+    var gregorianDate = Gregorian.info(dateMoment, Time.FORMAT_MEDIUM);
+    var title = Lang.format("$1$ $2$", [gregorianDate.month, gregorianDate.day]);
 
-    // Build the menu
-    for (var i = 0; i < zmanim.size(); i++) {
-        var zman = zmanim[i];
-        var zmanName = zman["name"] as String;
-        var zmanTime = zman["time"] as Time.Moment?;
+    var initialFocusIndex = 0; // Default focus to the first item
 
-        topMenu.addItem(createZmanMenuItem(zmanName, zmanTime));
-    }
+    // Find the next upcoming zman to set the initial focus
 
-    if (skipZmanAutoFocus != true) {
-        // Set focus to the next upcoming zman, passing filtered zmanim
-        var nextZman = $.getNextUpcomingZman(zmanim, null);
-        if (nextZman != null) {
-            $.log("[switchToZmanimMenu] Upcoming zman: " + nextZman[0]);
-
-            // Get next zman by ID (which is the zman key)
-            var nextZmanIndex = topMenu.findItemById(nextZman[0]);
-
-            if (nextZmanIndex != -1) {
-                topMenu.setFocus(nextZmanIndex);
+    var nextZman = $.getNextUpcomingZman(zmanim, null);
+    if (nextZman != null) {
+        // Find the index of this zman in our array
+        for (var i = 0; i < zmanim.size(); i++) {
+            if (zmanim[i]["name"].equals(nextZman[0])) {
+                $.log("[switchToZmanimMenu] Upcoming zman: " + nextZman[0]);
+                initialFocusIndex = i;
+                break;
             }
-        } else {
-            //* All zmanim have passed for the day. Focus the last zman in list.
-
-            topMenu.setFocus(zmanim.size() - 1);
         }
     } else {
-        //* User is likely returning to the menu from a submenu. Focus the last zman in list.
+        //* All zmanim have passed for the day. Focus the last zman in list.
 
-        topMenu.setFocus(zmanim.size() - 1);
+        initialFocusIndex = zmanim.size() - 1;
     }
 
-    // If a specific zman ID is provided, focus that zman instead
+    // If a specific zman ID is provided, override the focus
     if (focusID != null) {
-        // Focus the zman with the given ID
-        var focusIndex = topMenu.findItemById(focusID);
-        if (focusIndex != -1) {
-            topMenu.setFocus(focusIndex);
+        for (var i = 0; i < zmanim.size(); i++) {
+            if (zmanim[i]["name"].equals(focusID)) {
+                initialFocusIndex = i;
+                break;
+            }
         }
     }
 
-    Ui.switchToView(topMenu, new $.ZmanimTopDelegate(new Lang.Method($, :pushBottomZmanimMenu), locationInfo), Ui.SLIDE_IMMEDIATE);
+    // Create the new View and Delegate
+    var view = new $.ZmanimView(title, zmanim, initialFocusIndex);
+    var delegate = new $.ZmanimDelegate(view, locationInfo);
+
+    // Switch to the new view
+    Ui.switchToView(view, delegate, Ui.SLIDE_IMMEDIATE);
 }
 
 //* Create the sub-menu menu of the Wrap custom menu

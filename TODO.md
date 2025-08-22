@@ -61,6 +61,8 @@
 - [ ] Add zman info (About) in specific zman selection menu
   - Show explanation of zman and calculation method
 - [x] Fix `N/A` sunrise/sunset if elevation is below 0
+      [08/18/2025]:
+- Made the chance from CustomWrapMenu to View using Gemini Pro 2.5 - so test all instances of `switchToZmanimMenu()` where there are notes suggesting such.
 
 ## Priority Items
 
