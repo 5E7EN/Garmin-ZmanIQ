@@ -27,7 +27,7 @@ class ZmanimView extends Ui.View {
     // General color constants
     private const TITLE_COLOR = Gfx.COLOR_BLUE;
     private const TEXT_COLOR = Gfx.COLOR_WHITE;
-    private const ARROW_COLOR = Gfx.COLOR_LT_GRAY;
+    private const ARROW_COLOR = Gfx.COLOR_BLUE;
 
     function initialize(title as String, zmanim as Array<ZmanTime>, initialFocusIndex as Number) {
         View.initialize();
