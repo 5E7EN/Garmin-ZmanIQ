@@ -93,45 +93,10 @@ function switchToZmanimMenu(focusID as String?) as Void {
         }
     }
 
-    // Create the new View and Delegate
-    var view = new $.ZmanimView(title, zmanim, initialFocusIndex);
-    var delegate = new $.ZmanimDelegate(view, locationInfo);
+    // Create the zmanim view and delegate
+    var view = new $.ZmanimListView(title, zmanim, initialFocusIndex);
+    var delegate = new $.ZmanimListDelegate(view, locationInfo);
 
     // Switch to the new view
     Ui.switchToView(view, delegate, Ui.SLIDE_IMMEDIATE);
-}
-
-//* Create the sub-menu menu of the Wrap custom menu
-function pushBottomZmanimMenu(locationInfo as LocationInfo) as Void {
-    // TODO: Use rez strings for menu title and items
-    var bottomMenu = new $.CustomWrapBottomMenu("Show Zmanim", 80, Graphics.COLOR_WHITE);
-
-    bottomMenu.addItem(new $.CustomWrapItem("Location Info", null, :locationInfo, Graphics.COLOR_BLACK));
-    bottomMenu.addItem(new $.CustomWrapItem("Change Date", null, :changeDate, Graphics.COLOR_BLACK));
-    bottomMenu.addItem(new $.CustomWrapItem("Settings", null, :settings, Graphics.COLOR_BLACK));
-
-    Ui.pushView(bottomMenu, new $.ZmanimBottomDelegate(locationInfo), Ui.SLIDE_UP);
-}
-
-//* Helper function to create a consistent menu item.
-function createZmanMenuItem(zmanName as String, zmanTime as Time.Moment?) as CustomWrapItem {
-    // Get the friendly name for the zman key
-    var friendlyName = $.ZmanMeta.ZmanimFriendlyNames[zmanName];
-    var timeString = null;
-
-    if (friendlyName == null) {
-        // Fallback to the key if no friendly name is found for some reason
-        friendlyName = zmanName;
-    }
-
-    // Convert the zman time to a time string
-    if (zmanTime == null) {
-        //* Zman is null. For example, at locations in the far north (Longyearbyen, Norway).
-        timeString = "N/A";
-    } else {
-        timeString = $.parseMomentToTimeString(zmanTime);
-    }
-
-    // Return the custom menu item
-    return new $.CustomWrapItem(friendlyName, timeString, zmanName, Graphics.COLOR_WHITE);
 }

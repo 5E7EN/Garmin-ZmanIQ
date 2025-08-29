@@ -1,13 +1,11 @@
 import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
-
 using Toybox.Application.Storage as Storage;
 
-class ZmanimBottomDelegate extends WatchUi.Menu2InputDelegate {
+class ZmanimListMenuDelegate extends WatchUi.Menu2InputDelegate {
     public var mLocationInfo as LocationInfo;
 
-    //* Constructor
     public function initialize(locationInfo as LocationInfo) {
         Menu2InputDelegate.initialize();
 
@@ -37,23 +35,7 @@ class ZmanimBottomDelegate extends WatchUi.Menu2InputDelegate {
         goBack();
     }
 
-    //* Handle the user navigating off the end of the menu
-    //* @param key The key triggering the menu wrap
-    //* @return true if wrap is allowed, false otherwise
-    public function onWrap(key as Key) as Boolean {
-        if (key == WatchUi.KEY_UP) {
-            goBack();
-        }
-        return false;
-    }
-
-    //* Handle the title being selected
-    //* Should be the same as onWrap with KEY_UP condition
-    public function onTitle() as Void {
-        goBack();
-    }
-
-    //* Goes back to top zmanim wrap menu
+    //* Goes back to zmanim list, reloading zmanim if a refresh is pending.
     private function goBack() {
         var isPendingRefresh = $.getPendingRefresh();
         if (isPendingRefresh == true) {

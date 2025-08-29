@@ -1,14 +1,17 @@
+//* This view was mostly created by Gemini 2.5 Pro on Aug 18, 2025.
+//* Some customizations were made by hand to stay consistent with the rest of the app.
+
 import Toybox.Lang;
 using Toybox.WatchUi as Ui;
 using Toybox.System as Sys;
 using Toybox.Graphics as Gfx;
 
-class ZmanimView extends Ui.View {
+class ZmanimListView extends Ui.View {
     private var mTitle as String;
     public var mZmanim as Array<ZmanTime>;
     public var mSelectedIndex as Number;
 
-    // --- Layout Constants ---
+    //* Layout Constants
     private const LARGE_TITLE_HEIGHT = 60;
     private const ITEM_HEIGHT = 85;
 
@@ -46,7 +49,7 @@ class ZmanimView extends Ui.View {
             return;
         }
 
-        // --- Step 1: Always draw the list centered on the selected item ---
+        // Always draw the list centered on the selected item
         var screenCenterY = dc.getHeight() / 2;
         var selectedItemTopY = screenCenterY - ITEM_HEIGHT / 2;
 
@@ -59,7 +62,7 @@ class ZmanimView extends Ui.View {
         }
         dc.clearClip();
 
-        // --- Step 2: Draw overlays (Title and Arrows) based on state ---
+        // Draw overlays (title and arrows) based on state
         if (mSelectedIndex == 0) {
             // If at the top, draw the large title bar. This will draw OVER the list.
             // Draw a black rectangle first to obscure the list items underneath
@@ -83,7 +86,7 @@ class ZmanimView extends Ui.View {
         }
     }
 
-    // Helper to draw a single Zman item
+    //* Draws a single zman item.
     private function drawZmanItem(dc as Gfx.Dc, zman as ZmanTime, itemTopY as Number, isFocused as Boolean) as Void {
         if (itemTopY > dc.getHeight() || itemTopY < -ITEM_HEIGHT) {
             return;
@@ -103,22 +106,37 @@ class ZmanimView extends Ui.View {
             timeYOffset = UNFOCUSED_TIME_Y_OFFSET;
         }
 
-        var name = $.ZmanMeta.ZmanimFriendlyNames[zman["name"]];
-        var fullTimeString = zman["time"] == null ? "N/A" : $.parseMomentToTimeString(zman["time"]);
+        // Get the friendly name for the zman key
+        var friendlyName = $.ZmanMeta.ZmanimFriendlyNames[zman["name"]];
+        var timeString = null;
 
-        var timeNumber = fullTimeString;
+        if (friendlyName == null) {
+            // Fallback to the key if no friendly name is found for some reason
+            friendlyName = zman["name"];
+        }
+
+        // Convert the zman time (Moment) to a time string
+        if (zman["time"] == null) {
+            //* Zman is null. For example, at times at locations in the far north (Longyearbyen, Norway).
+            timeString = "N/A";
+        } else {
+            timeString = $.parseMomentToTimeString(zman["time"]);
+        }
+
+        // Split the time string into number and AM/PM parts
+        var timeNumber = timeString;
         var timeAmPm = "";
-        var spaceIndex = fullTimeString.find(" ");
+        var spaceIndex = timeString.find(" ");
         if (spaceIndex != null) {
-            timeNumber = fullTimeString.substring(0, spaceIndex);
-            timeAmPm = fullTimeString.substring(spaceIndex + 1, fullTimeString.length());
+            timeNumber = timeString.substring(0, spaceIndex);
+            timeAmPm = timeString.substring(spaceIndex + 1, timeString.length());
         }
 
         var centerX = dc.getWidth() / 2;
         dc.setColor(TEXT_COLOR, Gfx.COLOR_TRANSPARENT);
 
         // Draw name using the selected font and offset
-        dc.drawText(centerX, itemTopY + nameYOffset, nameFont, name, Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
+        dc.drawText(centerX, itemTopY + nameYOffset, nameFont, friendlyName, Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
 
         // Use the selected fonts for measurement and drawing
         var timeNumberWidth = dc.getTextWidthInPixels(timeNumber, timeFont);
@@ -129,16 +147,16 @@ class ZmanimView extends Ui.View {
         var totalTimeWidth = timeNumberWidth + amPmWidth;
         var timeStartX = centerX - totalTimeWidth / 2;
 
-        // 1. Draw the number part using the selected time font
+        // Draw the number part
         dc.drawText(timeStartX, itemTopY + timeYOffset, timeFont, timeNumber, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
 
-        // 2. Draw the AM/PM part using the selected name font
+        // Draw the AM/PM part
         if (timeAmPm.length() > 0) {
             dc.drawText(timeStartX + timeNumberWidth + 5, itemTopY + timeYOffset, nameFont, timeAmPm, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
         }
     }
 
-    // Helper to draw the up arrow near the top of the screen
+    //* Draws the up arrow near the top of the screen.
     private function drawUpArrow(dc as Gfx.Dc) as Void {
         dc.setColor(ARROW_COLOR, Gfx.COLOR_TRANSPARENT);
         var x = dc.getWidth() / 2;
@@ -150,7 +168,7 @@ class ZmanimView extends Ui.View {
         ]);
     }
 
-    // Helper to draw the down arrow near the bottom of the screen
+    //* Draws the down arrow near the bottom of the screen.
     private function drawDownArrow(dc as Gfx.Dc) as Void {
         dc.setColor(ARROW_COLOR, Gfx.COLOR_TRANSPARENT);
         var x = dc.getWidth() / 2;
@@ -160,90 +178,5 @@ class ZmanimView extends Ui.View {
             [x + 7, y - 5],
             [x, y + 5]
         ]);
-    }
-}
-
-class ZmanimDelegate extends Ui.BehaviorDelegate {
-    private var mView as ZmanimView;
-    private var mLocationInfo as LocationInfo;
-    private var mItemCount as Number;
-
-    function initialize(view as ZmanimView, locationInfo as LocationInfo) {
-        BehaviorDelegate.initialize();
-        mView = view;
-        mLocationInfo = locationInfo;
-        mItemCount = view.mZmanim.size();
-    }
-
-    function onMenu() as Boolean {
-        pushBottomZmanimMenu(mLocationInfo);
-        return true; // Event handled
-    }
-
-    // Handle up/down buttons for scrolling
-    function onKey(keyEvent as Ui.KeyEvent) as Boolean {
-        var key = keyEvent.getKey();
-        if (key == Ui.KEY_UP) {
-            mView.mSelectedIndex--;
-            if (mView.mSelectedIndex < 0) {
-                mView.mSelectedIndex = mItemCount - 1; // Wrap around
-            }
-            Ui.requestUpdate();
-            return true;
-        } else if (key == Ui.KEY_DOWN) {
-            mView.mSelectedIndex++;
-            if (mView.mSelectedIndex >= mItemCount) {
-                mView.mSelectedIndex = 0; // Wrap around
-            }
-            Ui.requestUpdate();
-            return true;
-        }
-        return false; // Let system handle other keys
-    }
-
-    // Handle swipes for scrolling on touch devices
-    function onSwipe(swipeEvent as Ui.SwipeEvent) as Boolean {
-        var direction = swipeEvent.getDirection();
-        if (direction == Ui.SWIPE_UP) {
-            mView.mSelectedIndex++;
-            if (mView.mSelectedIndex >= mItemCount) {
-                mView.mSelectedIndex = 0; // Wrap around
-            }
-            Ui.requestUpdate();
-            return true;
-        } else if (direction == Ui.SWIPE_DOWN) {
-            mView.mSelectedIndex--;
-            if (mView.mSelectedIndex < 0) {
-                mView.mSelectedIndex = mItemCount - 1; // Wrap around
-            }
-            Ui.requestUpdate();
-            return true;
-        }
-        return false;
-    }
-
-    //* Handle an item being selected
-    function onSelect() as Boolean {
-        //* This ID will come back as a string (the zman name)
-        var id = mView.mZmanim[mView.mSelectedIndex]["name"];
-
-        //* Specific zman was selected
-        if (id != null) {
-            // Get the zman name from the ID
-            var zmanName = id as String;
-
-            // Push the specific zman view
-            $.pushSpecificZmanView(zmanName);
-        } else {
-            $.log("[onSelect] Specific zman was selected but ID is null");
-        }
-        return true;
-    }
-
-    //* Handle the back key being pressed
-    public function onBack() as Boolean {
-        //* If this is called, the app will just quit. No need for the line below really...
-        WatchUi.popView(WatchUi.SLIDE_RIGHT);
-        return true;
     }
 }
