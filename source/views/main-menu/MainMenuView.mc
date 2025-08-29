@@ -14,8 +14,8 @@ function pushMainMenuView() as Void {
     var useMGAZmanim = Properties.getValue("useMGAZmanim") as Boolean;
 
     // Add menu items
-    menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.MainMenuRemindersText), null, :reminders, null));
     menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.MainMenuLocationSourceText), null, :locationSource, null));
+    menu.addItem(new Ui.MenuItem(Ui.loadResource(Rez.Strings.MainMenuRemindersText), null, :reminders, null));
     menu.addItem(
         new Ui.ToggleMenuItem(
             Ui.loadResource(Rez.Strings.MainMenuUseMGAZmanimText),

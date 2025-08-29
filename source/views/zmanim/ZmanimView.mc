@@ -55,9 +55,7 @@ function switchToZmanimMenu(focusID as String?) as Void {
         return;
     }
 
-    // TODO: Set zman reminder here, if supported on device (i.e. can grab user's attention).
-    // TODO: Execute in background thread, since it can be a long operation
-    // TODO: Only schedule is device supports attention-grabbing reminders
+    // TODO: Only schedule if device supports attention-grabbing reminders
     $.scheduleNextReminder(zmanim);
 
     // Set title with the date
@@ -65,10 +63,10 @@ function switchToZmanimMenu(focusID as String?) as Void {
     var gregorianDate = Gregorian.info(dateMoment, Time.FORMAT_MEDIUM);
     var title = Lang.format("$1$ $2$", [gregorianDate.month, gregorianDate.day]);
 
-    var initialFocusIndex = 0; // Default focus to the first item
+    // Default focus to the first item
+    var initialFocusIndex = 0;
 
     // Find the next upcoming zman to set the initial focus
-
     var nextZman = $.getNextUpcomingZman(zmanim, null);
     if (nextZman != null) {
         // Find the index of this zman in our array

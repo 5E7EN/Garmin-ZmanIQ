@@ -27,7 +27,7 @@ class ZmanimView extends Ui.View {
     // General color constants
     private const TITLE_COLOR = Gfx.COLOR_BLUE;
     private const TEXT_COLOR = Gfx.COLOR_WHITE;
-    private const ARROW_COLOR = Gfx.COLOR_BLUE;
+    private const ARROW_COLOR = Gfx.COLOR_LT_GRAY;
 
     function initialize(title as String, zmanim as Array<ZmanTime>, initialFocusIndex as Number) {
         View.initialize();
@@ -224,10 +224,6 @@ class ZmanimDelegate extends Ui.BehaviorDelegate {
 
     //* Handle an item being selected
     function onSelect() as Boolean {
-        // Here you can add behavior for when the user presses 'Enter' on a zman
-        // For example, show more details about that specific zman.
-        $.log("[onSelect] Selected Zman: " + mView.mZmanim[mView.mSelectedIndex]["name"]);
-
         //* This ID will come back as a string (the zman name)
         var id = mView.mZmanim[mView.mSelectedIndex]["name"];
 
@@ -241,6 +237,13 @@ class ZmanimDelegate extends Ui.BehaviorDelegate {
         } else {
             $.log("[onSelect] Specific zman was selected but ID is null");
         }
+        return true;
+    }
+
+    //* Handle the back key being pressed
+    public function onBack() as Boolean {
+        //* If this is called, the app will just quit. No need for the line below really...
+        WatchUi.popView(WatchUi.SLIDE_RIGHT);
         return true;
     }
 }

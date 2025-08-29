@@ -62,7 +62,7 @@ class SpecificZmanDelegate extends WatchUi.Menu2InputDelegate {
             // Reload zmanim
             //* This will ensure that any changes made in the specific zman menu are reflected in the main zmanim menu.
             //* e.g. Scheduling reminder based on new zman preference
-            // TODO: Fix this not going back to focus the selected item - UPDATE 8/18/25, is this fixed?
+            //* Passing the zman name ensures the current specific zman is focused when the view is reloaded.
             $.switchToZmanimMenu(mZmanName);
 
             //* Explanation:
