@@ -44,12 +44,12 @@ class ZmanimListMenuDelegate extends WatchUi.Menu2InputDelegate {
             $.setPendingRefresh(false);
 
             // Pop current view
-            WatchUi.popView(WatchUi.SLIDE_DOWN);
+            WatchUi.popView(WatchUi.SLIDE_RIGHT);
             // Reload zmanim
             $.switchToZmanimMenu(null);
         } else {
             // Pop current view
-            WatchUi.popView(WatchUi.SLIDE_DOWN);
+            WatchUi.popView(WatchUi.SLIDE_RIGHT);
         }
     }
 }
