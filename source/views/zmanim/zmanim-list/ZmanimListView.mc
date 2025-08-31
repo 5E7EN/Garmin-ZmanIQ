@@ -43,7 +43,8 @@ function switchToZmanimMenu(focusID as String?) as Void {
     var elevation = locationInfo["elevation"];
     // Get preference of opinion
     var useMGAZmanim = Properties.getValue("useMGAZmanim") as Boolean;
-    var zmanim = $.getZmanim(dateMoment, coordinates, elevation, useMGAZmanim) as Array<ZmanTime>;
+    var useMisheyakir115 = Properties.getValue("useMisheyakir115") as Boolean;
+    var zmanim = $.getZmanim(dateMoment, coordinates, elevation, useMGAZmanim, useMisheyakir115) as Array<ZmanTime>;
 
     // Ensure zmanim don't come back empty (type checked so should be fine, but I don't trust compiler)
     if (zmanim.size() == 0) {

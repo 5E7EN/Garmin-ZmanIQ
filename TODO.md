@@ -51,8 +51,8 @@
   - See MapSample SDK sample
   - Only supported on some devices.
 - [x] Add "last updated" for location info
-- [ ] Add "Misheyakir" zman
-  - Zenith to use is dependant on location. [Read More](https://www.myzmanim.com/read/sources.aspx)
+- [x] Add "Misheyakir" zman
+  - ~~Zenith to use is dependant on location. [Read More](https://www.myzmanim.com/read/sources.aspx)~~ It's not, MyZmanim just confused me with what they consider local minhagim. Will add setting to toggle between 10.2° and 11.5°. [Read More](https://www.myzmanim.com/read/sources.aspx)
 - [ ] Add hebrew translation
 - [ ] Add setting to enable/disable reminders entirely
 - [x] Remove all `// TODO: Add some kind of line separator here (between title and menu items)` comments

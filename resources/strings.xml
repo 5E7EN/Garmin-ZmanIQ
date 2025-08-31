@@ -35,6 +35,7 @@
     <string id="MainMenuTitle">Main Menu</string>
     <string id="MainMenuLocationSourceText">Location Source</string>
     <string id="MainMenuUseMGAZmanimText">GR"A or MG"A?</string>
+    <string id="MainMenuMisheyakirSelectText">Misheyakir</string>
     <string id="MainMenuUseElevationText">Use Elevation?</string>
     <string id="MainMenuUseElevationSubText">For sunrise/sunset</string>
     <string id="MainMenuRemindersText">Reminders</string>

@@ -6,7 +6,7 @@ using Toybox.Time;
 using Toybox.Time.Gregorian;
 using Toybox.Application.Storage as Storage;
 
-function getZmanim(date as Time.Moment, coordinates as Array, elevation as Number, useMGAZmanim as Boolean?) as Array<ZmanTime> {
+function getZmanim(date as Time.Moment, coordinates as Array, elevation as Number, useMGAZmanim as Boolean?, useMisheyakir115 as Boolean?) as Array<ZmanTime> {
     // Clear any existing error message
     // Storage.deleteValue($.getZmanimErrorMessageCacheKey());
 
@@ -36,6 +36,14 @@ function getZmanim(date as Time.Moment, coordinates as Array, elevation as Numbe
 
         // Build zmanim
         zmanim.add({ "name" => $.ZmanMeta.ZmanNames["ALOS"], "time" => zmanimCalendar.getAlotHashachar() });
+        // Use preferred opinion for Misheyakir
+        if (useMisheyakir115 == true) {
+            // Misheyakir 11.5°. More makel.
+            zmanim.add({ "name" => $.ZmanMeta.ZmanNames["MISHEYAKIR"], "time" => zmanimCalendar.getMisheyakir11Point5Degrees() });
+        } else {
+            // Default to Misheyakir 10.2°. More machmir.
+            zmanim.add({ "name" => $.ZmanMeta.ZmanNames["MISHEYAKIR"], "time" => zmanimCalendar.getMisheyakir10Point2Degrees() });
+        }
         zmanim.add({ "name" => $.ZmanMeta.ZmanNames["SUNRISE"], "time" => zmanimCalendar.getSunrise() });
         // Use preferred opinion for certain times
         if (useMGAZmanim == true) {

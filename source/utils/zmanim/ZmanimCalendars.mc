@@ -175,6 +175,8 @@ module JewishCalendarModule {
             hidden static const ZENITH_11_POINT_5 = GEOMETRIC_ZENITH + 11.5;
             // The zenith of 16.1° below geometric zenith (90°).
             hidden static const ZENITH_16_POINT_1 = GEOMETRIC_ZENITH + 16.1;
+            // The zenith of 10.2° below geometric zenith (90°).
+            hidden static const ZENITH_10_POINT_2 = GEOMETRIC_ZENITH + 10.2;
             // TODO: Create setter to allow for adjustments (e.g. user is in certain parts of Israel where the offset is different)
             hidden var candleLightingOffset = 18;
 
@@ -267,8 +269,13 @@ module JewishCalendarModule {
 
             // Machlokes between (MyZmanim)[https://i.5e7en.me/3uc0mOvB8Cc5.png] and (KosherJava)[https://github.com/KosherJava/zmanim/blob/04dc83975db43582414d8639e0e204d9681aa6f0/src/main/java/com/kosherjava/zmanim/ComplexZmanimCalendar.java#L191] whether this translates to 60 or 52 minutes before sunrise.
             // Ayin Sham.
+            // UPDATE: This was answered, but I lost Slack history of the conversation.
             function getMisheyakir11Point5Degrees() {
                 return getSunriseOffsetByDegrees(ZENITH_11_POINT_5);
+            }
+
+            function getMisheyakir10Point2Degrees() {
+                return getSunriseOffsetByDegrees(ZENITH_10_POINT_2);
             }
         }
     }

@@ -19,6 +19,7 @@ import Toybox.Time;
 class ZmanMeta {
     public static const ZmanNames = {
         "ALOS" => "alos",
+        "MISHEYAKIR" => "misheyakir",
         "SUNRISE" => "sunrise",
         "SOF_ZMAN_SHEMA" => "sofZmanShema",
         "SOF_ZMAN_TEFILLA" => "sofZmanTefilla",
@@ -33,6 +34,7 @@ class ZmanMeta {
 
     public static const ZmanimFriendlyNames = {
         self.ZmanNames["ALOS"] => "Alos 16.1°",
+        self.ZmanNames["MISHEYAKIR"] => "Earliest Tallis",
         self.ZmanNames["SUNRISE"] => "Sunrise",
         self.ZmanNames["SOF_ZMAN_SHEMA"] => "Sof Zman Shema",
         self.ZmanNames["SOF_ZMAN_TEFILLA"] => "Sof Zman Tefilla",

@@ -28,6 +28,9 @@ class MainMenuDelegate extends WatchUi.Menu2InputDelegate {
         } else if (id == :useMGAZmanim) {
             // Toggle the opinion preference
             Properties.setValue("useMGAZmanim", Properties.getValue("useMGAZmanim") ? false : true);
+        } else if (id == :useMisheyakir115) {
+            // Toggle the Misheyakir preference
+            Properties.setValue("useMisheyakir115", Properties.getValue("useMisheyakir115") ? false : true);
         } else if (id == :reminders) {
             $.pushRemindersMenuView();
         }
