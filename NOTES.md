@@ -26,7 +26,7 @@
 - Important: Zman Reminders - Due to system limitations, the app must be manually opened on the same day to schedule a reminder for the upcoming zman (e.g. open before sunrise to be alerted before sunrise). Only the **next** upcoming reminder-enabled zman can be scheduled at a time. See tip below.
 - Pro Tip: When a zman alert is triggered, be sure to "confirm" the dialog to open the app (press SELECT button or tap the screen). The next zman reminder will then be automatically scheduled and you may close the app. Adapt to this behavior to experience seamless zmanim alerts!
 - Reminders are only scheduled for zmanim that will occur today. If the date is changed via the date picker, reminders will not be scheduled.
-- By default, for Misheyakir, 10.2° degrees below the horizon is used. You may change this in settings.
+- By default, for Earliest Tallis (Misheyakir), 10.2° degrees below the horizon is used. You may change this in settings.
 
 ## Naming Conventions
 
