@@ -11,6 +11,7 @@
 - There are places that consist of 0.00001% of the earth where zmanim may not be calculated properly, such as those across the antimeridian line. [More Info](https://github.com/KosherJava/zmanim/blob/d064715ebeaead29a01ec673f3885ee9bd9c78b4/src/main/java/com/kosherjava/zmanim/util/GeoLocation.java#L344)
 - Due to atmospheric conditions (pressure, humidity and other conditions), calculating zmanim accurately is very complex. The calculation of zmanim is dependent on [atmospheric refraction](https://en.wikipedia.org/wiki/Atmospheric_refraction) (refraction of sunlight through the atmosphere), and zmanim can be off by up to 2 minutes based on atmospheric conditions. It is recommended to adjust sunrise and sunset by 2 minutes in either direction _lechumrah_.
 - While we've tried our best to ensure a high level of accuracy, please double check before relying on these zmanim for halacha lemaaseh.
+  - Due to limitations of the MonkeyC language, the precision of some mid-day zmanim may be off by a few seconds to a minute - compared to the original KosherJava implementation.
 - [Coming Soon] Displays your current location on map.
   - Supported devices: [See Here](https://developer.garmin.com/connect-iq/api-docs/Toybox/WatchUi/MapView.html)
 - MyZmanim doesn't take weather into account for searched locations for some reason.
@@ -26,7 +27,7 @@
 - Important: Zman Reminders - Due to system limitations, the app must be manually opened on the same day to schedule a reminder for the upcoming zman (e.g. open before sunrise to be alerted before sunrise). Only the **next** upcoming reminder-enabled zman can be scheduled at a time. See tip below.
 - Pro Tip: When a zman alert is triggered, be sure to "confirm" the dialog to open the app (press SELECT button or tap the screen). The next zman reminder will then be automatically scheduled and you may close the app. Adapt to this behavior to experience seamless zmanim alerts!
 - Reminders are only scheduled for zmanim that will occur today. If the date is changed via the date picker, reminders will not be scheduled.
-- By default, for Earliest Tallis (Misheyakir), 10.2° degrees below the horizon is used. You may change this in settings.
+- By default, the Earliest Tallis (Misheyakir) zman is set to 10.2° degrees below the horizon. You may change this in settings.
 
 ## Naming Conventions
 
@@ -40,7 +41,7 @@
   - `function getArray() as [String, Number]` throws `no viable alternative at input 'as['`
   - https://forums.garmin.com/developer/connect-iq/i/bug-reports/can-t-define-2-dimensional-array-in-strict-mode
 
-## Memory
+## Memory Usage History
 
 - Before migration, hebcal API: []
 - During migration (on-device and hebcal API): https://i.5e7en.me/Iso369sOPsI6.png

@@ -144,6 +144,9 @@ module JewishCalendarModule {
                 return getSpecificTemporalHour(getSeaLevelSunrise(), getSeaLevelSunset());
             }
 
+            //! The precision of this method (getSpecificTemporalHour) differs from the original KosherJava implementation
+            //! due to the lack of milliseconds in the time value.
+            //! I BELIEVE this is the reason for the seconds-off difference in results for some zmanim.
             function getSpecificTemporalHour(startOfday, endOfDay) {
                 if (startOfday == null || endOfDay == null) {
                     return 0;
