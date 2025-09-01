@@ -79,7 +79,7 @@ function getNextUpcomingZman(zmanim as Array<ZmanTime>, afterTime as Time.Moment
     var currentTime = afterTime == null ? Time.now().value() : afterTime.value();
     var closestZmanName = null;
     var closestZmanTime = null;
-    //* Initialize to 123 to prevent compiler complaints. This value will be overwritten.
+    //* Initialize to prevent compiler complaints. This value will be overwritten.
     var minDifference = 1337;
 
     // Find the next upcoming zman

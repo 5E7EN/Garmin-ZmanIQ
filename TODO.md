@@ -53,7 +53,7 @@
 - [x] Add "last updated" for location info
 - [x] Add "Misheyakir" zman
   - ~~Zenith to use is dependant on location. [Read More](https://www.myzmanim.com/read/sources.aspx)~~ It's not, MyZmanim just confused me with what they consider local minhagim. Will add setting to toggle between 10.2° and 11.5°. [Read More](https://www.myzmanim.com/read/sources.aspx)
-- [ ] Add hebrew translation
+- [ ] ~~Add hebrew translation~~ This wouldn't work on many (or all) devices due to lack of Hebrew font support.
 - [ ] Add setting to enable/disable reminders entirely
 - [x] Remove all `// TODO: Add some kind of line separator here (between title and menu items)` comments
 - [ ] Add ability to show/hide specific zmanim from the list
@@ -63,7 +63,7 @@
 - [x] Fix `N/A` sunrise/sunset if elevation is below 0
       [08/18/2025]:
 - [x] Made the chance from CustomWrapMenu to View using Gemini Pro 2.5 - so test all instances of `switchToZmanimMenu()` where there are notes suggesting such.
-- [ ] Ensure "Last Updated" is up to date in location info menu. Test after AI changes. Not currently working in simulator.
+- [x] Ensure "Last Updated" is up to date in location info menu. Test after AI changes. Not currently working in simulator.
 
 ## Priority Items
 
