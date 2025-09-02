@@ -36,9 +36,9 @@
   - Only currently relevant for sofZmanShma, sofZmanTfilla, minchaGedola, minchaKetana
   - Once on-device calculations are used, may also support sunrise/sunset differences in opinion
 - [x] Move `zmanim` folder to `utils/` in source
-- [ ] Determine how to allow user to choose between zman opinions (zenith differences, etc.)
+- [x] Determine how to allow user to choose between zman opinions (zenith differences, etc.)
   - Add pref to toggle for showing Rabbeinu Tam (72 minute) times
-- [ ] Based on chosen zman opinion, determine how to differ results based on user's location (e.g. tzeis offset will be different in Israel vs Diaspora)
+- [x] Based on chosen zman opinion, determine how to differ results based on user's location (e.g. tzeis offset will be different in Israel vs Diaspora)
 - [ ] Add "Expert Mode"
   - Shows more zmanim
 - [ ] Add "Airplane Mode" setting
@@ -53,7 +53,7 @@
 - [x] Add "last updated" for location info
 - [x] Add "Misheyakir" zman
   - ~~Zenith to use is dependant on location. [Read More](https://www.myzmanim.com/read/sources.aspx)~~ It's not, MyZmanim just confused me with what they consider local minhagim. Will add setting to toggle between 10.2° and 11.5°. [Read More](https://www.myzmanim.com/read/sources.aspx)
-- [ ] ~~Add hebrew translation~~ This wouldn't work on many (or all) devices due to lack of Hebrew font support.
+- [x] ~~Add hebrew translation~~ This wouldn't work on many (or all) devices due to lack of Hebrew font support.
 - [ ] Add setting to enable/disable reminders entirely
 - [x] Remove all `// TODO: Add some kind of line separator here (between title and menu items)` comments
 - [ ] Add ability to show/hide specific zmanim from the list
@@ -71,7 +71,7 @@
   - [x] Add algorithms (calculators & calenders)
   - [x] Replace hebcal API request with on-board implementation
   - [x] [HIGH-PRI] Compared to [KosherJava](https://kosherjava.com/maps/zmanim.html)
-  - [ ] [LOW-PRI] Figure out what's causing a few seconds of difference compared to KosherJava map (see [NOTES](source/zmanim/NOTES.md#L32)). Maybe it's floating point differences? Create java example and compare output of functions (start with `AstronomicalCalendar.getSpecificTemporalHour()` or `AstronomicalCalendar.getDateFromTime()`).
+  - [x] [LOW-PRI] ~~Figure out what's causing a few seconds of difference compared to KosherJava map (see [NOTES](source/zmanim/NOTES.md#L32)). Maybe it's floating point differences? Create java example and compare output of functions (start with `AstronomicalCalendar.getSpecificTemporalHour()` or `AstronomicalCalendar.getDateFromTime()`).~~ It's likely due to lack of millisecond precision in MonkeyC time objects. See [comment](source/utils/zmanim/ZmanimCalendars.mc#L150).
   - [ ] [LOW-PRI] Detect and support Israeli location and use 40min candle lighting offset instead of 18min where applicable
 - [x] Reminders
   - Add menu option to enable/disable reminders
