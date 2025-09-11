@@ -21,6 +21,9 @@ class ZmanimListMenuDelegate extends WatchUi.Menu2InputDelegate {
         if (id == :locationInfo) {
             // Render location info menu
             $.pushLocationInfoMenuView(mLocationInfo);
+        } else if (id == :compass) {
+            // Render compass view
+            $.pushCompassView(mLocationInfo);
         } else if (id == :changeDate) {
             // Render date change picker
             $.pushChangeDatePicker();

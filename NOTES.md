@@ -28,6 +28,7 @@
 - Pro Tip: When a zman alert is triggered, be sure to "confirm" the dialog to open the app (press SELECT button or tap the screen). The next zman reminder will then be automatically scheduled and you may close the app. Adapt to this behavior to experience seamless zmanim alerts!
 - Reminders are only scheduled for zmanim that will occur today. If the date is changed via the date picker, reminders will not be scheduled.
 - By default, the Earliest Tallis (Misheyakir) zman is set to 10.2° degrees below the horizon. You may change this in settings.
+- The compass shows the direction towards the Kosel based on the location used for zmanim calculations - NOT the watch's current exact location (unless recently updated).
 
 ## Naming Conventions
 

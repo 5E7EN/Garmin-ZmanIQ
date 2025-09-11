@@ -64,6 +64,8 @@
       [08/18/2025]:
 - [x] Made the chance from CustomWrapMenu to View using Gemini Pro 2.5 - so test all instances of `switchToZmanimMenu()` where there are notes suggesting such.
 - [x] Ensure "Last Updated" is up to date in location info menu. Test after AI changes. Not currently working in simulator.
+- [x] Add compass showing direction towards the kosel
+- [ ] Figure out why app menu bugs the ZmanIQ order in the list after the compass update...
 
 ## Priority Items
 

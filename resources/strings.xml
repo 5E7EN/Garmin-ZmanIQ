@@ -24,7 +24,11 @@
     <string id="InternalError">Please submit bug\nreport or try\nagain.</string>
 
     <!-- Zmanim Menu -->
-    <!-- TODO: Add strings used in the top and bottom wrap menus -->
+    <string id="ZmanimMenuTitle">Zmanim Options</string>
+    <string id="ZmanimMenuLocationInfoText">Location Info</string>
+    <string id="ZmanimMenuCompassText">Compass</string>
+    <string id="ZmanimMenuChangeDateText">Change Date</string>
+    <string id="ZmanimMenuSettingsText">App Settings</string>
 
     <!-- Specific Zman Menu -->
     <string id="SpecificZmanMenuTitleStart">Options:</string>
@@ -67,6 +71,9 @@
     <string id="LocationSourceGPSSubText">Most precise, outdoors</string>
     <string id="LocationSourceWeatherText">Phone</string>
     <string id="LocationSourceWeatherSubText">Last synced location</string>
+
+    <!-- Compass -->
+    <string id="CompassTargetText">Kosel</string>
 
     <!-- About -->
     <string id="AboutTitle">About</string>
