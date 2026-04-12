@@ -66,6 +66,8 @@
 - [x] Ensure "Last Updated" is up to date in location info menu. Test after AI changes. Not currently working in simulator.
 - [x] Add compass showing direction towards the kosel
 - [ ] Figure out why app menu bugs the ZmanIQ order in the list after the compass update...
+- [ ] Implement popup if location last update exceeds certain amount of time asking to update (will likely only reach this point if location source is GPS)
+- [ ] Add "Help" in Reminders settings menu
 
 ## Priority Items
 

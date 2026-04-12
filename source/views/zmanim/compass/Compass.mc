@@ -1,4 +1,5 @@
-//* Generated with help from Gemini Pro 2.5.
+//* This view was mostly created by Gemini 2.5 Pro on Sep 12, 2025.
+//* Some customizations were made by hand to stay consistent with the rest of the app.
 //* See commit message for link to conversation.
 
 import Toybox.Graphics;
