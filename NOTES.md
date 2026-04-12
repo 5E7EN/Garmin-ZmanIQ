@@ -1,7 +1,7 @@
 # Notes
 
-- `Gregorian.info` comverts the given `Moment` object into local time
-- `Gregorian.utcInfo` comverts the given `Moment` object into UTC time
+- `Gregorian.info` converts the given `Moment` object into local time
+- `Gregorian.utcInfo` converts the given `Moment` object into UTC time
 - Inform user that they must be in the same timezone as their assumed location to avoid miscalculations.
 - Thanks to [@slipperybee](https://github.com/slipperybee) for the Monkey-C port of the zmanim calender and USNO algorithm. We've ported the more accurate and up-to-date NOAA (Jean Meeus) algorithm in addition. All has been adapted from [KosherJava](https://github.com/KosherJava/zmanim).
 - I very much believe in transparency when it comes to solutions with Halachic implications. The code for this project is [available on GitHub](https://github.com/5E7EN/Garmin-ZmanIQ) for analysis.
