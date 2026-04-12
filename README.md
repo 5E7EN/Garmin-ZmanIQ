@@ -9,7 +9,7 @@ Connect IQ app for Garmin wearables for convenient Zmanim lookup & reminders.
 # Development
 
 ### 2026 Update:
-I wanted this to be an AI-free project, but I've succumbed to some minor Copilot-tempted changes just before the major PR with no way to undo.  
+I wanted this to be an AI-free project, but I've succumbed to some minor Copilot-tempted changes just before the [major PR](https://github.com/5E7EN/Garmin-ZmanIQ/pull/3) with no way to undo.  
 Sigh... Welcome to the contributors list, Copilot, I guess.
 
 ## Prerequisites
