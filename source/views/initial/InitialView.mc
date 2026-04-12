@@ -1,6 +1,7 @@
 import Toybox.Graphics;
 import Toybox.Lang;
 
+using Toybox.Time as Time;
 using Toybox.WatchUi as Ui;
 using Toybox.System as Sys;
 using Toybox.Application.Storage as Storage;

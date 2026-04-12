@@ -1,4 +1,5 @@
 using Toybox.Time as Time;
+using Toybox.System as System;
 
 module JewishCalendarModule {
     module ZmanimCalendars {
