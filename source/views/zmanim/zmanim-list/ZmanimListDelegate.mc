@@ -90,7 +90,7 @@ class ZmanimListDelegate extends Ui.BehaviorDelegate {
     //* Handles the back key being pressed.
     public function onBack() as Boolean {
         //* If this is called, the app will just quit. No need for the line below really...
-        WatchUi.popView(WatchUi.SLIDE_RIGHT);
+        Ui.popView(Ui.SLIDE_RIGHT);
         return true;
     }
 }
