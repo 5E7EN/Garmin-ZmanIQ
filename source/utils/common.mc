@@ -1,0 +1,26 @@
+import Toybox.Lang;
+
+using Toybox.WatchUi as Ui;
+using Toybox.System as Sys;
+using Toybox.Time;
+using Toybox.Time.Gregorian;
+
+(:release,:background)
+public function log(message as String or Dictionary) {}
+
+(:debug,:background)
+public function log(message as String or Dictionary) {
+    var info = Gregorian.utcInfo(Time.now(), Time.FORMAT_SHORT);
+
+    Sys.println(
+        Lang.format("$1$-$2$-$3$ $4$:$5$:$6$ - $7$", [
+            info.year,
+            info.month.format("%02u"),
+            info.day.format("%02u"),
+            info.hour.format("%02u"),
+            info.min.format("%02u"),
+            info.sec.format("%02u"),
+            message
+        ])
+    );
+}

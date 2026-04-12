@@ -1,0 +1,96 @@
+<strings>
+    <string id="AppName">ZmanIQ</string>
+    <string id="AppVersion">2.0.0</string>
+
+    <!-- Initial View: General -->
+    <string id="InitialWelcome">Welcome!</string>
+    <string id="InitialGpsPrompt">Press the Start button\nto find location.</string>
+
+    <string id="Locating">GPS</string>
+    <string id="MoveOutside">Move to a location with\na clear sky view\nSearching...</string>
+
+    <!-- Initial View: Error Messages -->
+    <string id="SelectToTryAgain">Press SELECT to try again.</string>
+
+    <string id="GpsTimeout">GPS Timeout</string>
+
+    <string id="NoGpsSignal">No Signal</string>
+    <string id="EnsureOutside">Ensure you're outside\nwith a clear sky\nview.</string>
+
+    <string id="LocationUnavailable">No Location</string>
+    <string id="ChooseLocationSource">Choose other location\nsource, or sync\n phone.</string>
+
+    <string id="Error">Error!</string>
+    <string id="InternalError">Please submit bug\nreport or try\nagain.</string>
+
+    <!-- Zmanim Menu -->
+    <string id="ZmanimMenuTitle">Zmanim Options</string>
+    <string id="ZmanimMenuLocationInfoText">Location Info</string>
+    <string id="ZmanimMenuCompassText">Compass</string>
+    <string id="ZmanimMenuChangeDateText">Change Date</string>
+    <string id="ZmanimMenuSettingsText">App Settings</string>
+
+    <!-- Specific Zman Menu -->
+    <string id="SpecificZmanMenuTitleStart">Options:</string>
+    <string id="SpecificZmanMenuEnableReminderText">Enable Reminder?</string>
+    <string id="SpecificZmanMenuEnableReminderSubTextEnd">minutes before</string>
+
+    <!-- Main Menu -->
+    <string id="MainMenuTitle">Main Menu</string>
+    <string id="MainMenuLocationSourceText">Location Source</string>
+    <string id="MainMenuUseMGAZmanimText">GR"A or MG"A?</string>
+    <string id="MainMenuMisheyakirSelectText">Misheyakir</string>
+    <string id="MainMenuUseElevationText">Use Elevation?</string>
+    <string id="MainMenuUseElevationSubText">For sunrise/sunset</string>
+    <string id="MainMenuRemindersText">Reminders</string>
+    <string id="MainMenuAboutText">About</string>
+
+    <!-- Reminders Menu -->
+    <string id="RemindersMenuTitle">Reminders</string>
+    <string id="RemindersMenuTimeBeforeText">Set Time</string>
+    <string id="RemindersMenuTimeBeforeSubText">Alert ahead of zman</string>
+
+    <!-- Reminders Menu: Time Before Picker -->
+    <string id="RemindersMenuTimeBeforePickerTitle">Notify me before:</string>
+
+    <!-- Location Info Menu -->
+    <string id="LocationInfoMenuTitle">Location Info</string>
+    <string id="LocationInfoMenuSource">Source</string>
+    <string id="LocationInfoMenuCoords">Coordinates</string>
+    <string id="LocationInfoMenuElevation">Elevation</string>
+    <string id="LocationInfoMenuGpsQuality">Signal Quality</string>
+    <string id="LocationInfoMenuLastUpdated">Last Updated</string>
+    <string id="LocationInfoMenuReloadLocation">Reload Location</string>
+
+    <!-- Change Date Picker -->
+    <string id="ChangeDatePickerTitle">Choose date:</string>
+
+    <!-- Location Source -->
+    <string id="LocationSourceTitle">Location Source</string>
+    <string id="LocationSourceGPSText">GPS</string>
+    <string id="LocationSourceGPSSubText">Most precise, outdoors</string>
+    <string id="LocationSourceWeatherText">Phone</string>
+    <string id="LocationSourceWeatherSubText">Last synced location</string>
+
+    <!-- Compass -->
+    <string id="CompassTargetText">Kosel</string>
+
+    <!-- About -->
+    <string id="AboutTitle">About</string>
+    <string id="AboutVersionText">Version</string>
+    <string id="AboutAuthorText">Author</string>
+
+    <!-- Dates-->
+    <string id="Month01">Jan</string>
+    <string id="Month02">Feb</string>
+    <string id="Month03">Mar</string>
+    <string id="Month04">Apr</string>
+    <string id="Month05">May</string>
+    <string id="Month06">Jun</string>
+    <string id="Month07">Jul</string>
+    <string id="Month08">Aug</string>
+    <string id="Month09">Sep</string>
+    <string id="Month10">Oct</string>
+    <string id="Month11">Nov</string>
+    <string id="Month12">Dec</string>
+</strings>
