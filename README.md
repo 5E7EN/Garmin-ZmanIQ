@@ -1,10 +1,12 @@
 # ZmanIQ - Garmin App
 
-Connect IQ app for Garmin wearables for convenient Zmanim lookup & reminders.
-
 <p align="center">
     <img src="https://img.shields.io/badge/built-BS%22D-brightgreen" />
 </p>
+
+Connect IQ app for Garmin wearables for convenient, offline Zmanim lookup & reminders.
+
+See the [NOTES](https://github.com/5E7EN/Garmin-ZmanIQ/blob/main/NOTES.md) for important information.
 
 # Development
 
